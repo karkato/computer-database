@@ -2,6 +2,7 @@ package model;
 
 import java.sql.Date;
 
+
 public class Computers {
 
 	int id_pc;

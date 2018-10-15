@@ -55,9 +55,6 @@ package persistence;
 		/** The name of the database we are testing with (this default is installed with MySQL) */
 		private final String dbName = "computer-database-db";
 		
-		/** The name of the table we are testing with */
-		private final String tableName = "computer";
-		
 		/**
 		 * Get a new database connection
 		 * 
@@ -101,10 +98,8 @@ package persistence;
 		 */
 		public void run() {
 
-			// Connect to MySQL
-			Connection conn = null;
 			try {
-				conn = this.getConnection();
+				this.getConnection();
 				System.out.println("Connected to database");
 			} catch (SQLException e) {
 				System.out.println("ERROR: Could not connect to the database");
@@ -145,8 +140,8 @@ package persistence;
 			
 			// Show the table
 			try {
-			    String dropString = "SHOW TABLES "; //+ this.tableName;
-				this.executeUpdate(conn, dropString);
+			    String dropString = "SHOW TABLES; "; //+ this.tableName;
+				this.executeUpdate(this.getConnection(), dropString);
 				System.out.println("This is the table");
 		    } catch (SQLException e) {
 				System.out.println("ERROR: Could not drop the table");
