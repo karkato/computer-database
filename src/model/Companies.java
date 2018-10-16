@@ -25,7 +25,10 @@ public class Companies {
 	public void setName_comp(String name_comp) {
 		this.name_comp = name_comp;
 	}
-
+	@Override
+    public String toString() {
+        return "[" + id_comp + "; " + name_comp + "]";
+     }
 
 
 

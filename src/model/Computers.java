@@ -54,5 +54,9 @@ public class Computers {
 	public void setDisc_date(Date disc_date) {
 		this.disc_date = disc_date;
 	}
+	@Override
+    public String toString() {
+        return "[" + id_pc + "; " + name_pc + "]";
+     }
 
 }

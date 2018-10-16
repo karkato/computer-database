@@ -8,14 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Companies;
-import model.Computers;
-
-
-public class CompaniesDAO extends DAO<Companies>{
 
 
 
-	public CompaniesDAO(Connection conn) {
+public class CompanyDAO extends DAO<Companies>{
+
+
+
+	public CompanyDAO(Connection conn) {
 		super(conn);
 		// TODO Auto-generated constructor stub
 	}
@@ -33,7 +33,7 @@ public class CompaniesDAO extends DAO<Companies>{
 		try {
 			ResultSet result = this.connect.createStatement(
 					ResultSet.TYPE_SCROLL_INSENSITIVE,
-					ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM companies WHERE id_comp= " + id);
+					ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM company WHERE id= " + id);
 			if(result.first())
 				company = new Companies(id,result.getString("name"));         
 		} catch (SQLException e) {
@@ -51,7 +51,7 @@ public class CompaniesDAO extends DAO<Companies>{
 			ResultSet result = this.connect
 					.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)
 					.executeQuery("SELECT * FROM company ");
-			if (result.first()) {
+			while (result.next()) {
 				company = new Companies(result.getInt("id"), result.getString("name"));
 				companies.add(company);
 			}

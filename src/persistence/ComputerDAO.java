@@ -61,7 +61,7 @@ public class ComputerDAO extends DAO<Computers> {
 			ResultSet result = this.connect
 					.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)
 					.executeQuery("SELECT * FROM computer ");
-			if (result.first()) {
+			while (result.next()) {
 				computer = new Computers(result.getInt("id"), result.getString("name"), null, null, null);
 				computers.add(computer);
 			}
@@ -88,15 +88,34 @@ public class ComputerDAO extends DAO<Computers> {
 	}
 
 	@Override
+	// à compléter
 	public boolean update(Computers obj) {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			ResultSet result = this.connect
+					.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)
+					.executeQuery("UPDATE computer SET () WHERE id = "+obj.getId_pc());
+			if (result.first()) {}
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return true;
 	}
 
 	@Override
 	public boolean delete(Computers obj) {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			ResultSet result = this.connect
+					.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)
+					.executeQuery("DELETE FROM computer WHERE id = "+obj.getId_pc());
+			if (result.first()) {}
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return true;
 	}
 
 }

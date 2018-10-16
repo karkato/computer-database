@@ -12,39 +12,22 @@ import com.mysql.cj.jdbc.result.ResultSetMetaData;
 public class DBDemo {
 
 	/** The name of the MySQL account to use (or empty for anonymous) */
-	private final String userName = "admincdb";
+	private final static String userName = "admincdb";
 
 	/** The password for the MySQL account (or empty for anonymous) */
-	private final String password = "Qwerty1234";
+	private final static String password = "Qwerty1234";
 
 	/** The name of the computer running MySQL */
-	private final String serverName = "localhost";
+	private final static String serverName = "localhost";
 
 	/** The port of the MySQL server (default is 3306) */
-	private final int portNumber = 3306;
+	private final static int portNumber = 3306;
 
 	/** The name of the database we are testing with (this default is installed with MySQL) */
-	private final String dbName = "computer-database-db";
+	private final static String dbName = "computer-database-db";
 
-	/**
-	 * Get a new database connection
-	 * 
-	 * @return
-	 * @throws SQLException
-	 */
-	public Connection getConnection() throws SQLException {
-		Connection conn = null;
-		Properties connectionProps = new Properties();
-		connectionProps.put("user", this.userName);
-		connectionProps.put("password", this.password);
-		//Class.forName("");
+	private static Connection conn;
 
-		conn = DriverManager.getConnection("jdbc:mysql://"
-				+ this.serverName + ":" + this.portNumber + "/" + this.dbName+"?useSSL=false&serverTimezone=CET",
-				connectionProps);
-
-		return conn;
-	}
 
 	/**
 	 * Run a SQL command which does not return a recordset:
@@ -69,7 +52,7 @@ public class DBDemo {
 
 		Statement state = conn.createStatement();
 		//L'objet ResultSet contient le résultat de la requête SQL
-		ResultSet result = state.executeQuery("SELECT * FROM company");
+		ResultSet result = state.executeQuery("SELECT id,name FROM computer LIMIT 10");
 		//On récupère les MetaData
 		ResultSetMetaData resultMeta = (ResultSetMetaData) result.getMetaData();
 
@@ -98,11 +81,10 @@ public class DBDemo {
 	 * Connect to MySQL and do some stuff.
 	 */
 	public void run() {
-
 		try {
-			this.getConnection();
+			conn=getInstance();
 			System.out.println("Connected to database");
-			//this.test(this.getConnection());
+			this.test(conn);
 		} catch (SQLException e) {
 			System.out.println("ERROR: Could not connect to the database");
 			System.out.println("");
@@ -112,10 +94,33 @@ public class DBDemo {
 	}
 
 	/**
+	 * Méthode qui va retourner notre instance
+	 * et la créer si elle n'existe pas...
+	 * @return
+	 */
+	public static Connection getInstance(){
+		Properties connectionProps = new Properties();
+		connectionProps.put("user", userName);
+		connectionProps.put("password", password);
+		if(conn == null){
+			try {
+				conn = DriverManager.getConnection("jdbc:mysql://"
+						+ serverName + ":" + portNumber + "/" + dbName +"?useSSL=false&serverTimezone=CET",
+						connectionProps);
+			} catch (SQLException e) {
+				System.out.println("ERROR: Could not connect to the database");
+				System.out.println("");
+				e.printStackTrace();
+			}
+		}		
+		return conn;
+	}
+
+	/**
 	 * Connect to the DB and do some stuff
 	 */
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		DBDemo app = new DBDemo();
 		app.run();
-	}
+	}*/
 }
