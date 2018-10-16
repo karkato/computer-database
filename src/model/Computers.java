@@ -9,8 +9,27 @@ public class Computers {
 	String name_pc;
 	Date intro_date;
 	Date disc_date;
-	
-	
+	Companies manufacturer;
+
+	public Computers(int id, String name, Date intro, Date disc, Companies manufacturer) {
+
+		this.id_pc = id;
+		this.name_pc=name;
+		this.intro_date=intro;
+		this.disc_date=disc;
+		this.manufacturer=manufacturer;
+	}
+
+	public Computers() {}
+
+	public Companies getManufacturer() {
+		return manufacturer;
+	}
+
+	public void setManufacturer(Companies manufacturer) {
+		this.manufacturer = manufacturer;
+	}
+
 	public int getId_pc() {
 		return id_pc;
 	}
@@ -35,5 +54,5 @@ public class Computers {
 	public void setDisc_date(Date disc_date) {
 		this.disc_date = disc_date;
 	}
-	
+
 }
