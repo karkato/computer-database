@@ -1,62 +1,87 @@
 package model;
 
-import java.sql.Date;
+
+import java.time.LocalDate;
 
 
 public class Computers {
 
-	int id_pc;
-	String name_pc;
-	Date intro_date;
-	Date disc_date;
-	Companies manufacturer;
+	int idPc;
+	String namePc;
+	LocalDate introDate;
+	LocalDate discDate;
+	int manufacturer;
 
-	public Computers(int id, String name, Date intro, Date disc, Companies manufacturer) {
+	public Computers(int id, String name, LocalDate intro, LocalDate disc, int manufacturer) {
 
-		this.id_pc = id;
-		this.name_pc=name;
-		this.intro_date=intro;
-		this.disc_date=disc;
+		this.idPc = id;
+		this.namePc=name;
+		this.introDate=intro;
+		this.discDate=disc;
 		this.manufacturer=manufacturer;
+	}
+	
+	public Computers(int id, String name) {
+
+		this.idPc = id;
+		this.namePc=name;
+		this.introDate=null;
+		this.discDate=null;
+		this.manufacturer=0;
 	}
 
 	public Computers() {}
 
-	public Companies getManufacturer() {
+	public int getIdPc() {
+		return idPc;
+	}
+
+	public void setIdPc(int idPc) {
+		this.idPc = idPc;
+	}
+
+	public String getNamePc() {
+		return namePc;
+	}
+
+	public void setNamePc(String namePc) {
+		this.namePc = namePc;
+	}
+
+	public LocalDate getIntroDate() {
+		return introDate;
+	}
+
+	public void setIntroDate(LocalDate introDate) {
+		this.introDate = introDate;
+	}
+
+	public LocalDate getDiscDate() {
+		return discDate;
+	}
+
+	public void setDiscDate(LocalDate discDate) {
+		this.discDate = discDate;
+	}
+
+	public int getManufacturer() {
 		return manufacturer;
 	}
 
-	public void setManufacturer(Companies manufacturer) {
+	public void setManufacturer(int manufacturer) {
 		this.manufacturer = manufacturer;
 	}
 
-	public int getId_pc() {
-		return id_pc;
-	}
-	public void setId_pc(int id_pc) {
-		this.id_pc = id_pc;
-	}
-	public String getName_pc() {
-		return name_pc;
-	}
-	public void setName_pc(String name_pc) {
-		this.name_pc = name_pc;
-	}
-	public Date getIntro_date() {
-		return intro_date;
-	}
-	public void setIntro_date(Date intro_date) {
-		this.intro_date = intro_date;
-	}
-	public Date getDisc_date() {
-		return disc_date;
-	}
-	public void setDisc_date(Date disc_date) {
-		this.disc_date = disc_date;
-	}
 	@Override
-    public String toString() {
-        return "[" + id_pc + "; " + name_pc + "]";
-     }
+	public String toString() {
+		return "[ Id: " + getIdPc() + " | Name: " + getNamePc()+"]";
+
+	}
+
+	public String information() {
+
+		return "[ Id: " + getIdPc() + " | Name: " + getNamePc() +" | Introduced date : " + getIntroDate() +" | Discontinued date : " +getDiscDate() +" | Company : "+ getManufacturer() + "]";
+
+	}
 
 }

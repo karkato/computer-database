@@ -3,6 +3,7 @@ package persistence;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +37,7 @@ public class ComputerDAO extends DAO<Computers> {
 		return false;
 	}
 
+	
 	@Override
 	public Computers find(int id) {
 		Computers computer = new Computers();
@@ -45,7 +47,10 @@ public class ComputerDAO extends DAO<Computers> {
 					.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)
 					.executeQuery("SELECT * FROM computer WHERE id= " + id);
 			if (result.first())
-				computer = new Computers(id, result.getString("name"), null, null, null);
+				computer = new Computers(id, result.getString("name"));
+			if(result.getDate("introduced")!=null) {computer.setIntroDate(result.getDate("introduced").toLocalDate());}
+			if(result.getDate("discontinued")!=null) {computer.setDiscDate(result.getDate("discontinued").toLocalDate());}
+			if(result.getInt("company_id")!=0) {computer.setManufacturer(result.getInt("company_id"));}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -62,7 +67,7 @@ public class ComputerDAO extends DAO<Computers> {
 					.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)
 					.executeQuery("SELECT * FROM computer ");
 			while (result.next()) {
-				computer = new Computers(result.getInt("id"), result.getString("name"), null, null, null);
+				computer = new Computers(result.getInt("id"), result.getString("name"), null, null, 0);				
 				computers.add(computer);
 			}
 		} catch (SQLException e) {
@@ -74,47 +79,56 @@ public class ComputerDAO extends DAO<Computers> {
 	@Override
 	public boolean create(Computers obj) {
 
+		String query ="INSERT INTO computer (name,introduced,discontinued,company_id) VALUES('"+obj.getNamePc() +"','"+obj.getIntroDate() +"','"+obj.getDiscDate()+"',"+obj.getManufacturer()+ ")";
 		try {
-			ResultSet result = this.connect
-					.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)
-					.executeQuery("INSERT INTO computer VALUES(" +obj.getId_pc()+","+obj.getName_pc() +","+obj.getIntro_date() +","+obj.getDisc_date()+","+obj.getManufacturer()+ ")");
-			if (result.first()) {}
-				
+			Statement stmt= connect.createStatement();
+			stmt.executeUpdate(query,Statement.RETURN_GENERATED_KEYS);
+			stmt.getGeneratedKeys(); 
+
 		} catch (SQLException e) {
 			e.printStackTrace();
+			System.out.println("exception due a la requête");
 		}
-		
 		return true;
 	}
-
+	
 	@Override
 	// à compléter
 	public boolean update(Computers obj) {
+		String query = "UPDATE computer SET name ='"+obj.getNamePc()+"', introduced = "+obj.getIntroDate()+", discontinued = "+obj.getDiscDate() + ", company_id ="+obj.getManufacturer()+" WHERE id = "+obj.getIdPc();
+
 		try {
-			ResultSet result = this.connect
-					.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)
-					.executeQuery("UPDATE computer SET () WHERE id = "+obj.getId_pc());
-			if (result.first()) {}
-				
+			Statement stmt= connect.createStatement();
+			stmt.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+			//System.out.println(query);
+			stmt.getGeneratedKeys(); 
+
 		} catch (SQLException e) {
 			e.printStackTrace();
+			System.out.println("exception due a la requête");
 		}
-		
+
 		return true;
 	}
 
+
 	@Override
-	public boolean delete(Computers obj) {
+	public boolean delete(int id) {
+
+		String query = "DELETE FROM computer WHERE id = "+id;
+		//ResultSet result;
+
 		try {
-			ResultSet result = this.connect
-					.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)
-					.executeQuery("DELETE FROM computer WHERE id = "+obj.getId_pc());
-			if (result.first()) {}
-				
+			Statement stmt= connect.createStatement();
+			stmt.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+			//System.out.println(query);
+			stmt.getGeneratedKeys(); 
+
 		} catch (SQLException e) {
 			e.printStackTrace();
+			System.out.println("exception due a la requête");
 		}
-		
+
 		return true;
 	}
 

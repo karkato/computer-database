@@ -2,32 +2,37 @@ package model;
 
 public class Companies {
 
-	int id_comp;
-	String name_comp;
+	int idComp;
+	String nameComp;
 
 	public Companies(int id, String name) {
 
-		this.id_comp = id;
-		this.name_comp=name;
+		this.idComp = id;
+		this.nameComp=name;
 	}
 
 	public Companies() {}
 
-	public int getId_comp() {
-		return id_comp;
+	
+	public int getIdComp() {
+		return idComp;
 	}
-	public String getName_comp() {
-		return name_comp;
+
+	public void setIdComp(int idComp) {
+		this.idComp = idComp;
 	}
-	public void setId_comp(int id_comp) {
-		this.id_comp = id_comp;
+
+	public String getNameComp() {
+		return nameComp;
 	}
-	public void setName_comp(String name_comp) {
-		this.name_comp = name_comp;
+
+	public void setNameComp(String nameComp) {
+		this.nameComp = nameComp;
 	}
+
 	@Override
     public String toString() {
-        return "[" + id_comp + "; " + name_comp + "]";
+        return "[ Id:" + getIdComp() + " | Name:  " + getNameComp() + "]";
      }
 
 
