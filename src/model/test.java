@@ -12,22 +12,21 @@ public class test {
 	/**
 	 * Connect to the DB and do some stuff
 	 */
-	@SuppressWarnings("resource")
 	public static void main(String[] args) {
 
 
 
 		Page pages = new Page();
-		DAO<Companies> companydao = DAOFactory.getCompanyDAO();
-		DAO<Computers> computerdao = DAOFactory.getComputerDAO();
+		DAO<Company> companydao = DAOFactory.getCompanyDAO();
+		DAO<Computer> computerdao = DAOFactory.getComputerDAO();
 
 
 		System.out.println("Bienvenue sur l'application CDB : \n");
 		System.out.println("");
 
 		Scanner sc = new Scanner(System.in);
-		int keks = 0;
-		while (keks != 7) {
+		int index = 0;
+		while (index != 7) {
 
 			System.out.println("Bonjour, veuillez taper l'option souhaitée : \n");
 			System.out.println("\t1 - Afficher liste des ordinateurs");
@@ -38,17 +37,17 @@ public class test {
 			System.out.println("\t6 - Supprimer un ordinateur");
 			System.out.println("\t7 - Quitter l'application");
 
-			keks = sc.nextInt();
+			index = sc.nextInt();
 			sc.nextLine();
-			switch(keks) {
+			switch(index) {
 			case 1:
 				System.out.println("Combien d'elements par page ? ");
 				int nbelt= sc.nextInt();
 				sc.nextLine();
 				int i=1;
 				int k=0;
-				List<Computers> computers = computerdao.findAll();
-				List<Computers> computerPage = pages.getPage(computers,i,nbelt);
+				List<Computer> computers = computerdao.findAll();
+				List<Computer> computerPage = pages.getPage(computers,i,nbelt);
 				while (k < computerPage.size()) {
 					System.out.println(computerPage.get(k));
 					System.out.println("-------------------------------------------");
@@ -61,7 +60,7 @@ public class test {
 				sc.nextLine();
 				while(pagex !=0) {
 					if(pagex == 2) {
-						List<Computers>computerPage1=pages.getPage(computers,i+=1,nbelt);
+						List<Computer>computerPage1=pages.getPage(computers,i+=1,nbelt);
 						int x=0;
 						while (x < computerPage1.size()) {
 							System.out.println(computerPage1.get(x));
@@ -73,7 +72,7 @@ public class test {
 						sc.nextLine();
 					}else if ((pagex == 1) & (i > 0)) {
 
-						List<Computers>computerPage2 = pages.getPage(computers,i-=1,nbelt);
+						List<Computer>computerPage2 = pages.getPage(computers,i-=1,nbelt);
 						int y=0;
 						while (y < computerPage2.size()) {
 							System.out.println(computerPage2.get(y));
@@ -92,8 +91,8 @@ public class test {
 				int nbelts= sc.nextInt();
 				sc.nextLine();
 				int j=1;
-				List<Companies> companies = companydao.findAll();
-				List<Companies> companyPage = pages.getPage(companies,1,nbelts);
+				List<Company> companies = companydao.findAll();
+				List<Company> companyPage = pages.getPage(companies,1,nbelts);
 				System.out.println(companyPage);
 				int e=0;
 				while (e< companyPage.size()) {
@@ -109,7 +108,7 @@ public class test {
 				while(pagey !=0) {
 					if(pagey == 2) {
 						int r=0;
-						List<Companies> companypage1 = pages.getPage(companies,j+=1,nbelts);
+						List<Company> companypage1 = pages.getPage(companies,j+=1,nbelts);
 						while (r<companypage1.size()) {
 							System.out.println(companypage1.get(r));
 							System.out.println("-------------------------------------------");
@@ -121,7 +120,7 @@ public class test {
 					} else if ( pagey == 1 & j > 0){
 						
 						int t=0;
-						List<Companies> companypage2 = pages.getPage(companies,j-=1,nbelts);
+						List<Company> companypage2 = pages.getPage(companies,j-=1,nbelts);
 						while (t<companypage2.size()) {
 							System.out.println(companypage2.get(t));
 							System.out.println("-------------------------------------------");
@@ -137,20 +136,20 @@ public class test {
 				System.out.println("Veuillez introduire l'identifiant du pc souhaité : ");
 				int id = sc.nextInt();
 				sc.nextLine();
-				if(computerdao.find(id).getManufacturer()== 0 ||computerdao.find(id).getIntroDate()== null ||computerdao.find(id).getDiscDate()== null ) {
+				if(computerdao.find(id).getCompany()== null ||computerdao.find(id).getIntroDate()== null ||computerdao.find(id).getDiscDate()== null ) {
 					System.out.println(computerdao.find(id).toString());
 					System.out.println("Introduced, Discontinued or Company is empty !");
 				}else {
-					System.out.println( computerdao.find(id).information());
+					System.out.println( computerdao.find(id).toString());
 				}
 				System.out.println("\n\t****************************************");
 				System.out.println();
 				break;
 			case 4:
-				Computers objCreated = new Computers();
+				Computer objCreated = new Computer();
 				System.out.println("Nom du pc :");
 				String nameCreated = sc.nextLine();
-				objCreated.setNamePc(nameCreated);
+				objCreated.setName(nameCreated);
 				System.out.println("Date d'introduction du pc :");
 				String introDateCreated = sc.nextLine();
 				System.out.println("Date of discontinuation :");
@@ -165,19 +164,21 @@ public class test {
 					objCreated.setDiscDate(date.toLocalDate());
 				}
 				System.out.println("Computer's company !");
-				int manuf=sc.nextInt();
+				String manuf=sc.nextLine();
 				sc.nextLine();
-
-				objCreated.setManufacturer(manuf);
+				
+				Company comp = new Company();
+				comp.setName(manuf);
+				objCreated.setCompany(comp);
 				computerdao.create(objCreated);
 				System.out.println("Votre pc est crée !");
 				break;
 
 			case 5:
-				Computers objUpdated = new Computers();
+				Computer objUpdated = new Computer();
 				System.out.println("Nom du pc :");
 				String nameUpdated = sc.nextLine();
-				objUpdated.setNamePc(nameUpdated);
+				objUpdated.setName(nameUpdated);
 				System.out.println("Date d'introduction du pc :");
 				String introDateUpdated = sc.nextLine();
 				System.out.println("Date of discontinuation :");
@@ -192,9 +193,11 @@ public class test {
 					objUpdated.setDiscDate(date.toLocalDate());
 				}
 				System.out.println("Computer's Company ?");
-				int manufUpd=sc.nextInt();
+				String manufUpds=sc.nextLine();
 				sc.nextLine();
-				objUpdated.setManufacturer(manufUpd);
+				Company cpmUpd = new Company();
+				cpmUpd.setName(manufUpds);
+				objUpdated.setCompany(cpmUpd);
 				computerdao.update(objUpdated);
 				System.out.println("Votre pc est mise à jour");
 				break;
@@ -209,7 +212,7 @@ public class test {
 				break;
 			case 7: 
 				System.out.println("Bye bye !");
-				break;
+				sc.close();
 			default: break;
 			}
 		}

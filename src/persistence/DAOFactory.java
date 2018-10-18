@@ -2,8 +2,8 @@ package persistence;
 
 import java.sql.Connection;
 
-import model.Companies;
-import model.Computers;
+import model.Company;
+import model.Computer;
 
 public class DAOFactory {
 	
@@ -13,7 +13,7 @@ public class DAOFactory {
 	  * Retourne un objet Classe interagissant avec la BDD
 	  * @return DAO
 	  */
-	  public static DAO<Companies> getCompanyDAO(){
+	  public static DAO<Company> getCompanyDAO(){
 	    return new CompanyDAO(conn);
 	  }
 
@@ -21,7 +21,7 @@ public class DAOFactory {
 	  * Retourne un objet Professeur interagissant avec la BDD
 	  * @return DAO
 	  */
-	  public static DAO<Computers> getComputerDAO(){
+	  public static DAO<Computer> getComputerDAO(){
 	    return new ComputerDAO(conn);
 	  }
   

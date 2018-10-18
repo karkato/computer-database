@@ -3,7 +3,7 @@ package persistence;
 import java.sql.Connection;
 import java.util.List;
 
-import model.Computers;
+import model.Computer;
 
 @SuppressWarnings("unused")
 public abstract class DAO<T> {

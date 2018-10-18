@@ -7,11 +7,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Companies;
+import model.Company;
 
 
 
-public class CompanyDAO extends DAO<Companies>{
+public class CompanyDAO extends DAO<Company>{
 
 
 
@@ -20,22 +20,22 @@ public class CompanyDAO extends DAO<Companies>{
 		// TODO Auto-generated constructor stub
 	}
 
-	static List<Companies> findById() {
+	static List<Company> findById() {
 		return null;
 	}
-	static List<Companies> findByName() {
+	static List<Company> findByName() {
 		return null;
 	}
 	@Override
-	public Companies find(int id) {
-		Companies company = new Companies();      
+	public Company find(int id) {
+		Company company = new Company();      
 
 		try {
 			ResultSet result = this.connect.createStatement(
 					ResultSet.TYPE_SCROLL_INSENSITIVE,
 					ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM company WHERE id= " + id);
 			if(result.first())
-				company = new Companies(id,result.getString("name"));         
+				company = new Company(id,result.getString("name"));         
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -43,16 +43,16 @@ public class CompanyDAO extends DAO<Companies>{
 	}
 
 	@Override
-	public List<Companies> findAll() {
-		List<Companies> companies = new ArrayList<Companies>();
-		Companies company = new Companies();
+	public List<Company> findAll() {
+		List<Company> companies = new ArrayList<Company>();
+		Company company = new Company();
 
 		try {
 			ResultSet result = this.connect
 					.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)
 					.executeQuery("SELECT * FROM company ");
 			while (result.next()) {
-				company = new Companies(result.getInt("id"), result.getString("name"));
+				company = new Company(result.getInt("id"), result.getString("name"));
 				companies.add(company);
 			}
 		} catch (SQLException e) {
@@ -61,12 +61,12 @@ public class CompanyDAO extends DAO<Companies>{
 		return companies;
 	}
 	@Override
-	public boolean create(Companies obj) {
+	public boolean create(Company obj) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 	@Override
-	public boolean update(Companies obj) {
+	public boolean update(Company obj) {
 		// TODO Auto-generated method stub
 		return false;
 	}

@@ -6,22 +6,21 @@ import java.util.List;
 
 
 public class Page {
-	
+
 	public <T> List<T> getPage(List<T> sourceList, int page, int pageSize) {
-	    if(pageSize <= 0 || page <= 0) {
-	    	System.out.println("Page inexistante !!");
-	        throw new IllegalArgumentException("invalid page size: " + pageSize);
-	       
-	    	
-	    }
+		if(pageSize <= 0 || page <= 0) {
+			System.out.println("Page inexistante !!");
+			throw new IllegalArgumentException("invalid page size: " + pageSize);
 
-	    int fromIndex = (page - 1) * pageSize;
-	    if(sourceList == null || sourceList.size() < fromIndex){
-	        return Collections.emptyList();
-	    }
+		}
 
-	    // toIndex exclusive
-	    return sourceList.subList(fromIndex, Math.min(fromIndex + pageSize, sourceList.size()));
+		int fromIndex = (page - 1) * pageSize;
+		if(sourceList == null || sourceList.size() < fromIndex){
+			return Collections.emptyList();
+		}
+
+		// toIndex exclusive
+		return sourceList.subList(fromIndex, Math.min(fromIndex + pageSize, sourceList.size()));
 	}
 
 }

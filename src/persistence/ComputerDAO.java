@@ -7,33 +7,32 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Computers;
+import model.Computer;
 
-public class ComputerDAO extends DAO<Computers> {
+public class ComputerDAO extends DAO<Computer> {
 
 	public ComputerDAO(Connection conn) {
 		super(conn);
-		// TODO Auto-generated constructor stub
 	}
 
 
-	List<Computers> findById() {
+	List<Computer> findById() {
 		return null;
 	}
 
-	List<Computers> findByName() {
+	List<Computer> findByName() {
 		return null;
 	}
 
-	boolean insertComputer(Computers computer) {
+	boolean insertComputer(Computer computer) {
 		return false;
 	}
 
-	boolean updateComputer(Computers computer) {
+	boolean updateComputer(Computer computer) {
 		return false;
 	}
 
-	boolean deleteComputer(Computers computer) {
+	boolean deleteComputer(Computer computer) {
 		return false;
 	}
 
@@ -43,18 +42,18 @@ public class ComputerDAO extends DAO<Computers> {
 	 * @return Computers 
 	 */
 	@Override
-	public Computers find(int id) {
-		Computers computer = new Computers();
+	public Computer find(int id) {
+		Computer computer = new Computer();
 
 		try {
 			ResultSet result = this.connect
 					.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)
-					.executeQuery("SELECT * FROM computer WHERE id= " + id);
+					.executeQuery("SELECT id,name,introduced,discontinued,company_id FROM computer LEFT JOIN SELECT cpa.name FROM Company AS cpa WHERE id= " + id);
 			if (result.first())
-				computer = new Computers(id, result.getString("name"));
+				computer = new Computer(id, result.getString("name"));
 			if(result.getDate("introduced")!=null) {computer.setIntroDate(result.getDate("introduced").toLocalDate());}
 			if(result.getDate("discontinued")!=null) {computer.setDiscDate(result.getDate("discontinued").toLocalDate());}
-			if(result.getInt("company_id")!=0) {computer.setManufacturer(result.getInt("company_id"));}
+			//if(result.getInt("company_id")!=0) {computer.setCompany.setName(result.getString("cpa.name"))}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -67,16 +66,16 @@ public class ComputerDAO extends DAO<Computers> {
 	 * @return List<Computers> 
 	 */
 	@Override
-	public List<Computers> findAll() {
-		List<Computers> computers = new ArrayList<Computers>();
-		Computers computer = new Computers();
+	public List<Computer> findAll() {
+		List<Computer> computers = new ArrayList<Computer>();
+		Computer computer = new Computer();
 
 		try {
 			ResultSet result = this.connect
 					.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)
 					.executeQuery("SELECT * FROM computer ");
 			while (result.next()) {
-				computer = new Computers(result.getInt("id"), result.getString("name"), null, null, 0);				
+				computer = new Computer(result.getInt("id"), result.getString("name"));				
 				computers.add(computer);
 			}
 		} catch (SQLException e) {
@@ -86,9 +85,9 @@ public class ComputerDAO extends DAO<Computers> {
 	}
 
 	@Override
-	public boolean create(Computers obj) {
+	public boolean create(Computer obj) {
 
-		String query ="INSERT INTO computer (name,introduced,discontinued,company_id) VALUES('"+obj.getNamePc() +"','"+obj.getIntroDate() +"','"+obj.getDiscDate()+"',"+obj.getManufacturer()+ ")";
+		String query ="INSERT INTO computer (name,introduced,discontinued,company_id) VALUES('"+obj.getName() +"','"+obj.getIntroDate() +"','"+obj.getDiscDate()+"',"+obj.getCompany()+ ")";
 		try {
 			Statement stmt= connect.createStatement();
 			stmt.executeUpdate(query,Statement.RETURN_GENERATED_KEYS);
@@ -102,9 +101,9 @@ public class ComputerDAO extends DAO<Computers> {
 	}
 
 	@Override
-	// à compléter
-	public boolean update(Computers obj) {
-		String query = "UPDATE computer SET name ='"+obj.getNamePc()+"', introduced = "+obj.getIntroDate()+", discontinued = "+obj.getDiscDate() + ", company_id ="+obj.getManufacturer()+" WHERE id = "+obj.getIdPc();
+
+	public boolean update(Computer obj) {
+		String query = "UPDATE computer SET name ='"+obj.getName()+"', introduced = "+obj.getIntroDate()+", discontinued = "+obj.getDiscDate() + ", company_id ="+obj.getCompany()+" WHERE id = "+obj.getId();
 
 		try {
 			Statement stmt= connect.createStatement();
