@@ -3,12 +3,15 @@ package model;
 import java.util.Collections;
 import java.util.List;
 
+
+
 public class Page {
 	
 	public <T> List<T> getPage(List<T> sourceList, int page, int pageSize) {
 	    if(pageSize <= 0 || page <= 0) {
 	    	System.out.println("Page inexistante !!");
 	        throw new IllegalArgumentException("invalid page size: " + pageSize);
+	       
 	    	
 	    }
 

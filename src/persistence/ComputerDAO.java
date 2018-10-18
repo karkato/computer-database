@@ -37,7 +37,11 @@ public class ComputerDAO extends DAO<Computers> {
 		return false;
 	}
 
-	
+	/**
+	 * Méthode de recherche
+	 * @param id
+	 * @return Computers 
+	 */
 	@Override
 	public Computers find(int id) {
 		Computers computer = new Computers();
@@ -57,6 +61,11 @@ public class ComputerDAO extends DAO<Computers> {
 		return computer;
 	}
 
+	/**
+	 * Méthode de recherche toute les entités
+	 *
+	 * @return List<Computers> 
+	 */
 	@Override
 	public List<Computers> findAll() {
 		List<Computers> computers = new ArrayList<Computers>();
@@ -91,7 +100,7 @@ public class ComputerDAO extends DAO<Computers> {
 		}
 		return true;
 	}
-	
+
 	@Override
 	// à compléter
 	public boolean update(Computers obj) {

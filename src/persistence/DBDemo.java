@@ -107,6 +107,7 @@ public class DBDemo {
 				conn = DriverManager.getConnection("jdbc:mysql://"
 						+ serverName + ":" + portNumber + "/" + dbName +"?useSSL=false&serverTimezone=CET",
 						connectionProps);
+				System.out.println("Connexion établie ! \n");
 			} catch (SQLException e) {
 				System.out.println("ERROR: Could not connect to the database");
 				System.out.println("");
@@ -116,11 +117,5 @@ public class DBDemo {
 		return conn;
 	}
 
-	/**
-	 * Connect to the DB and do some stuff
-	 */
-	/*public static void main(String[] args) {
-		DBDemo app = new DBDemo();
-		app.run();
-	}*/
+
 }
