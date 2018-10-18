@@ -47,7 +47,9 @@ public class test {
 				int i=1;
 				int k=0;
 				List<Computer> computers = computerdao.findAll();
-				List<Computer> computerPage = pages.getPage(computers,i,nbelt);
+				pages.setPage(i);
+				pages.setPageSize(nbelt);
+				List<Computer> computerPage = pages.getPage(computers);
 				while (k < computerPage.size()) {
 					System.out.println(computerPage.get(k));
 					System.out.println("-------------------------------------------");
@@ -60,7 +62,9 @@ public class test {
 				sc.nextLine();
 				while(pagex !=0) {
 					if(pagex == 2) {
-						List<Computer>computerPage1=pages.getPage(computers,i+=1,nbelt);
+						pages.setPage(i+=1);
+						pages.setPageSize(nbelt);
+						List<Computer>computerPage1=pages.getPage(computers);
 						int x=0;
 						while (x < computerPage1.size()) {
 							System.out.println(computerPage1.get(x));
@@ -71,8 +75,9 @@ public class test {
 						pagex= sc.nextInt();
 						sc.nextLine();
 					}else if ((pagex == 1) & (i > 0)) {
-
-						List<Computer>computerPage2 = pages.getPage(computers,i-=1,nbelt);
+						pages.setPage(i-=1);
+						pages.setPageSize(nbelt);
+						List<Computer>computerPage2 = pages.getPage(computers);
 						int y=0;
 						while (y < computerPage2.size()) {
 							System.out.println(computerPage2.get(y));
@@ -92,7 +97,9 @@ public class test {
 				sc.nextLine();
 				int j=1;
 				List<Company> companies = companydao.findAll();
-				List<Company> companyPage = pages.getPage(companies,1,nbelts);
+				pages.setPage(1);
+				pages.setPageSize(nbelts);
+				List<Company> companyPage = pages.getPage(companies);
 				System.out.println(companyPage);
 				int e=0;
 				while (e< companyPage.size()) {
@@ -108,7 +115,9 @@ public class test {
 				while(pagey !=0) {
 					if(pagey == 2) {
 						int r=0;
-						List<Company> companypage1 = pages.getPage(companies,j+=1,nbelts);
+						pages.setPage(j+=1);
+						pages.setPageSize(nbelts);
+						List<Company> companypage1 = pages.getPage(companies);
 						while (r<companypage1.size()) {
 							System.out.println(companypage1.get(r));
 							System.out.println("-------------------------------------------");
@@ -120,7 +129,9 @@ public class test {
 					} else if ( pagey == 1 & j > 0){
 						
 						int t=0;
-						List<Company> companypage2 = pages.getPage(companies,j-=1,nbelts);
+						pages.setPage(j-=1);
+						pages.setPageSize(nbelts);
+						List<Company> companypage2 = pages.getPage(companies);
 						while (t<companypage2.size()) {
 							System.out.println(companypage2.get(t));
 							System.out.println("-------------------------------------------");
@@ -134,7 +145,7 @@ public class test {
 				break;
 			case 3:
 				System.out.println("Veuillez introduire l'identifiant du pc souhaité : ");
-				int id = sc.nextInt();
+				Long id = sc.nextLong();
 				sc.nextLine();
 				if(computerdao.find(id).getCompany()== null ||computerdao.find(id).getIntroDate()== null ||computerdao.find(id).getDiscDate()== null ) {
 					System.out.println(computerdao.find(id).toString());

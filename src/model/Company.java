@@ -2,11 +2,11 @@ package model;
 
 public class Company {
 
-	private int id;
+	private Long id;
 	private String name;
 	
 
-	public Company(int id, String name) {
+	public Company(Long id, String name) {
 
 		this.id = id;
 		this.name=name;
@@ -15,11 +15,11 @@ public class Company {
 	public Company() {}
 
 	
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int idComp) {
+	public void setId(Long idComp) {
 		this.id = idComp;
 	}
 

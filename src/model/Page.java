@@ -6,9 +6,11 @@ import java.util.List;
 
 
 public class Page {
-
-	public <T> List<T> getPage(List<T> sourceList, int page, int pageSize) {
-		if(pageSize <= 0 || page <= 0) {
+	
+	private int page;
+	private int pageSize;
+	public <T> List<T> getPage(List<T> sourceList) {
+		if(this.getPage() <= 0 || this.getPageSize() <= 0) {
 			System.out.println("Page inexistante !!");
 			throw new IllegalArgumentException("invalid page size: " + pageSize);
 
@@ -21,6 +23,18 @@ public class Page {
 
 		// toIndex exclusive
 		return sourceList.subList(fromIndex, Math.min(fromIndex + pageSize, sourceList.size()));
+	}
+	public int getPage() {
+		return page;
+	}
+	public void setPage(int page) {
+		this.page = page;
+	}
+	public int getPageSize() {
+		return pageSize;
+	}
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
 	}
 
 }

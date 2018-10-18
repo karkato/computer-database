@@ -6,13 +6,13 @@ import java.time.LocalDate;
 
 public class Computer {
 
-	private int id;
+	private Long id;
 	private String name;
 	private LocalDate introduced;
 	private LocalDate discontinued;
 	private Company company;
 
-	public Computer(int id, String name, LocalDate introduced, LocalDate discontinued, Company CompanyId) {
+	public Computer(Long id, String name, LocalDate introduced, LocalDate discontinued, Company CompanyId) {
 
 		this.id = id;
 		this.name=name;
@@ -21,7 +21,7 @@ public class Computer {
 		this.company=CompanyId;
 	}
 	
-	public Computer(int id, String name) {
+	public Computer(Long id, String name) {
 
 		this.id = id;
 		this.name=name;
@@ -32,11 +32,11 @@ public class Computer {
 
 	public Computer() {}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int idPc) {
+	public void setId(Long idPc) {
 		this.id = idPc;
 	}
 

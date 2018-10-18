@@ -27,7 +27,7 @@ public class CompanyDAO extends DAO<Company>{
 		return null;
 	}
 	@Override
-	public Company find(int id) {
+	public Company find(Long id) {
 		Company company = new Company();      
 
 		try {
@@ -52,7 +52,7 @@ public class CompanyDAO extends DAO<Company>{
 					.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)
 					.executeQuery("SELECT * FROM company ");
 			while (result.next()) {
-				company = new Company(result.getInt("id"), result.getString("name"));
+				company = new Company(result.getLong("id"), result.getString("name"));
 				companies.add(company);
 			}
 		} catch (SQLException e) {
@@ -60,21 +60,21 @@ public class CompanyDAO extends DAO<Company>{
 		}
 		return companies;
 	}
+
 	@Override
 	public boolean create(Company obj) {
-		// TODO Auto-generated method stub
 		return false;
 	}
-	@Override
-	public boolean update(Company obj) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+
 	@Override
 	public boolean delete(int id) {
-		// TODO Auto-generated method stub
 		return false;
-
 	}
+
+	@Override
+	public boolean update(Company obj) {
+		return false;
+	}
+
 
 }

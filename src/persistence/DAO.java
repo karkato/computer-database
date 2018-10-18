@@ -40,7 +40,7 @@ public abstract class DAO<T> {
 	 * @param id
 	 * @return T
 	 */
-	public abstract T find(int id);
+	public abstract T find(Long id);
 
 	public List<T> findAll() {
 		// TODO Auto-generated method stub

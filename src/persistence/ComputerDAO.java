@@ -42,7 +42,7 @@ public class ComputerDAO extends DAO<Computer> {
 	 * @return Computers 
 	 */
 	@Override
-	public Computer find(int id) {
+	public Computer find(Long id) {
 		Computer computer = new Computer();
 
 		try {
@@ -75,7 +75,7 @@ public class ComputerDAO extends DAO<Computer> {
 					.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)
 					.executeQuery("SELECT * FROM computer ");
 			while (result.next()) {
-				computer = new Computer(result.getInt("id"), result.getString("name"));				
+				computer = new Computer(result.getLong("id"), result.getString("name"));				
 				computers.add(computer);
 			}
 		} catch (SQLException e) {
