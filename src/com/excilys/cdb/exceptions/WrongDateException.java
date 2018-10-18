@@ -1,4 +1,4 @@
-package exceptions;
+package com.excilys.cdb.exceptions;
 
 public class WrongDateException extends Exception {
 

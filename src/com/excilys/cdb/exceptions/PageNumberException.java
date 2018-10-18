@@ -1,4 +1,4 @@
-package exceptions;
+package com.excilys.cdb.exceptions;
 
 public class PageNumberException extends Exception {
 

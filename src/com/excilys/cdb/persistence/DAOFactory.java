@@ -1,9 +1,9 @@
-package persistence;
+package com.excilys.cdb.persistence;
 
 import java.sql.Connection;
 
-import model.Company;
-import model.Computer;
+import com.excilys.cdb.model.Company;
+import com.excilys.cdb.model.Computer;
 
 public class DAOFactory {
 	

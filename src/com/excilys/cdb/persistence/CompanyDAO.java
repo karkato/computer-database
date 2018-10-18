@@ -1,4 +1,4 @@
-package persistence;
+package com.excilys.cdb.persistence;
 
 
 import java.sql.Connection;
@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Company;
+import com.excilys.cdb.model.Company;
 
 
 

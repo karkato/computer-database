@@ -1,4 +1,4 @@
-package persistence;
+package com.excilys.cdb.persistence;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -7,7 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Computer;
+import com.excilys.cdb.model.Computer;
 
 public class ComputerDAO extends DAO<Computer> {
 

@@ -1,10 +1,11 @@
-package model;
+package com.excilys.cdb.model;
 
 import java.sql.Date;
 import java.util.List;
 import java.util.Scanner;
-import persistence.DAO;
-import persistence.DAOFactory;
+
+import com.excilys.cdb.persistence.DAO;
+import com.excilys.cdb.persistence.DAOFactory;
 
 public class test {
 
