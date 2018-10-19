@@ -14,7 +14,7 @@ public class DAOFactory {
 	  * @return DAO
 	  */
 	  public static DAO<Company> getCompanyDAO(){
-	    return new CompanyDAO(conn);
+	    return new CompanyDAO();
 	  }
 
 	  /**
@@ -22,7 +22,7 @@ public class DAOFactory {
 	  * @return DAO
 	  */
 	  public static DAO<Computer> getComputerDAO(){
-	    return new ComputerDAO(conn);
+	    return new ComputerDAO();
 	  }
   
 

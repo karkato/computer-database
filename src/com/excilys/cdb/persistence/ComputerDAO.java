@@ -1,6 +1,5 @@
 package com.excilys.cdb.persistence;
 
-import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,17 +11,20 @@ import com.excilys.cdb.model.Computer;
 
 public class ComputerDAO extends DAO<Computer> {
 
-	public ComputerDAO(Connection conn) {
-		super(conn);
+	protected ComputerDAO() {
+		super();
+	}
+	static ComputerDAO computerDAO = new ComputerDAO();
+
+	public static ComputerDAO getInstance() {
+		return computerDAO;
 	}
 
-
-
-	String findQuery = "SELECT id,name,introduced,discontinued,company_id FROM computer WHERE id= ?";
-	String findAllQuery ="SELECT id,name,introduced,discontinued,company_id FROM computer " ;
-	String createQuery ="INSERT INTO computer (name,introduced,discontinued,company_id) VALUES(?,?,?,?))";
-	String updateQuery = "UPDATE computer SET name = ?, introduced =? , discontinued =? , company_id =?, WHERE id =? ";	
-	String deleteQuery = "DELETE FROM computer WHERE id = ?";
+	private static String findQuery = "SELECT id,name,introduced,discontinued,company_id FROM computer WHERE id= ?";
+	private static String findAllQuery ="SELECT id,name,introduced,discontinued,company_id FROM computer " ;
+	private static String createQuery ="INSERT INTO computer (name,introduced,discontinued,company_id) VALUES(?,?,?,?))";
+	private static String updateQuery = "UPDATE computer SET name = ?, introduced =? , discontinued =? , company_id =?, WHERE id =? ";	
+	private static String deleteQuery = "DELETE FROM computer WHERE id = ?";
 	
 	/**
 	 * Méthode de recherche
@@ -44,10 +46,12 @@ public class ComputerDAO extends DAO<Computer> {
 			if(result.getDate("introduced")!=null) {computer.setIntroDate(result.getDate("introduced").toLocalDate());}
 			if(result.getDate("discontinued")!=null) {computer.setDiscDate(result.getDate("discontinued").toLocalDate());}
 			//if(result.getInt("company_id")!=0) {computer.setCompany.setName(result.getString("cpa.name"))}
+			findStmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return computer;
+		
 	}
 
 	/**
@@ -67,8 +71,12 @@ public class ComputerDAO extends DAO<Computer> {
 				computer = new Computer();
 				computer.setId(result.getLong("id"));
 				computer.setName(result.getString("name"));
+				if (result.getDate("introduced").toLocalDate() != null) {
 				computer.setIntroDate((result.getDate("introduced").toLocalDate())); 
+				}
+				if (result.getDate("discontinued").toLocalDate() != null) {
 				computer.setDiscDate((result.getDate("discontinued").toLocalDate()));
+				}
 				computer.setCompanyId((result.getLong("company_id")));
 				computers.add(computer);
 			}
@@ -119,9 +127,6 @@ public class ComputerDAO extends DAO<Computer> {
 
 	@Override
 	public boolean delete(int id) {
-
-		//String query = "DELETE FROM computer WHERE id = "+id;
-		//ResultSet result;
 
 		try {
 			PreparedStatement deleteStmt = this.connect.prepareStatement(deleteQuery);

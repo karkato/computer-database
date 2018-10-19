@@ -1,7 +1,6 @@
 package com.excilys.cdb.persistence;
 
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -15,17 +14,15 @@ public class CompanyDAO extends DAO<Company>{
 
 
 
-	public CompanyDAO(Connection conn) {
-		super(conn);
-		// TODO Auto-generated constructor stub
+	protected CompanyDAO() {
+		super();
 	}
+	static CompanyDAO companyDAO = new CompanyDAO();
 
-	static List<Company> findById() {
-		return null;
+	public static CompanyDAO getInstance() {
+		return companyDAO;
 	}
-	static List<Company> findByName() {
-		return null;
-	}
+	
 	@Override
 	public Company find(Long id) {
 		Company company = new Company();      

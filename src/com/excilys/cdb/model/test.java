@@ -3,7 +3,6 @@ package com.excilys.cdb.model;
 import java.sql.Date;
 import java.util.List;
 import java.util.Scanner;
-
 import com.excilys.cdb.persistence.DAO;
 import com.excilys.cdb.persistence.DAOFactory;
 
@@ -148,12 +147,7 @@ public class test {
 				System.out.println("Veuillez introduire l'identifiant du pc souhaité : ");
 				Long id = sc.nextLong();
 				sc.nextLine();
-				if(computerdao.find(id).getCompany()== null ||computerdao.find(id).getIntroDate()== null ||computerdao.find(id).getDiscDate()== null ) {
 					System.out.println(computerdao.find(id).toString());
-					System.out.println("Introduced, Discontinued or Company is empty !");
-				}else {
-					System.out.println( computerdao.find(id).toString());
-				}
 				System.out.println("\n\t****************************************");
 				System.out.println();
 				break;

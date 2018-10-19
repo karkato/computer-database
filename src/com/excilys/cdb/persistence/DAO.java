@@ -8,11 +8,12 @@ import com.excilys.cdb.model.Computer;
 @SuppressWarnings("unused")
 public abstract class DAO<T> {
 
-	protected Connection connect = null;
+	protected Connection connect;
 
-	public DAO(Connection conn){
-		this.connect = conn;
+	public DAO(){
+		connect =DBDemo.getInstance();
 	}
+	 
 
 	/**
 	 * Méthode de création
