@@ -1,8 +1,12 @@
-package com.excilys.cdb.model;
+package com.excilys.cdb.ui;
 
 import java.sql.Date;
 import java.util.List;
 import java.util.Scanner;
+
+import com.excilys.cdb.model.Company;
+import com.excilys.cdb.model.Computer;
+import com.excilys.cdb.model.Page;
 import com.excilys.cdb.persistence.DAO;
 import com.excilys.cdb.persistence.DAOFactory;
 
@@ -29,13 +33,13 @@ public class test {
 		while (index != 7) {
 
 			System.out.println("Bonjour, veuillez taper l'option souhaitée : \n");
-			System.out.println("\t1 - Afficher liste des ordinateurs");
-			System.out.println("\t2 - Afficher liste des entreprises");
-			System.out.println("\t3 - Afficher les détails d'un ordinateur");
-			System.out.println("\t4 - Ajouter un nouvel ordinateur");
-			System.out.println("\t5 - M-a-J un ordinateur");
-			System.out.println("\t6 - Supprimer un ordinateur");
-			System.out.println("\t7 - Quitter l'application");
+			System.out.println("\t 1 - Afficher liste des ordinateurs");
+			System.out.println("\t 2 - Afficher liste des entreprises");
+			System.out.println("\t 3 - Afficher les détails d'un ordinateur");
+			System.out.println("\t 4 - Ajouter un nouvel ordinateur");
+			System.out.println("\t 5 - M-a-J un ordinateur");
+			System.out.println("\t 6 - Supprimer un ordinateur");
+			System.out.println("\t 7 - Quitter l'application");
 
 			index = sc.nextInt();
 			sc.nextLine();

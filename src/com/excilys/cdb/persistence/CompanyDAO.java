@@ -1,6 +1,7 @@
 package com.excilys.cdb.persistence;
 
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -23,14 +24,18 @@ public class CompanyDAO extends DAO<Company>{
 		return companyDAO;
 	}
 	
+	private static String findQuery = "SELECT * FROM company WHERE id= ? ";
+	private static String findAllQuery ="SELECT id,name FROM company " ;
+	
 	@Override
 	public Company find(Long id) {
 		Company company = new Company();      
 
 		try {
-			ResultSet result = this.connect.createStatement(
-					ResultSet.TYPE_SCROLL_INSENSITIVE,
-					ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM company WHERE id= " + id);
+			
+			PreparedStatement findStmt = this.connect.prepareStatement(findQuery);
+			findStmt.setFloat(1, id);
+			ResultSet result = findStmt.executeQuery();
 			if(result.first())
 				company = new Company(id,result.getString("name"));         
 		} catch (SQLException e) {
@@ -45,9 +50,8 @@ public class CompanyDAO extends DAO<Company>{
 		Company company = new Company();
 
 		try {
-			ResultSet result = this.connect
-					.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)
-					.executeQuery("SELECT * FROM company ");
+			PreparedStatement findStmt = this.connect.prepareStatement(findAllQuery);
+			ResultSet result = findStmt.executeQuery();
 			while (result.next()) {
 				company = new Company(result.getLong("id"), result.getString("name"));
 				companies.add(company);

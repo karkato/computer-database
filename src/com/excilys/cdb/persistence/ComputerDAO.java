@@ -45,7 +45,6 @@ public class ComputerDAO extends DAO<Computer> {
 			computer.setName(result.getString("name"));
 			if(result.getDate("introduced")!=null) {computer.setIntroDate(result.getDate("introduced").toLocalDate());}
 			if(result.getDate("discontinued")!=null) {computer.setDiscDate(result.getDate("discontinued").toLocalDate());}
-			//if(result.getInt("company_id")!=0) {computer.setCompany.setName(result.getString("cpa.name"))}
 			findStmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();

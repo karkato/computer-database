@@ -26,7 +26,9 @@ public class DBDemo {
 	/** The name of the database we are testing with (this default is installed with MySQL) */
 	private final static String dbName = "computer-database-db";
 
-	private static Connection conn;
+	private static Connection connect;
+
+	
 
 
 	/**
@@ -82,9 +84,9 @@ public class DBDemo {
 	 */
 	public void run() {
 		try {
-			conn=getInstance();
+			connect=getInstance();
 			System.out.println("Connected to database");
-			this.test(conn);
+			this.test(connect);
 		} catch (SQLException e) {
 			System.out.println("ERROR: Could not connect to the database");
 			System.out.println("");
@@ -102,9 +104,9 @@ public class DBDemo {
 		Properties connectionProps = new Properties();
 		connectionProps.put("user", userName);
 		connectionProps.put("password", password);
-		if(conn == null){
+		if(connect == null){
 			try {
-				conn = DriverManager.getConnection("jdbc:mysql://"
+				connect = DriverManager.getConnection("jdbc:mysql://"
 						+ serverName + ":" + portNumber + "/" + dbName +"?useSSL=false&serverTimezone=CET",
 						connectionProps);
 				System.out.println("Connexion établie ! \n");
@@ -114,7 +116,7 @@ public class DBDemo {
 				e.printStackTrace();
 			}
 		}		
-		return conn;
+		return connect;
 	}
 
 
