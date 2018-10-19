@@ -11,26 +11,37 @@ public class Computer {
 	private LocalDate introduced;
 	private LocalDate discontinued;
 	private Company company;
+	private Long companyId;
 
-	public Computer(Long id, String name, LocalDate introduced, LocalDate discontinued, Company CompanyId) {
+	public Computer(Long id, String name, LocalDate introduced, LocalDate discontinued, Company company, Long companyId) {
 
 		this.id = id;
 		this.name=name;
 		this.introduced=introduced;
 		this.discontinued=discontinued;
-		this.company=CompanyId;
+		this.company=company;
+		this.companyId = companyId;
 	}
-	
-	public Computer(Long id, String name) {
+	public Computer(Long id, String name, LocalDate introduced, LocalDate discontinued,Long companyId) {
 
 		this.id = id;
 		this.name=name;
-		this.introduced=null;
-		this.discontinued=null;
-		this.company=null;
+		this.introduced=introduced;
+		this.discontinued=discontinued;
+		this.companyId = companyId;
 	}
 
 	public Computer() {}
+	
+	public Long getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(Long companyId) {
+		this.companyId = companyId;
+	}
+
+	
 
 	public Long getId() {
 		return id;

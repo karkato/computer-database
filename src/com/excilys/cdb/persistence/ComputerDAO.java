@@ -1,9 +1,10 @@
 package com.excilys.cdb.persistence;
 
 import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,26 +17,13 @@ public class ComputerDAO extends DAO<Computer> {
 	}
 
 
-	List<Computer> findById() {
-		return null;
-	}
 
-	List<Computer> findByName() {
-		return null;
-	}
-
-	boolean insertComputer(Computer computer) {
-		return false;
-	}
-
-	boolean updateComputer(Computer computer) {
-		return false;
-	}
-
-	boolean deleteComputer(Computer computer) {
-		return false;
-	}
-
+	String findQuery = "SELECT id,name,introduced,discontinued,company_id FROM computer WHERE id= ?";
+	String findAllQuery ="SELECT id,name,introduced,discontinued,company_id FROM computer " ;
+	String createQuery ="INSERT INTO computer (name,introduced,discontinued,company_id) VALUES(?,?,?,?))";
+	String updateQuery = "UPDATE computer SET name = ?, introduced =? , discontinued =? , company_id =?, WHERE id =? ";	
+	String deleteQuery = "DELETE FROM computer WHERE id = ?";
+	
 	/**
 	 * Méthode de recherche
 	 * @param id
@@ -46,11 +34,13 @@ public class ComputerDAO extends DAO<Computer> {
 		Computer computer = new Computer();
 
 		try {
-			ResultSet result = this.connect
-					.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)
-					.executeQuery("SELECT id,name,introduced,discontinued,company_id FROM computer LEFT JOIN SELECT cpa.name FROM Company AS cpa WHERE id= " + id);
+			PreparedStatement findStmt = this.connect.prepareStatement(findQuery);
+			findStmt.setFloat(1, id);
+			ResultSet result = findStmt.executeQuery();
 			if (result.first())
-				computer = new Computer(id, result.getString("name"));
+				computer = new Computer();
+			computer.setId(id);
+			computer.setName(result.getString("name"));
 			if(result.getDate("introduced")!=null) {computer.setIntroDate(result.getDate("introduced").toLocalDate());}
 			if(result.getDate("discontinued")!=null) {computer.setDiscDate(result.getDate("discontinued").toLocalDate());}
 			//if(result.getInt("company_id")!=0) {computer.setCompany.setName(result.getString("cpa.name"))}
@@ -65,17 +55,21 @@ public class ComputerDAO extends DAO<Computer> {
 	 *
 	 * @return List<Computers> 
 	 */
-	@Override
+
 	public List<Computer> findAll() {
 		List<Computer> computers = new ArrayList<Computer>();
 		Computer computer = new Computer();
 
-		try {
-			ResultSet result = this.connect
-					.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)
-					.executeQuery("SELECT * FROM computer ");
+		try {			
+			PreparedStatement findAllStmt = this.connect.prepareStatement(findAllQuery);
+			ResultSet result = findAllStmt.executeQuery();
 			while (result.next()) {
-				computer = new Computer(result.getLong("id"), result.getString("name"));				
+				computer = new Computer();
+				computer.setId(result.getLong("id"));
+				computer.setName(result.getString("name"));
+				computer.setIntroDate((result.getDate("introduced").toLocalDate())); 
+				computer.setDiscDate((result.getDate("discontinued").toLocalDate()));
+				computer.setCompanyId((result.getLong("company_id")));
 				computers.add(computer);
 			}
 		} catch (SQLException e) {
@@ -87,12 +81,13 @@ public class ComputerDAO extends DAO<Computer> {
 	@Override
 	public boolean create(Computer obj) {
 
-		String query ="INSERT INTO computer (name,introduced,discontinued,company_id) VALUES('"+obj.getName() +"','"+obj.getIntroDate() +"','"+obj.getDiscDate()+"',"+obj.getCompany()+ ")";
 		try {
-			Statement stmt= connect.createStatement();
-			stmt.executeUpdate(query,Statement.RETURN_GENERATED_KEYS);
-			stmt.getGeneratedKeys(); 
-
+			PreparedStatement addStmt = this.connect.prepareStatement(createQuery);
+			addStmt.setString(1, obj.getName());
+			addStmt.setDate(2, Date.valueOf(obj.getIntroDate()));
+			addStmt.setDate(3, Date.valueOf(obj.getDiscDate()));
+			addStmt.setFloat(4, obj.getCompanyId());
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("exception due a la requête");
@@ -103,17 +98,19 @@ public class ComputerDAO extends DAO<Computer> {
 	@Override
 
 	public boolean update(Computer obj) {
-		String query = "UPDATE computer SET name ='"+obj.getName()+"', introduced = "+obj.getIntroDate()+", discontinued = "+obj.getDiscDate() + ", company_id ="+obj.getCompany()+" WHERE id = "+obj.getId();
 
 		try {
-			Statement stmt= connect.createStatement();
-			stmt.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
-			//System.out.println(query);
-			stmt.getGeneratedKeys(); 
+			PreparedStatement updateStmt = this.connect.prepareStatement(updateQuery);
+			updateStmt.setString(1, obj.getName());
+			updateStmt.setDate(2, Date.valueOf(obj.getIntroDate()));
+			updateStmt.setDate(3, Date.valueOf(obj.getDiscDate()));
+			updateStmt.setFloat(4, obj.getCompanyId());
+			updateStmt.setFloat(5, obj.getId());
+			
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println("exception due a la requête");
+			System.out.println("Problème avec la requete d'update");
 		}
 
 		return true;
@@ -123,18 +120,16 @@ public class ComputerDAO extends DAO<Computer> {
 	@Override
 	public boolean delete(int id) {
 
-		String query = "DELETE FROM computer WHERE id = "+id;
+		//String query = "DELETE FROM computer WHERE id = "+id;
 		//ResultSet result;
 
 		try {
-			Statement stmt= connect.createStatement();
-			stmt.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
-			//System.out.println(query);
-			stmt.getGeneratedKeys(); 
+			PreparedStatement deleteStmt = this.connect.prepareStatement(deleteQuery);
+			deleteStmt.setFloat(1, id);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println("exception due a la requête");
+			System.out.println("Problème avec la requête delete");
 		}
 
 		return true;
