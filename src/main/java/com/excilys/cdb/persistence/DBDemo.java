@@ -71,7 +71,6 @@ public class DBDemo {
 		//L'objet ResultSet contient le résultat de la requête SQL
 		ResultSet result = state.executeQuery("SELECT id,name FROM computer LIMIT 10");
 		//On récupère les MetaData
-		ResultSetMetaData resultMeta = (ResultSetMetaData) result.getMetaData();
 
 		result.close();
 		state.close();
