@@ -18,7 +18,7 @@ local.properties
 login.properties
 
 #Maven target
-target/
+target/*
 # External tool builders
 .externalToolBuilders/
 
