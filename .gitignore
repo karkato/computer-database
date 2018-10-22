@@ -13,8 +13,9 @@ local.properties
 .settings/
 .loadpath
 .recommenders
-.login.properties
 
+#logins files
+login.properties
 # External tool builders
 .externalToolBuilders/
 

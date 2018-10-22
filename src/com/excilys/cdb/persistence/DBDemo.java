@@ -14,7 +14,6 @@ import com.mysql.cj.jdbc.result.ResultSetMetaData;
 
 public class DBDemo {
 
-
 	/** The name of the computer running MySQL */
 	private final static String serverName = "localhost";
 

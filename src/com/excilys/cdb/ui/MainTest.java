@@ -10,7 +10,7 @@ import com.excilys.cdb.model.Page;
 import com.excilys.cdb.persistence.DAO;
 import com.excilys.cdb.persistence.DAOFactory;
 
-public class test {
+public class MainTest {
 
 
 	/**
