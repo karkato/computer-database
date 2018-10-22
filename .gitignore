@@ -16,6 +16,7 @@ local.properties
 
 #logins files
 login.properties
+.gitignore
 
 #Maven target
 target/*

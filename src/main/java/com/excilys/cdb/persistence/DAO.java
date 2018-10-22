@@ -3,9 +3,7 @@ package com.excilys.cdb.persistence;
 import java.sql.Connection;
 import java.util.List;
 
-import com.excilys.cdb.model.Computer;
 
-@SuppressWarnings("unused")
 public abstract class DAO<T> {
 
 	protected Connection connect;

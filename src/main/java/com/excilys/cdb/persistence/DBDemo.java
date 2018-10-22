@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
@@ -63,37 +62,15 @@ public class DBDemo {
 		}
 	}
 
-	public void test(Connection conn) throws SQLException {
-
-		Statement state = conn.createStatement();
-		//L'objet ResultSet contient le résultat de la requête SQL
-		ResultSet result = state.executeQuery("SELECT id,name FROM computer LIMIT 10");
-		//On récupère les MetaData
-
-		result.close();
-		state.close();
-
-	}   
 
 
 	/**
 	 * Connect to MySQL and do some stuff.
 	 */
 	public void run() {
-		try {
-			connect=getInstance();
-			System.out.println("Connected to database");
-			this.test(connect);
-		} catch (SQLException e) {
-			System.out.println("ERROR: Could not connect to the database");
-			System.out.println("");
-			e.printStackTrace();
-			try {
-				connect.close();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-		}
+		connect=getInstance();
+		System.out.println("Connected to database");
+		//this.test(connect);
 	}
 
 	/**
