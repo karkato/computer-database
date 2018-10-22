@@ -23,6 +23,8 @@ public class MainTest {
 		Page pages = new Page();
 		DAO<Company> companydao = DAOFactory.getCompanyDAO();
 		DAO<Computer> computerdao = DAOFactory.getComputerDAO();
+
+
 		System.out.println("Bienvenue sur l'application CDB : \n");
 		System.out.println("");
 		Scanner sc = new Scanner(System.in);

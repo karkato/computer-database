@@ -25,7 +25,7 @@ public class ComputerDAO extends DAO<Computer> {
 	private static String createQuery ="INSERT INTO computer (name,introduced,discontinued,company_id) VALUES(?,?,?,?))";
 	private static String updateQuery = "UPDATE computer SET name = ?, introduced =? , discontinued =? , company_id =?, WHERE id =? ";	
 	private static String deleteQuery = "DELETE FROM computer WHERE id = ?";
-	
+
 	/**
 	 * Méthode de recherche
 	 * @param id
@@ -50,7 +50,7 @@ public class ComputerDAO extends DAO<Computer> {
 			e.printStackTrace();
 		}
 		return computer;
-		
+
 	}
 
 	/**
@@ -70,11 +70,11 @@ public class ComputerDAO extends DAO<Computer> {
 				computer = new Computer();
 				computer.setId(result.getLong("id"));
 				computer.setName(result.getString("name"));
-				if (result.getDate("introduced").toLocalDate() != null) {
-				computer.setIntroDate((result.getDate("introduced").toLocalDate())); 
+				if (result.getDate("introduced") != null) {
+					computer.setIntroDate((result.getDate("introduced").toLocalDate())); 
 				}
-				if (result.getDate("discontinued").toLocalDate() != null) {
-				computer.setDiscDate((result.getDate("discontinued").toLocalDate()));
+				if (result.getDate("discontinued") != null) {
+					computer.setDiscDate((result.getDate("discontinued").toLocalDate()));
 				}
 				computer.setCompanyId((result.getLong("company_id")));
 				computers.add(computer);
@@ -94,7 +94,7 @@ public class ComputerDAO extends DAO<Computer> {
 			addStmt.setDate(2, Date.valueOf(obj.getIntroDate()));
 			addStmt.setDate(3, Date.valueOf(obj.getDiscDate()));
 			addStmt.setFloat(4, obj.getCompanyId());
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("exception due a la requête");
@@ -113,7 +113,7 @@ public class ComputerDAO extends DAO<Computer> {
 			updateStmt.setDate(3, Date.valueOf(obj.getDiscDate()));
 			updateStmt.setFloat(4, obj.getCompanyId());
 			updateStmt.setFloat(5, obj.getId());
-			
+
 
 		} catch (SQLException e) {
 			e.printStackTrace();

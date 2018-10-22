@@ -10,8 +10,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
-import com.mysql.cj.jdbc.result.ResultSetMetaData;
-
 public class DBDemo {
 
 	/** The name of the computer running MySQL */
