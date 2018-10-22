@@ -126,7 +126,7 @@ public class MainTest {
 						pagey= sc.nextInt();
 						sc.nextLine();
 					} else if ( pagey == 1 & j > 0){
-						
+
 						int t=0;
 						pages.setPage(j-=1);
 						pages.setPageSize(nbelts);
@@ -146,7 +146,7 @@ public class MainTest {
 				System.out.println("Veuillez introduire l'identifiant du pc souhaité : ");
 				Long id = sc.nextLong();
 				sc.nextLine();
-					System.out.println(computerdao.find(id).toString());
+				System.out.println(computerdao.find(id).toString());
 				System.out.println("\n\t****************************************");
 				System.out.println();
 				break;
@@ -171,7 +171,7 @@ public class MainTest {
 				System.out.println("Computer's company !");
 				String manuf=sc.nextLine();
 				sc.nextLine();
-				
+
 				Company comp = new Company();
 				comp.setName(manuf);
 				objCreated.setCompany(comp);

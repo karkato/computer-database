@@ -73,21 +73,6 @@ public class DBDemo {
 		//On récupère les MetaData
 		ResultSetMetaData resultMeta = (ResultSetMetaData) result.getMetaData();
 
-		System.out.println("\n**********************************");
-		//On affiche le nom des colonnes
-		for(int i = 1; i <= resultMeta.getColumnCount(); i++)
-			System.out.print("\t" + resultMeta.getColumnName(i).toUpperCase() + "\t *");
-
-		System.out.println("\n**********************************");
-
-		while(result.next()){         
-			for(int i = 1; i <= resultMeta.getColumnCount(); i++)
-				System.out.print("\t" + result.getObject(i).toString() + "\t |");
-
-			System.out.println("\n---------------------------------");
-
-		}
-
 		result.close();
 		state.close();
 
@@ -106,7 +91,11 @@ public class DBDemo {
 			System.out.println("ERROR: Could not connect to the database");
 			System.out.println("");
 			e.printStackTrace();
-			//return;
+			try {
+				connect.close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 		}
 	}
 
