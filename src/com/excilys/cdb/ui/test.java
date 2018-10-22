@@ -23,15 +23,11 @@ public class test {
 		Page pages = new Page();
 		DAO<Company> companydao = DAOFactory.getCompanyDAO();
 		DAO<Computer> computerdao = DAOFactory.getComputerDAO();
-
-
 		System.out.println("Bienvenue sur l'application CDB : \n");
 		System.out.println("");
-
 		Scanner sc = new Scanner(System.in);
 		int index = 0;
 		while (index != 7) {
-
 			System.out.println("Bonjour, veuillez taper l'option souhaitée : \n");
 			System.out.println("\t 1 - Afficher liste des ordinateurs");
 			System.out.println("\t 2 - Afficher liste des entreprises");
@@ -92,8 +88,7 @@ public class test {
 						pagex= sc.nextInt();
 						sc.nextLine();
 					}
-				} 
-
+				}
 				break;
 			case 2:
 				System.out.println("Combien d'elements par page ? ");

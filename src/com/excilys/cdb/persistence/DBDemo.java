@@ -1,5 +1,8 @@
 package com.excilys.cdb.persistence;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -11,11 +14,6 @@ import com.mysql.cj.jdbc.result.ResultSetMetaData;
 
 public class DBDemo {
 
-	/** The name of the MySQL account to use (or empty for anonymous) */
-	private final static String userName = "admincdb";
-
-	/** The password for the MySQL account (or empty for anonymous) */
-	private final static String password = "Qwerty1234";
 
 	/** The name of the computer running MySQL */
 	private final static String serverName = "localhost";
@@ -28,8 +26,26 @@ public class DBDemo {
 
 	private static Connection connect;
 
-	
 
+
+
+
+	public static Properties load(String filename) throws IOException, FileNotFoundException{
+		Properties properties = new Properties();
+		FileInputStream input = new FileInputStream(filename); 
+		
+		try{
+
+			properties.load(input);
+			return properties;
+		}
+
+		finally{
+
+			input.close();
+		}
+
+	}
 
 	/**
 	 * Run a SQL command which does not return a recordset:
@@ -102,20 +118,29 @@ public class DBDemo {
 	 */
 	public static Connection getInstance(){
 		Properties connectionProps = new Properties();
-		connectionProps.put("user", userName);
-		connectionProps.put("password", password);
-		if(connect == null){
-			try {
-				connect = DriverManager.getConnection("jdbc:mysql://"
-						+ serverName + ":" + portNumber + "/" + dbName +"?useSSL=false&serverTimezone=CET",
-						connectionProps);
-				System.out.println("Connexion établie ! \n");
-			} catch (SQLException e) {
-				System.out.println("ERROR: Could not connect to the database");
-				System.out.println("");
-				e.printStackTrace();
-			}
-		}		
+		Properties prop;
+		try {
+			prop = DBDemo.load("login.properties");
+			connectionProps.put("user", prop.getProperty("userName"));
+			connectionProps.put("password", prop.getProperty("password"));
+			if(connect == null){
+				try {
+					connect = DriverManager.getConnection("jdbc:mysql://"
+							+ serverName + ":" + portNumber + "/" + dbName +"?useSSL=false&serverTimezone=CET",
+							connectionProps);
+					System.out.println("Connexion établie ! \n");
+				} catch (SQLException e) {
+					System.out.println("ERROR: Could not connect to the database");
+					System.out.println("");
+					e.printStackTrace();
+				}
+			}		
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
 		return connect;
 	}
 
