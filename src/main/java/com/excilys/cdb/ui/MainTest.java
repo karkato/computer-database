@@ -211,7 +211,7 @@ public class MainTest {
 			case 6:
 				System.out.println("Veuillez donner l'identifiant du pc a supprimer");
 				int idSupp= sc.nextInt();
-				if(computerdao.delete(idSupp)) {
+				if(computerdao.delete((long) idSupp)) {
 					System.out.println("Pc supprimé");
 				}else {
 					System.out.println("Erreur lors de la suppression");

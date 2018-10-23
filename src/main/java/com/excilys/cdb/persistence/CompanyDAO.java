@@ -68,7 +68,7 @@ public class CompanyDAO extends DAO<Company>{
 	}
 
 	@Override
-	public boolean delete(int id) {
+	public boolean delete(Long id) {
 		return false;
 	}
 

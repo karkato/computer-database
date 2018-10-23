@@ -61,7 +61,7 @@ public class CompanyDAOTest {
 	//@Test(expected=DaoException.class)
 	@Transactional
 	public void deleteCompanyShouldThrowExceptionBecauseIdisInvalid() {
-		companyRepository.delete((int) -1L);
+		companyRepository.delete(-1L);
 	}
 
 
