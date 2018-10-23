@@ -1,5 +1,7 @@
 package com.excilys.cdb.exceptions;
 
+
+
 public class IdException extends Exception {
 
 	/**
