@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="utf-8">
 <!-- Bootstrap -->
-<link href="../css/bootstrap.min.css" rel="stylesheet" media="screen">
-<link href="../css/font-awesome.css" rel="stylesheet" media="screen">
-<link href="../css/main.css" rel="stylesheet" media="screen">
+<link href="./css/bootstrap.min.css" rel="stylesheet" media="screen">
+<link href="./css/font-awesome.css" rel="stylesheet" media="screen">
+<link href="./css/main.css" rel="stylesheet" media="screen">
 </head>
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
@@ -226,7 +226,7 @@
     </section>
 
     <footer class="navbar-fixed-bottom">
-        <div class="container text-center">
+        <div class="container text-center"></div>
             <ul class="pagination">
                 <li>
                     <a href="#" aria-label="Previous">
