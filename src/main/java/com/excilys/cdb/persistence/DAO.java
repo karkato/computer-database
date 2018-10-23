@@ -25,7 +25,7 @@ public abstract class DAO<T> {
 	 * @param id
 	 * @return boolean 
 	 */
-	public abstract boolean delete(int id);
+	public abstract boolean delete(Long id);
 
 	/**
 	 * Méthode de mise à jour

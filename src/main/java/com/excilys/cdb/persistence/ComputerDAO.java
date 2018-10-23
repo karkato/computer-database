@@ -125,7 +125,7 @@ public class ComputerDAO extends DAO<Computer> {
 
 
 	@Override
-	public boolean delete(int id) {
+	public boolean delete(Long id) {
 
 		try {
 			PreparedStatement deleteStmt = this.connect.prepareStatement(deleteQuery);
