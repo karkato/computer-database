@@ -10,6 +10,7 @@ import com.excilys.cdb.persistence.DBDemo;
 
 public class Tests{
 	
+	@SuppressWarnings("unused")
 	private Connection connect;
 	private DBDemo dbDemo;
 	@Before
