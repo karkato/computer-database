@@ -58,10 +58,10 @@ public class ComputerDAO extends DAO<Computer> {
 	 *
 	 * @return List<Computers> 
 	 */
-
+	@Override
 	public List<Computer> findAll() {
 		List<Computer> computers = new ArrayList<Computer>();
-		Computer computer = new Computer();
+		Computer computer;
 
 		try {			
 			PreparedStatement findAllStmt = this.connect.prepareStatement(findAllQuery);

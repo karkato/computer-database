@@ -82,7 +82,7 @@ public class DBDemo {
 		Properties connectionProps = new Properties();
 		Properties prop;
 		try {
-			prop = DBDemo.load("login.properties");
+			prop = DBDemo.load("/home/excilys/eclipse-workspace/Computer-database/src/main/resources/login.properties");
 			connectionProps.put("user", prop.getProperty("userName"));
 			connectionProps.put("password", prop.getProperty("password"));
 			if(connect == null){
