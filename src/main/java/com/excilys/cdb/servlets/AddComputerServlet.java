@@ -15,8 +15,7 @@ public class AddComputerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	public void doGet( HttpServletRequest request, HttpServletResponse response )	throws ServletException, IOException {
-		String message = "Transmission de variables : ok ! ";
-		request.setAttribute("test", message);
+
 		this.getServletContext().getRequestDispatcher( "/WEB-INF/views/addComputer.jsp" ).forward( request, response );
 
 	}

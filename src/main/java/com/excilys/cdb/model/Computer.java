@@ -85,7 +85,7 @@ public class Computer {
 
 	@Override
 	public String toString() {
-		return "[ Id: " + getId() + " | Name: " + getName() +" | Introduced date : " + getIntroDate() +" | Discontinued date : " +getDiscDate() +" | Company : "+ getCompany() + "]";
+		return "[ Id: " + getId() + " | Name: " + getName() +" | Introduced date : " + getIntroDate() +" | Discontinued date : " +getDiscDate() +" | Company : "+ getCompany().getName() + "]";
 
 	}
 

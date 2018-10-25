@@ -32,7 +32,8 @@
 				</div>
 				<div class="pull-right">
 					<a class="btn btn-success" id="addComputer" href="addcomputer">Add
-						Computer</a> <a class="btn btn-default" id="editComputer" href="#"
+						Computer</a> 
+					<a class="btn btn-default" id="editComputer" href="#"
 						onclick="$.fn.toggleEditMode();">Edit</a>
 				</div>
 			</div>
@@ -75,7 +76,7 @@
 										value="${computer.getName()}" /></a></td>
 							<td><c:out value="${computer.getIntroDate()}" /></td>
 							<td><c:out value="${computer.getDiscDate()}" /></td>
-							<td><c:out value="${computer.getCompany()}" /></td>
+							<td><c:out value="${computer.getCompany().getName()}" /></td>
 						</tr>
 					</c:forEach>
 
@@ -107,9 +108,9 @@
 		</div>
 
 	</footer>
-	<script src="../js/jquery.min.js"></script>
-	<script src="../js/bootstrap.min.js"></script>
-	<script src="../js/dashboard.js"></script>
+	<script src="./js/jquery.min.js"></script>
+	<script src="./js/bootstrap.min.js"></script>
+	<script src="./js/dashboard.js"></script>
 
 </body>
 </html>

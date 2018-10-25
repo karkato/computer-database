@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 
 public class ComputerDAO extends DAO<Computer> {
@@ -20,8 +21,8 @@ public class ComputerDAO extends DAO<Computer> {
 		return computerDAO;
 	}
 
-	private static String findQuery = "SELECT id,name,introduced,discontinued,company_id FROM computer WHERE id= ?";
-	private static String findAllQuery ="SELECT id,name,introduced,discontinued,company_id FROM computer " ;
+	private static String findQuery = "SELECT cpu.id, cpu.name, cpu.introduced, cpu.discontinued, cpu.company_id,cpa.name FROM computer AS cpu LEFT JOIN company AS cpa ON cpu.company_id = cpa.id WHERE cpu.id = ?";
+	private static String findAllQuery ="SELECT cpu.id, cpu.name, cpu.introduced, cpu.discontinued, cpu.company_id,cpa.name FROM computer AS cpu LEFT JOIN company AS cpa ON cpu.company_id = cpa.id " ;
 	private static String createQuery ="INSERT INTO computer (name,introduced,discontinued,company_id) VALUES(?,?,?,?))";
 	private static String updateQuery = "UPDATE computer SET name = ?, introduced =? , discontinued =? , company_id =?, WHERE id =? ";	
 	private static String deleteQuery = "DELETE FROM computer WHERE id = ?";
@@ -34,6 +35,7 @@ public class ComputerDAO extends DAO<Computer> {
 	@Override
 	public Computer find(Long id) {
 		Computer computer = new Computer();
+		Company company = new Company();
 
 		try {
 			PreparedStatement findStmt = this.connect.prepareStatement(findQuery);
@@ -42,9 +44,11 @@ public class ComputerDAO extends DAO<Computer> {
 			if (result.first())
 				computer = new Computer();
 			computer.setId(id);
-			computer.setName(result.getString("name"));
-			if(result.getDate("introduced")!=null) {computer.setIntroDate(result.getDate("introduced").toLocalDate());}
-			if(result.getDate("discontinued")!=null) {computer.setDiscDate(result.getDate("discontinued").toLocalDate());}
+			computer.setName(result.getString("cpu.name"));
+			if(result.getDate("cpu.introduced")!=null) {computer.setIntroDate(result.getDate("cpu.introduced").toLocalDate());}
+			if(result.getDate("cpu.discontinued")!=null) {computer.setDiscDate(result.getDate("cpu.discontinued").toLocalDate());}
+			company.setName(result.getString("cpa.name"));
+			computer.setCompany(company);
 			findStmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -58,25 +62,29 @@ public class ComputerDAO extends DAO<Computer> {
 	 *
 	 * @return List<Computers> 
 	 */
+
 	@Override
 	public List<Computer> findAll() {
 		List<Computer> computers = new ArrayList<Computer>();
 		Computer computer;
+		Company company ;
 
 		try {			
 			PreparedStatement findAllStmt = this.connect.prepareStatement(findAllQuery);
 			ResultSet result = findAllStmt.executeQuery();
 			while (result.next()) {
 				computer = new Computer();
-				computer.setId(result.getLong("id"));
-				computer.setName(result.getString("name"));
-				if (result.getDate("introduced") != null) {
-					computer.setIntroDate((result.getDate("introduced").toLocalDate())); 
+				company= new Company();
+				computer.setId(result.getLong("cpu.id"));
+				computer.setName(result.getString("cpu.name"));
+				if (result.getDate("cpu.introduced") != null) {
+					computer.setIntroDate((result.getDate("cpu.introduced").toLocalDate())); 
 				}
 				if (result.getDate("discontinued") != null) {
-					computer.setDiscDate((result.getDate("discontinued").toLocalDate()));
+					computer.setDiscDate((result.getDate("cpu.discontinued").toLocalDate()));
 				}
-				computer.setCompanyId((result.getLong("company_id")));
+				company.setName(result.getString("cpa.name"));
+				computer.setCompany(company);
 				computers.add(computer);
 			}
 		} catch (SQLException e) {

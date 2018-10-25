@@ -20,13 +20,13 @@ public class DashboardServlet extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public void doGet( HttpServletRequest request, HttpServletResponse response )	throws ServletException, IOException {
+	protected void doGet( HttpServletRequest request, HttpServletResponse response )	throws ServletException, IOException {
 		//Computer computer = new Computer();
 		Page pages = new Page();
 		DAO<Computer> computerdao = DAOFactory.getComputerDAO();
 		List<Computer> computer = computerdao.findAll();
 		pages.setPage(1);
-		pages.setPageSize(10);
+		pages.setPageSize(25);
 		List<Computer> computerPage = pages.getPage(computer);
 		request.setAttribute("computerPage", computerPage);
 		//String message = "Transmission de variables : ok ! ";
@@ -34,5 +34,12 @@ public class DashboardServlet extends HttpServlet {
 		this.getServletContext().getRequestDispatcher( "/WEB-INF/views/dashboard.jsp" ).forward( request, response );
 
 	}
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+	throws IOException,ServletException {
+		//int page = request.getParameter(arg0)
+	}
+	
+	
 
 }
