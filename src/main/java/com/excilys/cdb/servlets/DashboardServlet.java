@@ -28,8 +28,10 @@ public class DashboardServlet extends HttpServlet {
 		pages.setPage(1);
 		pages.setPageSize(10);
 		List<Computer> computerPage = pages.getPage(computer);
-		request.setAttribute("computer", computerPage);
-		this.getServletContext().getRequestDispatcher( "dashboard" ).forward( request, response );
+		request.setAttribute("computerPage", computerPage);
+		//String message = "Transmission de variables : ok ! ";
+		//request.setAttribute("test", message);
+		this.getServletContext().getRequestDispatcher( "/WEB-INF/views/dashboard.jsp" ).forward( request, response );
 
 	}
 

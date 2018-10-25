@@ -22,25 +22,17 @@ public class DBDemo {
 
 	private static Connection connect;
 
-
-
-
-
 	public static Properties load(String filename) throws IOException, FileNotFoundException{
 		Properties properties = new Properties();
 		FileInputStream input = new FileInputStream(filename); 
-		
-		try{
 
+		try{
 			properties.load(input);
 			return properties;
 		}
-
 		finally{
-
 			input.close();
 		}
-
 	}
 
 	/**
@@ -87,6 +79,7 @@ public class DBDemo {
 			connectionProps.put("password", prop.getProperty("password"));
 			if(connect == null){
 				try {
+					Class.forName("com.mysql.cj.jdbc.Driver");
 					connect = DriverManager.getConnection("jdbc:mysql://"
 							+ serverName + ":" + portNumber + "/" + dbName +"?useSSL=false&serverTimezone=CET",
 							connectionProps);
@@ -95,14 +88,20 @@ public class DBDemo {
 					System.out.println("ERROR: Could not connect to the database");
 					System.out.println("");
 					e.printStackTrace();
-				}
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();}
+//				} catch (InstantiationException e) {
+//					e.printStackTrace();
+//				} catch (IllegalAccessException e) {
+//					e.printStackTrace();
+//				}
 			}		
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		
+
 		return connect;
 	}
 

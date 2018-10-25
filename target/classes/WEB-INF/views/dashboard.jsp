@@ -67,22 +67,16 @@
 				</thead>
 				<!-- Browse attribute computers -->
 				<tbody id="results">
-					<tr>
-						<td class="editMode"><input type="checkbox" name="cb"
-							class="cb" value="0"></td>
-						<td><a href="editComputer" onclick="">MacBook Pro</a></td>
-						<td>2006-01-10</td>
-						<td></td>
-						<td>Apple Inc.</td>
-
-					</tr>
-					<c:forEach items="${computers}" var="computer">
-					<tr>
-						<td>${computer.getName} </td>
-						<td>${computer.getIntroDate} </td>
-						<td>${computer.getDiscDate} </td>
-						<td>${computer.getCompany} </td>
-					</tr>
+					<c:forEach items="${computerPage}" var="computer">
+						<tr>
+							<td class="editMode"><input type="checkbox" name="cb"
+								class="cb" value="0"></td>
+							<td><a href="editcomputer" onclick=""> <c:out
+										value="${computer.getName()}" /></a></td>
+							<td><c:out value="${computer.getIntroDate()}" /></td>
+							<td><c:out value="${computer.getDiscDate()}" /></td>
+							<td><c:out value="${computer.getCompany()}" /></td>
+						</tr>
 					</c:forEach>
 
 				</tbody>
