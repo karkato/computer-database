@@ -19,7 +19,7 @@
 
 	<section id="main">
 		<div class="container">
-			<h1 id="homeTitle">121 Computers found</h1>
+			<h1 id="homeTitle">${pageIndexMax} Computers found</h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
 					<form id="searchForm" action="#" method="GET" class="form-inline">
@@ -32,8 +32,7 @@
 				</div>
 				<div class="pull-right">
 					<a class="btn btn-success" id="addComputer" href="addcomputer">Add
-						Computer</a> 
-					<a class="btn btn-default" id="editComputer" href="#"
+						Computer</a> <a class="btn btn-default" id="editComputer" href="#"
 						onclick="$.fn.toggleEditMode();">Edit</a>
 				</div>
 			</div>
@@ -88,23 +87,28 @@
 	<footer class="navbar-fixed-bottom">
 		<div class="container text-center"></div>
 		<ul class="pagination">
-			<li><a href="#" aria-label="Previous" onclick=""> <span
+			<li><a href="?pageElement=${pageElmts}&pageNumber=${pageIndex-1}" aria-label="Previous" onclick=""> <span
 					aria-hidden="true">&laquo;</span>
 			</a></li>
-			<li><a href="#">1</a></li>
-			<li><a href="#">2</a></li>
-			<li><a href="#">3</a></li>
-			<li><a href="#">4</a></li>
-			<li><a href="#">5</a></li>
-			<li><a href="#" aria-label="Next" onclick=""> <span
+			<li><a href="?pageElement=${pageElmts}&pageNumber=1">1</a></li>
+			<li><a href="?pageElement=${pageElmts}&pageNumber=2">2</a></li>
+			<li><a href="?pageElement=${pageElmts}&pageNumber=3">3</a></li>
+			<li><a href="?pageElement=${pageElmts}&pageNumber=4">4</a></li>
+			<li><a href="?pageElement=${pageElmts}&pageNumber=5">5</a></li>
+			<li><a href="?pageElement=${pageElmts}&pageNumber=${pageIndex+1}" aria-label="Next" onclick=""> <span
 					aria-hidden="true">&raquo;</span>
 			</a></li>
 		</ul>
 
 		<div class="btn-group btn-group-sm pull-right" role="group">
-			<button type="button" class="btn btn-default" onclick="">10</button>
-			<button type="button" class="btn btn-default" onclick="">50</button>
-			<button type="button" class="btn btn-default" onclick="">100</button>
+
+			<a href="?pageElement=10&pageNumber=1"><button type="button"
+					class="btn btn-default">10</button></a> <a
+				href="?pageElement=50&pageNumber=1"><button type="button"
+					class="btn btn-default">50</button></a> <a
+				href="?pageElement=100&pageNumber=1"><button type="button"
+					class="btn btn-default">100</button></a>
+
 		</div>
 
 	</footer>

@@ -41,8 +41,7 @@ public class ComputerDAO extends DAO<Computer> {
 			PreparedStatement findStmt = this.connect.prepareStatement(findQuery);
 			findStmt.setFloat(1, id);
 			ResultSet result = findStmt.executeQuery();
-			if (result.first())
-				computer = new Computer();
+			if (result.first())computer = new Computer();
 			computer.setId(id);
 			computer.setName(result.getString("cpu.name"));
 			if(result.getDate("cpu.introduced")!=null) {computer.setIntroDate(result.getDate("cpu.introduced").toLocalDate());}
@@ -101,7 +100,6 @@ public class ComputerDAO extends DAO<Computer> {
 			addStmt.setString(1, obj.getName());
 			addStmt.setDate(2, Date.valueOf(obj.getIntroDate()));
 			addStmt.setDate(3, Date.valueOf(obj.getDiscDate()));
-			addStmt.setFloat(4, obj.getCompanyId());
 
 		} catch (SQLException e) {
 			e.printStackTrace();

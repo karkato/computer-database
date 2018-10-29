@@ -19,26 +19,54 @@ public class DashboardServlet extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	Page pages = new Page();
+	int pageIndex=1;
+	int pageElmts=25;
+	int pageIndexMax;
+	DAO<Computer> computerdao = DAOFactory.getComputerDAO();
+	List<Computer> computer = computerdao.findAll();
+	
 	protected void doGet( HttpServletRequest request, HttpServletResponse response )	throws ServletException, IOException {
-		//Computer computer = new Computer();
-		Page pages = new Page();
-		DAO<Computer> computerdao = DAOFactory.getComputerDAO();
-		List<Computer> computer = computerdao.findAll();
-		pages.setPage(1);
-		pages.setPageSize(25);
+
+		
+		String pageElement = request.getParameter("pageElement");
+		String pageNumber = request.getParameter("pageNumber");
+		pageIndexMax=computer.size();
+		if(pageElement == null || pageNumber == null ) {
+			pageElement = "25";
+			pageNumber ="1";	
+		}
+		pageIndex =Integer.parseInt(pageNumber);
+		pageElmts =Integer.parseInt(pageElement);
+		if(pageIndex <=1 ) {
+			pageIndex =1;
+		}else if(pageIndex > pageIndexMax){
+			pageIndex = pageIndexMax;
+		}
+		pages.setPage(pageIndex);
+		pages.setPageSize(pageElmts);
+		pageIndexMax=computer.size();
+		pageIndex= pages.getPage();
+		pageElmts=pages.getPageSize();
+		
 		List<Computer> computerPage = pages.getPage(computer);
 		request.setAttribute("computerPage", computerPage);
-		//String message = "Transmission de variables : ok ! ";
-		//request.setAttribute("test", message);
+		request.setAttribute("pageElmts", pageElmts);
+		request.setAttribute("pageIndex", pageIndex);
+		request.setAttribute("pageIndexMax", pageIndexMax);
+		
 		this.getServletContext().getRequestDispatcher( "/WEB-INF/views/dashboard.jsp" ).forward( request, response );
 
 	}
 	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-	throws IOException,ServletException {
-		//int page = request.getParameter(arg0)
+	
+	/*protected void doPost ( HttpServletRequest request, HttpServletResponse response )	throws ServletException, IOException {
+		
+		FOR THE DELETE PART
+		this.getServletContext().getRequestDispatcher( "/WEB-INF/views/dashboard.jsp" ).forward( request, response );
+		
 	}
+	*/
 	
 	
 

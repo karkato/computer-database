@@ -3,6 +3,8 @@ package com.excilys.cdb.persistence;
 import java.sql.Connection;
 import java.util.List;
 
+import com.excilys.cdb.model.Company;
+
 
 public abstract class DAO<T> {
 
@@ -42,6 +44,11 @@ public abstract class DAO<T> {
 	public abstract T find(Long id);
 
 	public List<T> findAll() {
+		return null;
+	}
+
+
+	public Company findByName(String name) {
 		return null;
 	}
 }

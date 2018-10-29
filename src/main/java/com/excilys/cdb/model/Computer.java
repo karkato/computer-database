@@ -32,7 +32,7 @@ public class Computer {
 	}
 
 	public Computer() {}
-	
+
 	public Long getCompanyId() {
 		return companyId;
 	}
@@ -41,7 +41,7 @@ public class Computer {
 		this.companyId = companyId;
 	}
 
-	
+
 
 	public Long getId() {
 		return id;
@@ -87,6 +87,19 @@ public class Computer {
 	public String toString() {
 		return "[ Id: " + getId() + " | Name: " + getName() +" | Introduced date : " + getIntroDate() +" | Discontinued date : " +getDiscDate() +" | Company : "+ getCompany().getName() + "]";
 
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (companyId ^ companyId >>> 32);
+		result = prime * result + (company.getName() == null ? 0 : company.getName().hashCode());
+		result = prime * result + (discontinued == null ? 0 : discontinued.hashCode());
+		result = prime * result + (int) (id ^ id >>> 32);
+		result = prime * result + (introduced == null ? 0 : introduced.hashCode());
+		result = prime * result + (name == null ? 0 : name.hashCode());
+		return result;
 	}
 
 }

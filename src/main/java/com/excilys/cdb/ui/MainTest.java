@@ -38,8 +38,8 @@ public class MainTest {
 			System.out.println("\t 5 - M-a-J un ordinateur");
 			System.out.println("\t 6 - Supprimer un ordinateur");
 			System.out.println("\t 7 - Quitter l'application");
-
 			index = sc.nextInt();
+			
 			sc.nextLine();
 			switch(index) {
 			case 1:

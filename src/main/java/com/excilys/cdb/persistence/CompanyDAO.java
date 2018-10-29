@@ -25,6 +25,7 @@ public class CompanyDAO extends DAO<Company>{
 	}
 	
 	private static String findQuery = "SELECT * FROM company WHERE id= ? ";
+	private static String findQueryByName = "SELECT id,name  FROM company WHERE name= ? ";
 	private static String findAllQuery ="SELECT id,name FROM company " ;
 	
 	@Override
@@ -38,6 +39,23 @@ public class CompanyDAO extends DAO<Company>{
 			ResultSet result = findStmt.executeQuery();
 			if(result.first())
 				company = new Company(id,result.getString("name"));         
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return company;
+	}
+	
+	@Override
+	public Company findByName(String name) {
+		Company company = new Company();      
+
+		try {
+			
+			PreparedStatement findStmt = this.connect.prepareStatement(findQueryByName);
+			findStmt.setString(1, name);
+			ResultSet result = findStmt.executeQuery();
+			if(result.first())
+				company = new Company(result.getLong("id"),name);         
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
