@@ -103,7 +103,6 @@ public class ComputerDAO extends DAO<Computer> {
 			addStmt.setFloat(4,obj.getCompany().getId());
 			int result = addStmt.executeUpdate();
 			if (result == 1) {
-				ComputerDAO.connect.close();
 				return true;
 			}
 

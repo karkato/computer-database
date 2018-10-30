@@ -8,11 +8,12 @@ com/excilys/cdb/persistence/CompanyDAO.class
 com/excilys/cdb/servlets/AddComputerServlet.class
 com/excilys/cdb/ui/UserInterface.class
 com/excilys/cdb/service/Service.class
-com/excilys/cdb/servlets/DashboardDTO.class
+com/excilys/cdb/persistence/dto/CompanyDTO.class
 com/excilys/cdb/model/Computer.class
 com/excilys/cdb/persistence/ComputerDAO.class
 com/excilys/cdb/exceptions/PageNumberException.class
 com/excilys/cdb/servlets/EditComputerServlet.class
 com/excilys/cdb/persistence/DAO.class
+com/excilys/cdb/persistence/dto/ComputerDTO.class
 com/excilys/cdb/persistence/DAOFactory.class
 com/excilys/cdb/ui/MainTest.class

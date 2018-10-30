@@ -23,11 +23,11 @@ public class DashboardServlet extends HttpServlet {
 	int pageIndex=1;
 	int pageElmts=25;
 	int pageIndexMax;
-	
+	DAO<Computer> computerdao = DAOFactory.getComputerDAO();
 	
 	protected void doGet( HttpServletRequest request, HttpServletResponse response )	throws ServletException, IOException {
 
-		DAO<Computer> computerdao = DAOFactory.getComputerDAO();
+		
 		List<Computer> computer = computerdao.findAll();
 		String pageElement = request.getParameter("pageElement");
 		String pageNumber = request.getParameter("pageNumber");

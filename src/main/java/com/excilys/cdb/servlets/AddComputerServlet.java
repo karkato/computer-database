@@ -48,7 +48,6 @@ public class AddComputerServlet extends HttpServlet {
 		boolean created = computerDao.create(computer);
 		if(created) {
 			System.out.println("Computer created and added to the database");	
-
 			response.sendRedirect("dashboard");
 		}else {
 			System.out.println("Problem occured : computer not created");
