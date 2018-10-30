@@ -28,8 +28,6 @@ public class CompanyDAOTest {
 
 	}
 
-	/**
-	 */
 	@AfterEach
 	public void afterEachTest() {
 
@@ -38,7 +36,6 @@ public class CompanyDAOTest {
 
 
 	//FIND 
-
 	@Test
 	public void getAllCompaniesShouldReturn42Companies() {
 		List<Company> companies = companyRepository.findAll();
@@ -53,9 +50,6 @@ public class CompanyDAOTest {
 	}
 
 	//DELETE 
-
-
-	//@Test(expected=DaoException.class)
 	public void deleteCompanyShouldThrowExceptionBecauseIdisInvalid() {
 		companyRepository.delete(-1L);
 	}

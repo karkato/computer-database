@@ -60,6 +60,7 @@ public class DashboardServlet extends HttpServlet {
 	}
 	
 	
+	//Delete part --> next sprint
 	/*protected void doPost ( HttpServletRequest request, HttpServletResponse response )	throws ServletException, IOException {
 		
 		FOR THE DELETE PART

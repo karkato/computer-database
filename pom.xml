@@ -17,6 +17,7 @@
 		<maven-checkstyle.version>3.0.0</maven-checkstyle.version>
 		<maven-compiler.version>3.8.0</maven-compiler.version>
 		<servlet.version>3.1.0</servlet.version>
+		<org.springframework.version>5.1.1.RELEASE</org.springframework.version>
 	</properties>
 	
 	<build>
@@ -57,12 +58,11 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql-connector.version}</version>
-			<scope>local</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
-			<version>5.1.1.RELEASE</version>
+			<version>${org.springframework.version}</version>
 		</dependency>
 
 		<dependency>

@@ -34,8 +34,7 @@ public class ComputerDAOTest {
 
 	}
 
-	/**
-	 */
+
 	@AfterEach
 	public void afterEachTest() {
 
@@ -127,7 +126,6 @@ public class ComputerDAOTest {
 		computerDAO.create(computer);
 		long idGenerated = computer.getId();
 		computerDAO.delete(idGenerated);
-		//assertFalse(computerRepository.find(idGenerated));
 	}
 
 	public void deleteComputerShouldThrowExceptionBecauseIdisInvalid() {
