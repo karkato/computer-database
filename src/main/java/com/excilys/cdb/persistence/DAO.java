@@ -8,7 +8,7 @@ import com.excilys.cdb.model.Company;
 
 public abstract class DAO<T> {
 
-	protected Connection connect;
+	protected static Connection connect;
 
 	public DAO(){
 		connect =DBDemo.getInstance();

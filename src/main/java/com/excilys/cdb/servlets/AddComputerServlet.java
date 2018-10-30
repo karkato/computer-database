@@ -13,7 +13,6 @@ import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.persistence.DAO;
 import com.excilys.cdb.persistence.DAOFactory;
-import com.excilys.cdb.persistence.dto.ComputerDTO;
 
 public class AddComputerServlet extends HttpServlet {
 
@@ -24,9 +23,9 @@ public class AddComputerServlet extends HttpServlet {
 	DAO<Computer> computerDao = DAOFactory.getComputerDAO();
 	DAO<Company> companyDao = DAOFactory.getCompanyDAO();
 	List<Company> companyPage = companyDao.findAll();
-	ComputerDTO computerDto = new ComputerDTO();
+	Computer computer = new Computer();
 	Company company = new Company();
-	
+
 	protected void doGet( HttpServletRequest request, HttpServletResponse response )	throws ServletException, IOException {
 		
 		request.setAttribute("companyPage", companyPage);
@@ -34,17 +33,28 @@ public class AddComputerServlet extends HttpServlet {
 
 	}
 
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws IOException,ServletException {
-		company=companyDao.findByName(request.getParameter("companyId"));
-		computerDto.setName(request.getParameter("computerName"));
-		computerDto.setIntroDate(Date.valueOf(request.getParameter("introDate")).toLocalDate());
-		computerDto.setDiscDate(Date.valueOf(request.getParameter("discDate")).toLocalDate());
-		computerDto.setCompany(company);
-		computerDao.create(computerDto);
-		
-		response.sendRedirect("dashboard");
-		//this.getServletContext().getRequestDispatcher( "/WEB-INF/views/dashboard.jsp" ).forward( request, response );
+		company=companyDao.find((long) Integer.parseInt(request.getParameter("companyId")));
+		System.out.println(company.toString());
+		computer.setName(request.getParameter("computerName"));
+		String introduction = request.getParameter("introDate");
+		String discontinuation = request.getParameter("discDate");
+		computer.setName(request.getParameter("computerName"));
+		computer.setIntroDate(Date.valueOf(introduction).toLocalDate());
+		computer.setDiscDate(Date.valueOf(discontinuation).toLocalDate());
+		computer.setCompany(company);
+		boolean created = computerDao.create(computer);
+		if(created) {
+			System.out.println("Computer created and added to the database");	
+
+			response.sendRedirect("dashboard");
+		}else {
+			System.out.println("Problem occured : computer not created");
+			response.sendRedirect("500");
+		}
+
 	}
 
 }

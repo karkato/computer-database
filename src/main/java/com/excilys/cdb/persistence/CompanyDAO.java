@@ -23,18 +23,18 @@ public class CompanyDAO extends DAO<Company>{
 	public static CompanyDAO getInstance() {
 		return companyDAO;
 	}
-	
+
 	private static String findQuery = "SELECT * FROM company WHERE id= ? ";
 	private static String findQueryByName = "SELECT id,name  FROM company WHERE name= ? ";
 	private static String findAllQuery ="SELECT id,name FROM company " ;
-	
+
 	@Override
 	public Company find(Long id) {
 		Company company = new Company();      
 
 		try {
-			
-			PreparedStatement findStmt = this.connect.prepareStatement(findQuery);
+
+			PreparedStatement findStmt = DAO.connect.prepareStatement(findQuery);
 			findStmt.setFloat(1, id);
 			ResultSet result = findStmt.executeQuery();
 			if(result.first())
@@ -44,18 +44,20 @@ public class CompanyDAO extends DAO<Company>{
 		}
 		return company;
 	}
-	
+
 	@Override
 	public Company findByName(String name) {
 		Company company = new Company();      
 
 		try {
-			
-			PreparedStatement findStmt = this.connect.prepareStatement(findQueryByName);
+
+			PreparedStatement findStmt = DAO.connect.prepareStatement(findQueryByName);
 			findStmt.setString(1, name);
 			ResultSet result = findStmt.executeQuery();
-			if(result.first())
-				company = new Company(result.getLong("id"),name);         
+			if(result.first()) {
+				company.setId(result.getLong("id"));
+				company.setName(name);  
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -68,7 +70,7 @@ public class CompanyDAO extends DAO<Company>{
 		Company company = new Company();
 
 		try {
-			PreparedStatement findStmt = this.connect.prepareStatement(findAllQuery);
+			PreparedStatement findStmt = DAO.connect.prepareStatement(findAllQuery);
 			ResultSet result = findStmt.executeQuery();
 			while (result.next()) {
 				company = new Company(result.getLong("id"), result.getString("name"));

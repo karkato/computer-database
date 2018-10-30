@@ -23,7 +23,7 @@ public class ComputerDAO extends DAO<Computer> {
 
 	private static String findQuery = "SELECT cpu.id, cpu.name, cpu.introduced, cpu.discontinued, cpu.company_id,cpa.name FROM computer AS cpu LEFT JOIN company AS cpa ON cpu.company_id = cpa.id WHERE cpu.id = ?";
 	private static String findAllQuery ="SELECT cpu.id, cpu.name, cpu.introduced, cpu.discontinued, cpu.company_id,cpa.name FROM computer AS cpu LEFT JOIN company AS cpa ON cpu.company_id = cpa.id " ;
-	private static String createQuery ="INSERT INTO computer (name,introduced,discontinued,company_id) VALUES(?,?,?,?))";
+	private static String createQuery ="INSERT INTO computer (name,introduced,discontinued,company_id) VALUES(?,?,?,?)";
 	private static String updateQuery = "UPDATE computer SET name = ?, introduced =? , discontinued =? , company_id =?, WHERE id =? ";	
 	private static String deleteQuery = "DELETE FROM computer WHERE id = ?";
 
@@ -38,7 +38,7 @@ public class ComputerDAO extends DAO<Computer> {
 		Company company = new Company();
 
 		try {
-			PreparedStatement findStmt = this.connect.prepareStatement(findQuery);
+			PreparedStatement findStmt = DAO.connect.prepareStatement(findQuery);
 			findStmt.setFloat(1, id);
 			ResultSet result = findStmt.executeQuery();
 			if (result.first())computer = new Computer();
@@ -69,7 +69,7 @@ public class ComputerDAO extends DAO<Computer> {
 		Company company ;
 
 		try {			
-			PreparedStatement findAllStmt = this.connect.prepareStatement(findAllQuery);
+			PreparedStatement findAllStmt = DAO.connect.prepareStatement(findAllQuery);
 			ResultSet result = findAllStmt.executeQuery();
 			while (result.next()) {
 				computer = new Computer();
@@ -96,53 +96,67 @@ public class ComputerDAO extends DAO<Computer> {
 	public boolean create(Computer obj) {
 
 		try {
-			PreparedStatement addStmt = this.connect.prepareStatement(createQuery);
-			addStmt.setString(1, obj.getName());
-			addStmt.setDate(2, Date.valueOf(obj.getIntroDate()));
-			addStmt.setDate(3, Date.valueOf(obj.getDiscDate()));
+			PreparedStatement addStmt = DAO.connect.prepareStatement(createQuery);
+			addStmt.setString(1,obj.getName());
+			addStmt.setDate(2,Date.valueOf(obj.getIntroDate()));
+			addStmt.setDate(3,Date.valueOf(obj.getDiscDate()));
+			addStmt.setFloat(4,obj.getCompany().getId());
+			int result = addStmt.executeUpdate();
+			if (result == 1) {
+				ComputerDAO.connect.close();
+				return true;
+			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("exception due a la requête");
 		}
-		return true;
+		return false;
 	}
 
 	@Override
 
 	public boolean update(Computer obj) {
-
+		int result;
 		try {
-			PreparedStatement updateStmt = this.connect.prepareStatement(updateQuery);
+			PreparedStatement updateStmt = DAO.connect.prepareStatement(updateQuery);
 			updateStmt.setString(1, obj.getName());
 			updateStmt.setDate(2, Date.valueOf(obj.getIntroDate()));
 			updateStmt.setDate(3, Date.valueOf(obj.getDiscDate()));
 			updateStmt.setFloat(4, obj.getCompanyId());
 			updateStmt.setFloat(5, obj.getId());
-
-
+			result = updateStmt.executeUpdate();
+			if (result == 1) {
+				ComputerDAO.connect.close();
+				return true;
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("Problème avec la requete d'update");
 		}
 
-		return true;
+		return false;
 	}
 
 
 	@Override
 	public boolean delete(Long id) {
-
+		int result;
 		try {
-			PreparedStatement deleteStmt = this.connect.prepareStatement(deleteQuery);
+			PreparedStatement deleteStmt = DAO.connect.prepareStatement(deleteQuery);
 			deleteStmt.setFloat(1, id);
+			result = deleteStmt.executeUpdate();
+			if (result == 1) {
+				ComputerDAO.connect.close();
+				return true;
+			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("Problème avec la requête delete");
 		}
 
-		return true;
+		return false;
 	}
 
 }

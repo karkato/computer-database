@@ -89,17 +89,5 @@ public class Computer {
 
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (int) (companyId ^ companyId >>> 32);
-		result = prime * result + (company.getName() == null ? 0 : company.getName().hashCode());
-		result = prime * result + (discontinued == null ? 0 : discontinued.hashCode());
-		result = prime * result + (int) (id ^ id >>> 32);
-		result = prime * result + (introduced == null ? 0 : introduced.hashCode());
-		result = prime * result + (name == null ? 0 : name.hashCode());
-		return result;
-	}
 
 }
