@@ -1,10 +1,10 @@
-/home/excilys/eclipse-workspace/Computer-database/src/main/java/com/excilys/cdb/service/Service.java
 /home/excilys/eclipse-workspace/Computer-database/src/main/java/com/excilys/cdb/model/Page.java
 /home/excilys/eclipse-workspace/Computer-database/src/main/java/com/excilys/cdb/persistence/CompanyDAO.java
 /home/excilys/eclipse-workspace/Computer-database/src/main/java/com/excilys/cdb/ui/MainTest.java
 /home/excilys/eclipse-workspace/Computer-database/src/main/java/com/excilys/cdb/servlets/AddComputerServlet.java
 /home/excilys/eclipse-workspace/Computer-database/src/main/java/com/excilys/cdb/persistence/dto/CompanyDTO.java
 /home/excilys/eclipse-workspace/Computer-database/src/main/java/com/excilys/cdb/exceptions/PageNumberException.java
+/home/excilys/eclipse-workspace/Computer-database/src/main/java/com/excilys/cdb/exceptions/ComputerDBException.java
 /home/excilys/eclipse-workspace/Computer-database/src/main/java/com/excilys/cdb/persistence/ComputerDAO.java
 /home/excilys/eclipse-workspace/Computer-database/src/main/java/com/excilys/cdb/ui/UserInterface.java
 /home/excilys/eclipse-workspace/Computer-database/src/main/java/com/excilys/cdb/exceptions/WrongDateException.java

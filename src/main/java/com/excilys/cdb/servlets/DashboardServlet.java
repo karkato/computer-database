@@ -20,8 +20,8 @@ public class DashboardServlet extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 	Page pages = new Page();
-	int pageIndex=1;
-	int pageElmts=25;
+	int pageIndex = 1;
+	int pageElmts = 25;
 	int pageIndexMax;
 	DAO<Computer> computerdao = DAOFactory.getComputerDAO();
 	
@@ -34,20 +34,20 @@ public class DashboardServlet extends HttpServlet {
 		pageIndexMax=computer.size();
 		if(pageElement == null || pageNumber == null ) {
 			pageElement = "25";
-			pageNumber ="1";	
+			pageNumber = "1";	
 		}
 		pageIndex =Integer.parseInt(pageNumber);
 		pageElmts =Integer.parseInt(pageElement);
-		if(pageIndex <=1 ) {
-			pageIndex =1;
+		if(pageIndex <= 1 ) {
+			pageIndex = 1;
 		}else if(pageIndex > pageIndexMax){
 			pageIndex = pageIndexMax;
 		}
 		pages.setPage(pageIndex);
 		pages.setPageSize(pageElmts);
-		pageIndexMax=computer.size();
-		pageIndex= pages.getPage();
-		pageElmts=pages.getPageSize();
+		pageIndexMax = computer.size();
+		pageIndex = pages.getPage();
+		pageElmts = pages.getPageSize();
 		
 		List<Computer> computerPage = pages.getPage(computer);
 		request.setAttribute("computerPage", computerPage);
