@@ -1,31 +1,17 @@
 package com.excilys.cdb.ui;
 
-import java.io.IOException;
-import java.sql.Date;
-import java.util.List;
-import java.util.Scanner;
-
-import com.excilys.cdb.model.Company;
-import com.excilys.cdb.model.Computer;
-import com.excilys.cdb.model.Page;
-import com.excilys.cdb.persistence.ComputerDAOInterface;
-import com.excilys.cdb.persistence.CompanyDAOInterface;
-
 public class MainTest {
 
-
+	
 	/**
 	 * Connect to the DB and do some stuff
 	 * @throws IOException 
 	 */
+	/*
 	public static void main(String[] args) throws IOException {
 
-
-
-		Page pages = new Page();
-		ComputerDAOInterface<Company> companydao = CompanyDAOInterface.getCompanyDAO();
-		ComputerDAOInterface<Computer> computerdao = CompanyDAOInterface.getComputerDAO();
-
+		ComputerDAO computerDAO = new ComputerDAO();
+		CompanyDAO companyDAO = new CompanyDAO();
 
 		System.out.println("Bienvenue sur l'application CDB : \n");
 		System.out.println("");
@@ -79,7 +65,7 @@ public class MainTest {
 						pagex= sc.nextInt();
 						sc.nextLine();
 					}else if ((pagex == 1) & (i > 0)) {
-						pages.setPage(i-=1);
+						ages.setPage(i-=1);
 						pages.setPageSize(nbelt);
 						List<Computer>computerPage2 = pages.getPage(computers);
 						int y=0;
@@ -219,13 +205,13 @@ public class MainTest {
 					System.out.println("Erreur lors de la suppression");
 				}
 				break;
-			case 7: 
+	ComputerDAO		case 7: 
 				System.out.println("Bye bye !");
 				sc.close();
 			default: break;
 			}
 		}
 	}
-
+*/
 
 }

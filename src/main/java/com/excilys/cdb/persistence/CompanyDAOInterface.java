@@ -2,10 +2,13 @@ package com.excilys.cdb.persistence;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
+
+import com.excilys.cdb.model.Company;
 
 
 public interface CompanyDAOInterface<T> {
-	
+
 	/**
 	 * Méthode de recherche des informations
 	 * 
@@ -14,6 +17,10 @@ public interface CompanyDAOInterface<T> {
 	 * @throws DataBaseException 
 	 */
 	public abstract List<T> findAll() throws IOException;
-  
+
+	Company findByName(String name);
+
+	Optional<Company> find(Long id) throws IOException;
+
 
 }

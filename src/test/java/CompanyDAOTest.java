@@ -1,10 +1,11 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.List;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import com.excilys.cdb.model.Company;
@@ -12,46 +13,38 @@ import com.excilys.cdb.persistence.CompanyDAO;
 
 public class CompanyDAOTest {
 	
-	private CompanyDAO companyRepository;
-
-	private Company company;
-
-
-
-	@BeforeEach
-	public void beforeEachTest() {
-
-		company = new Company();
-		company.setId((long) 1);
-		company.setName("Apple Inc.");
-
-
+private CompanyDAO companyDao;
+	
+	@BeforeAll
+	public void setUp() {
+		companyDao = CompanyDAO.getInstance();
 	}
-
-	@AfterEach
-	public void afterEachTest() {
-
-		company = null;
+	
+	@AfterAll
+	public void tearDown() {
+		companyDao=null;
 	}
-
-
-	//FIND 
+	
 	@Test
-	public void getAllCompaniesShouldReturn42Companies() {
-		List<Company> companies = companyRepository.findAll();
-		assertEquals(companies.size(), 42);
+	public void testNotNullFindAllCompanies() {
+		try {
+			assertNotNull(companyDao.findAll());	
+		}catch(Exception e) {
+			fail("Exception inattendue");
+		}		
 	}
-
-
+	
 	@Test
-	public void getCompanyByIdShouldReturnCompany() {
-		Company companyFound = companyRepository.find(1L);
-		assertTrue(companyFound.equals(company));
-	}
-
-	//DELETE 
-	public void deleteCompanyShouldThrowExceptionBecauseIdisInvalid() {
-		companyRepository.delete(-1L);
+	public void testEqualsCompanyFindAllCompanies() {
+		try {
+			List<Company> result = companyDao.findAll();
+			Company company = new Company();
+			for(int i=0;i<result.size();i++) {
+				assertEquals(company.getClass(),result.get(i).getClass());
+			}
+		}catch(Exception e) {
+			fail("Exception inattendue");
+		}		
 	}
 
 

@@ -1,21 +1,8 @@
 package com.excilys.cdb.selenium;
 
-import static org.junit.jupiter.api.Assertions.fail;
-
-import java.util.concurrent.TimeUnit;
-
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.ui.Select;
-
 public class Selenium {
-	  private WebDriver driver;
+/*	  private WebDriver driver;
 	  private String baseUrl;
-	  private boolean acceptNextAlert = true;
 	  private StringBuffer verificationErrors = new StringBuffer();
 
 	  @BeforeEach
@@ -55,5 +42,5 @@ public class Selenium {
 	    if (!"".equals(verificationErrorString)) {
 	      fail(verificationErrorString);
 	    }
-	  }
+	  }*/
 	}

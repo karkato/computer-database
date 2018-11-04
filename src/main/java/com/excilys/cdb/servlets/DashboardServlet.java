@@ -1,6 +1,7 @@
 package com.excilys.cdb.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -8,10 +9,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.excilys.cdb.exceptions.DataBaseException;
+import com.excilys.cdb.exceptions.PageNumberException;
+import com.excilys.cdb.mapper.ComputerDTOMapper;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.model.Page;
-import com.excilys.cdb.persistence.ComputerDAOInterface;
-import com.excilys.cdb.persistence.CompanyDAOInterface;
+import com.excilys.cdb.persistence.dto.ComputerDTO;
+import com.excilys.cdb.service.ComputerService;
 
 public class DashboardServlet extends HttpServlet {
 
@@ -19,56 +26,77 @@ public class DashboardServlet extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	Page pages = new Page();
-	int pageIndex = 1;
-	int pageElmts = 25;
-	int pageIndexMax;
-	ComputerDAOInterface<Computer> computerdao = CompanyDAOInterface.getComputerDAO();
-	
+	Logger logger = LoggerFactory.getLogger(DashboardServlet.class);
+	ComputerService cpuService;
+	ComputerDTOMapper mapper;
+	List<Computer> computers;
+	List<Computer> subComputers = new ArrayList<Computer>();
+	List<ComputerDTO> subComputersDTO = new ArrayList<ComputerDTO>();
+	int counter;
+
+
 	protected void doGet( HttpServletRequest request, HttpServletResponse response )	throws ServletException, IOException {
 
-		
-		List<Computer> computer = computerdao.findAll();
-		String pageElement = request.getParameter("pageElement");
-		String pageNumber = request.getParameter("pageNumber");
-		pageIndexMax=computer.size();
-		if(pageElement == null || pageNumber == null ) {
-			pageElement = "25";
-			pageNumber = "1";	
+
+		try {
+			cpuService = ComputerService.getInstance();
+			mapper = ComputerDTOMapper.getInstance();
+
+			counter = cpuService.count();
+			Page.setPage(request.getParameter("pageNumber"), request.getParameter("pageElement"));
+			if (request.getParameter("search") == null) {
+				try {
+					computers = cpuService.findAll("");
+				} catch (PageNumberException e) {
+					e.printStackTrace();
+				}
+			} else {
+				request.setAttribute("search", request.getParameter("search"));
+				try {
+					computers = cpuService.findAll(request.getParameter("search"));
+				} catch (PageNumberException e) {
+					e.printStackTrace();
+				}
+			}
+			subComputersDTO.clear();
+			for (int i = 0; i < computers.size(); i++) {
+				subComputersDTO.add(mapper.computerDtoFromComputer(computers.get(i)));
+			}
+
+		} catch (DataBaseException dbe) {
+			this.getServletContext().getRequestDispatcher("/WEB-INF/views/500.jsp").forward(request, response);
 		}
-		pageIndex =Integer.parseInt(pageNumber);
-		pageElmts =Integer.parseInt(pageElement);
-		if(pageIndex <= 1 ) {
-			pageIndex = 1;
-		}else if(pageIndex > pageIndexMax){
-			pageIndex = pageIndexMax;
-		}
-		pages.setPage(pageIndex);
-		pages.setPageSize(pageElmts);
-		pageIndexMax = computer.size();
-		pageIndex = pages.getPage();
-		pageElmts = pages.getPageSize();
-		
-		List<Computer> computerPage = pages.getPage(computer);
-		request.setAttribute("computerPage", computerPage);
-		request.setAttribute("pageElmts", pageElmts);
-		request.setAttribute("pageIndex", pageIndex);
-		request.setAttribute("pageIndexMax", pageIndexMax);
-		
-		this.getServletContext().getRequestDispatcher( "/WEB-INF/views/dashboard.jsp" ).forward( request, response );
+
+		request.setAttribute("computerPage", subComputersDTO);
+		request.setAttribute("counter", counter);
+		request.setAttribute("pageIndex", Page.getPage());
+		request.setAttribute("pageSize", Page.getPageSize());
+
+		this.getServletContext().getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
 
 	}
-	
-	
+
+
 	//Delete part --> next sprint
-	/*protected void doPost ( HttpServletRequest request, HttpServletResponse response )	throws ServletException, IOException {
-		
-		FOR THE DELETE PART
-		this.getServletContext().getRequestDispatcher( "/WEB-INF/views/dashboard.jsp" ).forward( request, response );
-		
+	protected void doPost ( HttpServletRequest request, HttpServletResponse response )	throws ServletException, IOException {
+
+		cpuService = ComputerService.getInstance();
+
+		String[] checkedIds = request.getParameterValues("selection");
+		String[] idTab = checkedIds[0].split(",");
+
+		try {
+			cpuService.deleteAll(idTab);
+		} catch (DataBaseException e) {
+			this.getServletContext().getRequestDispatcher("/WEB-INF/views/500.jsp").forward(request, response);
+		}
+
+		response.sendRedirect("dashboard");
 	}
-	*/
-	
-	
 
 }
+
+
+
+
+
