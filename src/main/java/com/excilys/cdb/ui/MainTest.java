@@ -1,5 +1,6 @@
 package com.excilys.cdb.ui;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.util.List;
 import java.util.Scanner;
@@ -7,22 +8,23 @@ import java.util.Scanner;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.model.Page;
-import com.excilys.cdb.persistence.DAO;
-import com.excilys.cdb.persistence.DAOFactory;
+import com.excilys.cdb.persistence.ComputerDAOInterface;
+import com.excilys.cdb.persistence.CompanyDAOInterface;
 
 public class MainTest {
 
 
 	/**
 	 * Connect to the DB and do some stuff
+	 * @throws IOException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 
 
 
 		Page pages = new Page();
-		DAO<Company> companydao = DAOFactory.getCompanyDAO();
-		DAO<Computer> computerdao = DAOFactory.getComputerDAO();
+		ComputerDAOInterface<Company> companydao = CompanyDAOInterface.getCompanyDAO();
+		ComputerDAOInterface<Computer> computerdao = CompanyDAOInterface.getComputerDAO();
 
 
 		System.out.println("Bienvenue sur l'application CDB : \n");

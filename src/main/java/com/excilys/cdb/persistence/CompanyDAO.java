@@ -11,11 +11,13 @@ import com.excilys.cdb.model.Company;
 
 
 
-public class CompanyDAO extends DAO<Company>{
+public class CompanyDAO extends ComputerDAOInterface<Company>{
 
 
 
 	protected CompanyDAO() {
+		DBDemo.getInstance();
+		connect =DBDemo.getConnection();
 	}
 	static CompanyDAO companyDAO = new CompanyDAO();
 
@@ -33,7 +35,7 @@ public class CompanyDAO extends DAO<Company>{
 
 		try {
 
-			PreparedStatement findStmt = DAO.connect.prepareStatement(findQuery);
+			PreparedStatement findStmt = ComputerDAOInterface.connect.prepareStatement(findQuery);
 			findStmt.setFloat(1, id);
 			ResultSet result = findStmt.executeQuery();
 			if(result.first())
@@ -50,7 +52,7 @@ public class CompanyDAO extends DAO<Company>{
 
 		try {
 
-			PreparedStatement findStmt = DAO.connect.prepareStatement(findQueryByName);
+			PreparedStatement findStmt = ComputerDAOInterface.connect.prepareStatement(findQueryByName);
 			findStmt.setString(1, name);
 			ResultSet result = findStmt.executeQuery();
 			if(result.first()) {
@@ -69,7 +71,7 @@ public class CompanyDAO extends DAO<Company>{
 		Company company = new Company();
 
 		try {
-			PreparedStatement findStmt = DAO.connect.prepareStatement(findAllQuery);
+			PreparedStatement findStmt = ComputerDAOInterface.connect.prepareStatement(findAllQuery);
 			ResultSet result = findStmt.executeQuery();
 			while (result.next()) {
 				company = new Company(result.getLong("id"), result.getString("name"));

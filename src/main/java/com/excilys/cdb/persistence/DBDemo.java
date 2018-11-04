@@ -9,18 +9,18 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class DBDemo {
 
-	/** The name of the computer running MySQL */
 	private final static String serverName = "localhost";
-
-	/** The port of the MySQL server (default is 3306) */
 	private final static int portNumber = 3306;
-
-	/** The name of the database we are testing with (this default is installed with MySQL) */
 	private final static String dbName = "computer-database-db";
 
+	static Logger logger = LoggerFactory.getLogger(DBDemo.class);
 	private static Connection connect;
+	private final static DBDemo dbdemo = new DBDemo();
 
 	public static Properties load(String filename) throws IOException, FileNotFoundException{
 		Properties properties = new Properties();
@@ -35,68 +35,49 @@ public class DBDemo {
 		}
 	}
 
-	/**
-	 * Run a SQL command which does not return a recordset:
-	 * CREATE/INSERT/UPDATE/DELETE/DROP/etc.
-	 * 
-	 * @throws SQLException If something goes wrong
-	 */
 	public boolean executeUpdate(Connection conn, String command) throws SQLException {
 		Statement stmt = null;
 		try {
 			stmt = conn.createStatement();
-			stmt.executeUpdate(command); // This will throw a SQLException if it fails
+			stmt.executeUpdate(command); 
 			return true;
 		} finally {
 
-			// This will run whether we throw an exception or not
 			if (stmt != null) { stmt.close(); }
 		}
 	}
 
-
-
-	/**
-	 * Connect to MySQL and do some stuff.
-	 */
-	public void run() {
-		connect=getInstance();
-		System.out.println("Connected to database");
-		//this.test(connect);
+	private DBDemo() {
+		super();
 	}
 
-	/**
-	 * Méthode qui va retourner notre instance
-	 * et la créer si elle n'existe pas...
-	 * @return
-	 */
-	public static Connection getInstance(){
+	public static Connection connectionDB() throws IOException{
 		Properties connectionProps = new Properties();
 		Properties prop;
 		try {
 			prop = DBDemo.load("/home/excilys/eclipse-workspace/Computer-database/src/main/resources/login.properties");
 			connectionProps.put("user", prop.getProperty("userName"));
 			connectionProps.put("password", prop.getProperty("password"));
-			if(connect == null){
-				try {
-					Class.forName("com.mysql.cj.jdbc.Driver");
-					connect = DriverManager.getConnection("jdbc:mysql://"
-							+ serverName + ":" + portNumber + "/" + dbName +"?useSSL=false&serverTimezone=CET",
-							connectionProps);
-					System.out.println("Connexion établie ! \n");
-				} catch (SQLException e) {
-					System.out.println("ERROR: Could not connect to the database");
-					System.out.println("");
-					e.printStackTrace();
-				} catch (ClassNotFoundException e) {
-					e.printStackTrace();}
-			}		
-		} catch (FileNotFoundException e1) {
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
 
+		}catch (FileNotFoundException e1) {
+			logger.error("le fichier de loggind est introuvable");
+		}
+			try {
+				Class.forName("com.mysql.cj.jdbc.Driver");
+				connect = DriverManager.getConnection("jdbc:mysql://"
+						+ serverName + ":" + portNumber + "/" + dbName +"?useSSL=false&serverTimezone=CET",
+						connectionProps);
+				System.out.println("Connexion établie ! \n");
+			} catch (SQLException e) {
+				logger.error("ERROR: Could not connect to the database");
+			} catch (ClassNotFoundException e) {
+			}		
+		return connect;
+	}
+	public static DBDemo getInstance(){
+		return dbdemo;
+	}
+	public static Connection getConnection() {
 		return connect;
 	}
 

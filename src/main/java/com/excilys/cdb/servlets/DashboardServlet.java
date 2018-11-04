@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.model.Page;
-import com.excilys.cdb.persistence.DAO;
-import com.excilys.cdb.persistence.DAOFactory;
+import com.excilys.cdb.persistence.ComputerDAOInterface;
+import com.excilys.cdb.persistence.CompanyDAOInterface;
 
 public class DashboardServlet extends HttpServlet {
 
@@ -23,7 +23,7 @@ public class DashboardServlet extends HttpServlet {
 	int pageIndex = 1;
 	int pageElmts = 25;
 	int pageIndexMax;
-	DAO<Computer> computerdao = DAOFactory.getComputerDAO();
+	ComputerDAOInterface<Computer> computerdao = CompanyDAOInterface.getComputerDAO();
 	
 	protected void doGet( HttpServletRequest request, HttpServletResponse response )	throws ServletException, IOException {
 

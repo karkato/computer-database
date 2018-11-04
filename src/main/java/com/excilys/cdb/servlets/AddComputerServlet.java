@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
-import com.excilys.cdb.persistence.DAO;
-import com.excilys.cdb.persistence.DAOFactory;
+import com.excilys.cdb.persistence.ComputerDAOInterface;
+import com.excilys.cdb.persistence.CompanyDAOInterface;
 
 public class AddComputerServlet extends HttpServlet {
 
@@ -20,8 +20,8 @@ public class AddComputerServlet extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	DAO<Computer> computerDao = DAOFactory.getComputerDAO();
-	DAO<Company> companyDao = DAOFactory.getCompanyDAO();
+	ComputerDAOInterface<Computer> computerDao = CompanyDAOInterface.getComputerDAO();
+	ComputerDAOInterface<Company> companyDao = CompanyDAOInterface.getCompanyDAO();
 	List<Company> companyPage = companyDao.findAll();
 	Computer computer = new Computer();
 	Company company = new Company();
