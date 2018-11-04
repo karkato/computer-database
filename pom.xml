@@ -19,6 +19,9 @@
 		<servlet.version>3.1.0</servlet.version>
 		<org.springframework.version>5.1.1.RELEASE</org.springframework.version>
 		<selenium.version>3.14.0</selenium.version>
+		<apache.maven.plugins.version>3.2.2</apache.maven.plugins.version>
+		<hikariCp.version>3.2.0</hikariCp.version>
+		<Junit.version>5.3.1</Junit.version>
 	</properties>
 
 	<build>
@@ -37,11 +40,17 @@
 				<configuration>
 					<webXml>WebContent/WEB-INF/web.xml</webXml>
 				</configuration>
-				<version>3.2.2</version>
+				<version>${apache.maven.plugins.version}</version>
 			</plugin>
 		</plugins>
 	</build>
 	<dependencies>
+		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+			<version>${hikariCp.version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>javax.servlet.jsp</groupId>
 			<artifactId>jsp-api</artifactId>
@@ -59,7 +68,7 @@
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
-			<version>5.3.1</version>
+			<version>${Junit.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

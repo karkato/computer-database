@@ -10,7 +10,7 @@ public class DAOFactory {
 	  protected static final Connection conn = DBDemo.getInstance();   
 	   
 	  /**
-	  * Retourne un objet Classe interagissant avec la BDD
+	  * Retourne un objet Company interagissant avec la BDD
 	  * @return DAO
 	  */
 	  public static DAO<Company> getCompanyDAO(){
@@ -18,7 +18,7 @@ public class DAOFactory {
 	  }
 
 	  /**
-	  * Retourne un objet Professeur interagissant avec la BDD
+	  * Retourne un objet Computer interagissant avec la BDD
 	  * @return DAO
 	  */
 	  public static DAO<Computer> getComputerDAO(){

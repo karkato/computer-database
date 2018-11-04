@@ -12,8 +12,7 @@ import com.excilys.cdb.model.Computer;
 
 public class ComputerDAO extends DAO<Computer> {
 
-	protected ComputerDAO() {
-		super();
+	protected ComputerDAO() {		
 	}
 	static ComputerDAO computerDAO = new ComputerDAO();
 

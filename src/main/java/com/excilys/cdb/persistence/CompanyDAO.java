@@ -16,7 +16,6 @@ public class CompanyDAO extends DAO<Company>{
 
 
 	protected CompanyDAO() {
-		super();
 	}
 	static CompanyDAO companyDAO = new CompanyDAO();
 
@@ -24,7 +23,7 @@ public class CompanyDAO extends DAO<Company>{
 		return companyDAO;
 	}
 
-	private static String findQuery = "SELECT * FROM company WHERE id= ? ";
+	private static String findQuery = "SELECT id,name FROM company WHERE id= ? ";
 	private static String findQueryByName = "SELECT id,name  FROM company WHERE name= ? ";
 	private static String findAllQuery ="SELECT id,name FROM company " ;
 

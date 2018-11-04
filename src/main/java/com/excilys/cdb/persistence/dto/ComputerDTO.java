@@ -2,7 +2,6 @@ package com.excilys.cdb.persistence.dto;
 
 import java.time.LocalDate;
 
-import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 
 public class ComputerDTO extends Computer {
@@ -12,19 +11,9 @@ public class ComputerDTO extends Computer {
 	private String name;
 	private LocalDate introduced;
 	private LocalDate discontinued;
-	private Company company;
 	private Long companyId;
 
-	public ComputerDTO(Long id, String name, LocalDate introduced, LocalDate discontinued, Company company, Long companyId) {
-
-		this.id = id;
-		this.name=name;
-		this.introduced=introduced;
-		this.discontinued=discontinued;
-		this.company=company;
-		this.companyId = companyId;
-	}
-	public ComputerDTO(Long id, String name, LocalDate introduced, LocalDate discontinued,Long companyId) {
+	public ComputerDTO(Long id, String name, LocalDate introduced, LocalDate discontinued, Long companyId) {
 
 		this.id = id;
 		this.name=name;
@@ -32,7 +21,7 @@ public class ComputerDTO extends Computer {
 		this.discontinued=discontinued;
 		this.companyId = companyId;
 	}
-
+	
 	public ComputerDTO() {}
 
 	public Long getCompanyId() {
@@ -77,17 +66,10 @@ public class ComputerDTO extends Computer {
 		this.discontinued = discDate;
 	}
 
-	public Company getCompany() {
-		return company;
-	}
-
-	public void setCompany(Company manufacturer) {
-		this.company = manufacturer;
-	}
 
 	@Override
 	public String toString() {
-		return "[ Id: " + getId() + " | Name: " + getName() +" | Introduced date : " + getIntroDate() +" | Discontinued date : " +getDiscDate() +" | Company : "+ getCompany().getName() + "]";
+		return "[ Id: " + getId() + " | Name: " + getName() +" | Introduced date : " + getIntroDate() +" | Discontinued date : " +getDiscDate() +"]";
 
 	}
 

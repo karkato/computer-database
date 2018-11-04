@@ -1,3 +1,4 @@
 DBDemoTest.class
+com/excilys/cdb/selenium/Selenium.class
 ComputerDAOTest.class
 CompanyDAOTest.class
