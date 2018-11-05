@@ -41,22 +41,14 @@ public class DashboardServlet extends HttpServlet {
 		try {
 			cpuService = ComputerService.getInstance();
 			mapper = ComputerDTOMapper.getInstance();
-
 			counter = cpuService.count();
-			Page.setPage(request.getParameter("pageNumber"), request.getParameter("pageElement"));
+
+			Page.setPage(request.getParameter("page"), request.getParameter("size"));
 			if (request.getParameter("search") == null) {
-				try {
 					computers = cpuService.findAll("");
-				} catch (PageNumberException e) {
-					e.printStackTrace();
-				}
 			} else {
 				request.setAttribute("search", request.getParameter("search"));
-				try {
-					computers = cpuService.findAll(request.getParameter("search"));
-				} catch (PageNumberException e) {
-					e.printStackTrace();
-				}
+				computers = cpuService.findAll(request.getParameter("search"));
 			}
 			subComputersDTO.clear();
 			for (int i = 0; i < computers.size(); i++) {
@@ -65,19 +57,18 @@ public class DashboardServlet extends HttpServlet {
 
 		} catch (DataBaseException dbe) {
 			this.getServletContext().getRequestDispatcher("/WEB-INF/views/500.jsp").forward(request, response);
+		} catch (PageNumberException e) {
+			this.getServletContext().getRequestDispatcher("/WEB-INF/views/500.jsp").forward(request, response);
 		}
 
-		request.setAttribute("computerPage", subComputersDTO);
+		request.setAttribute("computers", subComputersDTO);
 		request.setAttribute("counter", counter);
 		request.setAttribute("pageIndex", Page.getPage());
 		request.setAttribute("pageSize", Page.getPageSize());
-
 		this.getServletContext().getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
-
 	}
 
 
-	//Delete part --> next sprint
 	protected void doPost ( HttpServletRequest request, HttpServletResponse response )	throws ServletException, IOException {
 
 		cpuService = ComputerService.getInstance();

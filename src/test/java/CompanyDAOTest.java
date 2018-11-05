@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.List;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.excilys.cdb.model.Company;
@@ -15,12 +15,12 @@ public class CompanyDAOTest {
 	
 private CompanyDAO companyDao;
 	
-	@BeforeAll
+	@BeforeEach
 	public void setUp() {
 		companyDao = CompanyDAO.getInstance();
 	}
 	
-	@AfterAll
+	@AfterEach
 	public void tearDown() {
 		companyDao=null;
 	}

@@ -22,11 +22,11 @@ public class ComputerDTO {
 		return name;
 	}
 
-	public String getIntroduced() {
+	public String getIntroDate() {
 		return introduced;
 	}
 
-	public String getDiscontinued() {
+	public String getDiscDate() {
 		return discontinued;
 	}
 

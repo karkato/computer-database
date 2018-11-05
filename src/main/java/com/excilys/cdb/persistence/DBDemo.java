@@ -67,7 +67,11 @@ public class DBDemo {
 				connect = DriverManager.getConnection("jdbc:mysql://"
 						+ serverName + ":" + portNumber + "/" + dbName +"?useSSL=false&serverTimezone=CET",
 						connectionProps);
+				if(!connect.isClosed()) {
 				System.out.println("Connexion établie ! \n");
+				}else {
+					System.out.println("connexion échouée");
+				}
 			} catch (SQLException e) {
 				logger.error("ERROR: Could not connect to the database");
 			} catch (ClassNotFoundException e) {

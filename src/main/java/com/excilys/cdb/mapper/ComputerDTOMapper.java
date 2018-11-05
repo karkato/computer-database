@@ -31,7 +31,7 @@ public class ComputerDTOMapper {
 		if (!"".equals(computerDto.introduced)) {
 			computer.setIntroDate(Date.valueOf(computerDto.introduced).toLocalDate());
 		}
-		if (!"".equals(computerDto.introduced)) {
+		if (!"".equals(computerDto.discontinued)) {
 			computer.setDiscDate(Date.valueOf(computerDto.discontinued).toLocalDate());
 		}
 

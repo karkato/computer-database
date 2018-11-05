@@ -11,8 +11,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.excilys.cdb.exceptions.DataBaseException;
@@ -24,12 +24,12 @@ import com.excilys.cdb.service.ComputerService;
 public class ComputerDAOTest {
 private ComputerService computerService;
 	
-	@BeforeAll
+	@BeforeEach
 	public void setUp() {
 		computerService = ComputerService.getInstance();
 	}
 	
-	@AfterAll
+	@AfterEach
 	public void tearDown() {
 		computerService=null;
 	}
