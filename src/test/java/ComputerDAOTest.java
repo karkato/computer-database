@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -112,7 +113,7 @@ private ComputerService computerService;
 	}
 	
 	@Test
-	public void testFindByIdOutofBoundComputer() throws IOException{
+	public void testFindByIdOutofBoundComputer() throws IOException, SQLException{
 		Optional<Computer> computer = null;
 		try {	
 			computer = computerService.find((long) 0);
@@ -142,7 +143,7 @@ private ComputerService computerService;
 	}
 	
 	@Test
-	public void testUpdateComputerWithoutName() throws IOException, DataBaseException {
+	public void testUpdateComputerWithoutName() throws IOException, DataBaseException, SQLException {
 		
 			
 			Computer computer = new Computer();

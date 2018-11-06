@@ -1,6 +1,7 @@
 package com.excilys.cdb.persistence;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +21,7 @@ public interface CompanyDAOInterface<T> {
 
 	Company findByName(String name);
 
-	Optional<Company> find(Long id) throws IOException;
+	Optional<Company> find(Long id) throws IOException, SQLException;
 
 
 }

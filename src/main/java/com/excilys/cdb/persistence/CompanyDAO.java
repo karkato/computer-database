@@ -33,7 +33,7 @@ public class CompanyDAO implements CompanyDAOInterface<Company>{
 	private static String findAllQuery ="SELECT id,name FROM company " ;
 
 	@Override
-	public Optional<Company> find(Long id) throws IOException {
+	public Optional<Company> find(Long id) throws IOException, SQLException {
 		CompanyDAO.connect = DBDemo.connectionDB();
 		Company company = null;      
 

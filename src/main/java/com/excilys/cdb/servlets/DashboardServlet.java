@@ -1,6 +1,7 @@
 package com.excilys.cdb.servlets;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,6 +60,8 @@ public class DashboardServlet extends HttpServlet {
 			this.getServletContext().getRequestDispatcher("/WEB-INF/views/500.jsp").forward(request, response);
 		} catch (PageNumberException e) {
 			this.getServletContext().getRequestDispatcher("/WEB-INF/views/500.jsp").forward(request, response);
+		} catch (SQLException e) {
+			logger.error(e.getMessage());
 		}
 
 		request.setAttribute("computers", subComputersDTO);
@@ -80,6 +83,10 @@ public class DashboardServlet extends HttpServlet {
 			cpuService.deleteAll(idTab);
 		} catch (DataBaseException e) {
 			this.getServletContext().getRequestDispatcher("/WEB-INF/views/500.jsp").forward(request, response);
+		} catch (NumberFormatException e) {
+			logger.error(e.getMessage());
+		} catch (SQLException e) {
+			logger.error(e.getMessage());
 		}
 
 		response.sendRedirect("dashboard");

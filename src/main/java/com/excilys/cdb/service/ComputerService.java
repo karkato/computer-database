@@ -1,6 +1,7 @@
 package com.excilys.cdb.service;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,45 +31,45 @@ public class ComputerService {
 		return computerService;
 	}
 
-	public Optional<Computer> find(Long id) throws IOException, DataBaseException{
+	public Optional<Computer> find(Long id) throws IOException, DataBaseException, SQLException{
 		return computerDao.find(id);
 	}
 
-	public boolean create(Computer computer) throws IOException, NameException, DataException, DataBaseException {
+	public boolean create(Computer computer) throws IOException, NameException, DataException, DataBaseException, SQLException {
 		ComputerValidator.computerValidator(computer);
 		return computerDao.create(computer);
 	}
 
-	public boolean update(Computer computer) throws IOException, NameException, DataException, DataBaseException{
+	public boolean update(Computer computer) throws IOException, NameException, DataException, DataBaseException, SQLException{
 		ComputerValidator.computerValidator(computer);
 		return computerDao.update(computer);
 	}
 
-	public boolean delete(Long i) throws IOException, DataBaseException  {
+	public boolean delete(Long i) throws IOException, DataBaseException, SQLException  {
 		return computerDao.delete(i);
 	}
 	
-	public void deleteAll(String[] idTab) throws IOException, NumberFormatException, DataBaseException {
+	public void deleteAll(String[] idTab) throws IOException, NumberFormatException, DataBaseException, SQLException {
 		for (int i = 0; i < idTab.length; i++) {
 			if(!("".equals(idTab[i])))
 			delete(Long.parseLong(idTab[i]));
 		}
 	}
 
-	public <T> List<Computer> findAll() throws IOException, PageNumberException, DataBaseException{
+	public <T> List<Computer> findAll() throws IOException, PageNumberException, DataBaseException, SQLException{
 		PageValidator.previousPageValidator();
 		List<Computer> list = computerDao.findAll(Page.getPage(),Page.getPageSize());
 		PageValidator.nextPageValidator(list);
 		return list;
 	}
 	
-	public <T> List<Computer> findAll(String name) throws  IOException, PageNumberException, DataBaseException{
+	public <T> List<Computer> findAll(String name) throws  IOException, PageNumberException, DataBaseException, SQLException{
 		PageValidator.previousPageValidator();
 		List<Computer> list = computerDao.findAll(name,Page.getPage(),Page.getPageSize());
 		PageValidator.nextPageValidator(list);
 		return list;
 	}
-	public int count() throws  IOException, DataBaseException{
+	public int count() throws  IOException, DataBaseException, SQLException{
 		return computerDao.count();
 	}
 

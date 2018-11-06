@@ -44,7 +44,7 @@ public class ComputerDAO implements ComputerDAOInterface<Computer> {
 	Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
 
 	@Override
-	public boolean create(Computer computer) throws DataException, IOException, DataBaseException {
+	public boolean create(Computer computer) throws DataException, IOException, DataBaseException, SQLException {
 
 		ComputerDAO.connect = DBDemo.connectionDB();
 		try (PreparedStatement preparedStatement = ComputerDAO.connect.prepareStatement(createQuery);) {
@@ -81,7 +81,7 @@ public class ComputerDAO implements ComputerDAOInterface<Computer> {
 	}
 
 	@Override
-	public boolean update(Computer computer) throws DataException, IOException, DataBaseException{
+	public boolean update(Computer computer) throws DataException, IOException, DataBaseException, SQLException{
 
 		ComputerDAO.connect = DBDemo.connectionDB();
 		try (PreparedStatement preparedStatement = ComputerDAO.connect.prepareStatement(updateQuery);) {
@@ -118,7 +118,7 @@ public class ComputerDAO implements ComputerDAOInterface<Computer> {
 		return false;
 	}
 
-	public boolean delete(Long id) throws IOException, DataBaseException{
+	public boolean delete(Long id) throws IOException, DataBaseException, SQLException{
 		ComputerDAO.connect = DBDemo.connectionDB();
 		try (PreparedStatement preparedStatement = ComputerDAO.connect.prepareStatement(deleteQuery);) {
 
@@ -134,7 +134,7 @@ public class ComputerDAO implements ComputerDAOInterface<Computer> {
 		return false;
 	}
 
-	public Optional<Computer> find(Long id) throws  IOException, DataBaseException{
+	public Optional<Computer> find(Long id) throws  IOException, DataBaseException, SQLException{
 		ComputerDAO.connect = DBDemo.connectionDB();
 		Computer computer = null;
 		try (PreparedStatement preparedStatement = ComputerDAO.connect.prepareStatement(findQuery)) {
@@ -166,7 +166,7 @@ public class ComputerDAO implements ComputerDAOInterface<Computer> {
 	}
 
 	@Override
-	public ArrayList<Computer> findAll(String name,int page, int size) throws IOException, DataBaseException {
+	public ArrayList<Computer> findAll(String name,int page, int size) throws IOException, DataBaseException, SQLException {
 		ComputerDAO.connect = DBDemo.connectionDB();
 		ArrayList<Computer> list = new ArrayList<>();
 		try (PreparedStatement preparedStatement = ComputerDAO.connect.prepareStatement(findByName)) {
@@ -202,7 +202,7 @@ public class ComputerDAO implements ComputerDAOInterface<Computer> {
 	}
 
 	@Override
-	public ArrayList<Computer> findAll(int page, int size) throws IOException, DataBaseException {
+	public ArrayList<Computer> findAll(int page, int size) throws IOException, DataBaseException, SQLException {
 		ComputerDAO.connect = DBDemo.connectionDB();
 		ArrayList<Computer> list = new ArrayList<>();
 		try (
@@ -238,10 +238,9 @@ public class ComputerDAO implements ComputerDAOInterface<Computer> {
 	}
 
 	@Override
-	public int count() throws IOException, DataBaseException{
+	public int count() throws IOException, DataBaseException, SQLException{
 		ComputerDAO.connect = DBDemo.connectionDB();
 		int count = 0;
-		System.out.println(countQuery);
 		try (PreparedStatement preparedStatement = ComputerDAO.connect.prepareStatement(countQuery)) {
 			
 			ResultSet result = preparedStatement.executeQuery();
@@ -254,7 +253,6 @@ public class ComputerDAO implements ComputerDAOInterface<Computer> {
 			throw new DataBaseException();
 
 		}
-		System.out.println("ComputerDTO count "+count);
 		return count;
 	}
 

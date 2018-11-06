@@ -1,6 +1,7 @@
 package com.excilys.cdb.servlets;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -51,6 +52,10 @@ public class EditComputerServlet extends HttpServlet{
 		} catch (DataBaseException dbe) {
 			logger.error(dbe.getMessage());
 			this.getServletContext().getRequestDispatcher("/WEB-INF/views/500.jsp").forward(request, response);
+		} catch (NumberFormatException e) {
+			logger.error(e.getMessage());
+		} catch (SQLException e) {
+			logger.error(e.getMessage());
 		}
 
 		this.getServletContext().getRequestDispatcher("/WEB-INF/views/editComputer.jsp").forward(request, response);
@@ -76,6 +81,8 @@ public class EditComputerServlet extends HttpServlet{
 			this.getServletContext().getRequestDispatcher("/WEB-INF/views/editComputer.jsp").forward(request, response);
 		} catch (DataBaseException dbe) {
 			this.getServletContext().getRequestDispatcher("/WEB-INF/views/500.jsp").forward(request, response);
+		} catch (SQLException e) {
+			logger.error(e.getMessage());
 		}
 	}
 }

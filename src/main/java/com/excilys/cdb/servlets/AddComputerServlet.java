@@ -1,6 +1,7 @@
 package com.excilys.cdb.servlets;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -54,6 +55,8 @@ public class AddComputerServlet extends HttpServlet {
 		} 
 		catch (DataBaseException e) {
 			this.getServletContext().getRequestDispatcher("/WEB-INF/views/500.jsp").forward(request, response);
+		} catch (SQLException e) {
+			logger.error(e.getMessage());		
 		}
 	}
 
