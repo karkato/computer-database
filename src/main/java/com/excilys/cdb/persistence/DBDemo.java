@@ -1,12 +1,8 @@
 package com.excilys.cdb.persistence;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Properties;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,18 +23,7 @@ public class DBDemo {
 		config = new HikariConfig("/home/excilys/eclipse-workspace/Computer-database/src/main/resources/login.properties");
 		ds = new HikariDataSource(config);
 	}
-	public static Properties load(String filename) throws IOException, FileNotFoundException{
-		Properties properties = new Properties();
-		FileInputStream input = new FileInputStream(filename); 
 
-		try{
-			properties.load(input);
-			return properties;
-		}
-		finally{
-			input.close();
-		}
-	}
 
 	public static   Connection connectionDB() throws IOException, SQLException{
 

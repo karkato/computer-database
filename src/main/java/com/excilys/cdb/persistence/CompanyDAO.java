@@ -10,13 +10,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.excilys.cdb.exceptions.DataBaseException;
 import com.excilys.cdb.model.Company;
 
 
 
 public class CompanyDAO implements CompanyDAOInterface<Company>{
 	private static Connection connect;
-
+	Logger logger = LoggerFactory.getLogger(CompanyDAO.class);
 
 	protected CompanyDAO() {
 		DBDemo.getInstance();
@@ -28,9 +32,10 @@ public class CompanyDAO implements CompanyDAOInterface<Company>{
 		return companyDAO;
 	}
 
-	private static String findQuery = "SELECT id,name FROM company WHERE id= ? ";
-	private static String findQueryByName = "SELECT id,name  FROM company WHERE name= ? ";
-	private static String findAllQuery ="SELECT id,name FROM company " ;
+	private static String findQuery = "SELECT id,name FROM company WHERE id = ?";
+	private static String findQueryByName = "SELECT id,name FROM company WHERE name = ?";
+	private static String findAllQuery = "SELECT id,name FROM company";
+	private static String deleteQuery = "DELETE FROM company WHERE id = ?";
 
 	@Override
 	public Optional<Company> find(Long id) throws IOException, SQLException {
@@ -46,7 +51,7 @@ public class CompanyDAO implements CompanyDAOInterface<Company>{
 				
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 		return Optional.ofNullable(company);
 	}
@@ -65,27 +70,53 @@ public class CompanyDAO implements CompanyDAOInterface<Company>{
 				company.setName(name);  
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 		return company;
 	}
 
 	@Override
-	public List<Company> findAll() {
-		List<Company> companies = new ArrayList<Company>();
-		Company company = new Company();
+	public List<Company> findAll() throws DataBaseException, IOException, SQLException {
+		CompanyDAO.connect = DBDemo.connectionDB();
+		ArrayList<Company> list = new ArrayList<>();
 
-		try {
-			PreparedStatement findStmt = CompanyDAO.connect.prepareStatement(findAllQuery);
-			ResultSet result = findStmt.executeQuery();
+		try (PreparedStatement preparedStatement = CompanyDAO.connect.prepareStatement(findAllQuery)) {
+			CompanyDAO.connect.setAutoCommit(false);
+			ResultSet result = preparedStatement.executeQuery();
 			while (result.next()) {
-				company = new Company(result.getLong("id"), result.getString("name"));
-				companies.add(company);
+				Company company = new Company(result.getLong("id"), result.getString("name"));
+				list.add(company);
 			}
+			result.close();
+			CompanyDAO.connect.commit();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage());
+			throw new DataBaseException();
+		} finally {
+			try {
+				CompanyDAO.connect.close();
+			} catch (SQLException e) {
+				logger.error(e.getMessage());
+				throw new DataBaseException();
+			}
 		}
-		return companies;
+
+		return list;
+	}
+	public boolean delete(Long id) throws IOException, DataBaseException, SQLException{
+		CompanyDAO.connect = DBDemo.connectionDB();
+		try (PreparedStatement preparedStatement = CompanyDAO.connect.prepareStatement(deleteQuery);) {
+
+			preparedStatement.setLong(1, id);
+			int result = preparedStatement.executeUpdate();
+			if(result==1) {
+				return true;
+			}
+			CompanyDAO.connect.close();
+		} catch (SQLException e) {
+			throw new DataBaseException();
+		}
+		return false;
 	}
 
 }

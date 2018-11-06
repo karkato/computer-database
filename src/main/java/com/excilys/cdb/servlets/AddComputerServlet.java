@@ -31,10 +31,18 @@ public class AddComputerServlet extends HttpServlet {
 	ComputerService cpuService;
 	ComputerDTOMapper mapper;
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		cpaService = CompanyService.getInstance();
-		mapper=ComputerDTOMapper.getInstance();
-		List<Company> companies = cpaService.findAll();
-		request.setAttribute("companies", companies);
+		
+		try {
+			cpaService = CompanyService.getInstance();
+			mapper=ComputerDTOMapper.getInstance();
+			List<Company> companies;
+			companies = cpaService.findAll();
+			request.setAttribute("companies",companies);
+		} catch (DataBaseException e) {
+			logger.error(e.getMessage());
+		} catch (SQLException e) {
+			logger.error(e.getMessage());
+		}
 
 		this.getServletContext().getRequestDispatcher("/WEB-INF/views/addComputer.jsp").forward(request, response);
 	}
