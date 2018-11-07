@@ -35,7 +35,7 @@ public class EditComputerServlet extends HttpServlet{
 			cpuService = ComputerService.getInstance();
 			mapper=ComputerDTOMapper.getInstance();
 			
-			ComputerDTO computerDto = mapper.computerDtoFromOptionalComputer(cpuService.find((long) Integer.parseInt(request.getParameter("computerId"))));
+			ComputerDTO computerDto = mapper.computerDtoFromOptionalComputer(cpuService.find(Long.parseLong(request.getParameter("computerId"))));
 			request.setAttribute("computerId", computerDto.id);
 			request.setAttribute("computerName", computerDto.name);
 			request.setAttribute("introduced", computerDto.introduced);
@@ -68,7 +68,6 @@ public class EditComputerServlet extends HttpServlet{
 		try {
 
 			cpuService.update(mapper.computerDtoToComputer(computerDto));
-
 			response.sendRedirect("dashboard");
 		} catch (DataException de) {
 			request.setAttribute("internError", de.getMessage());

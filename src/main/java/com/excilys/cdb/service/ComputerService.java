@@ -80,7 +80,7 @@ public class ComputerService {
 		try {
 			for (int i = 0; i < idTab.length; i++) {
 				if (!("".equals(idTab[i])))
-					delete(Long.parseLong(idTab[i]));
+					computerDao.delete(Long.parseLong(idTab[i]));
 			}
 		} catch (DataBaseException dbe) {
 			context.setRollbackOnly();
