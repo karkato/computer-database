@@ -47,14 +47,16 @@ public class CompanyService {
 	}
 	
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public void delete(Long id) throws IOException, DataBaseException, SQLException {
+	public boolean delete(Long id) throws IOException, DataBaseException, SQLException {
 		try {
 			computerDao.deleteByCompany(id);
 			companyDao.delete(id);
+			return true;
 		} catch (DataBaseException dbe) {
 			context.setRollbackOnly();
 			throw dbe;
 		}
+		
 	}
 
 }

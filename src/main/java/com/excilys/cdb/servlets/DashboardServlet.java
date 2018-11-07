@@ -42,14 +42,16 @@ public class DashboardServlet extends HttpServlet {
 		try {
 			cpuService = ComputerService.getInstance();
 			mapper = ComputerDTOMapper.getInstance();
-			counter = cpuService.count();
+			
 
 			Page.setPage(request.getParameter("page"), request.getParameter("size"));
 			if (request.getParameter("search") == null) {
 					computers = cpuService.findAll("");
+					counter = cpuService.count("");
 			} else {
 				request.setAttribute("search", request.getParameter("search"));
 				computers = cpuService.findAll(request.getParameter("search"));
+				counter = cpuService.count(request.getParameter("search"));
 			}
 			subComputersDTO.clear();
 			for (int i = 0; i < computers.size(); i++) {

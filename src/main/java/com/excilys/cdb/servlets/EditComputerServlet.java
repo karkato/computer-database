@@ -1,7 +1,6 @@
 package com.excilys.cdb.servlets;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -12,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.excilys.cdb.exceptions.DataBaseException;
 import com.excilys.cdb.exceptions.DataException;
 import com.excilys.cdb.mapper.ComputerDTOMapper;
 import com.excilys.cdb.model.Company;
@@ -25,7 +23,7 @@ public class EditComputerServlet extends HttpServlet{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 7718883453135794867L;
 	Logger logger = LoggerFactory.getLogger(EditComputerServlet.class);
 	CompanyService cpaService;
 	ComputerService cpuService;
@@ -37,7 +35,7 @@ public class EditComputerServlet extends HttpServlet{
 			cpuService = ComputerService.getInstance();
 			mapper=ComputerDTOMapper.getInstance();
 			
-			ComputerDTO computerDto = mapper.computerDtoFromOptionalComputer(cpuService.find((long)Integer.parseInt(request.getParameter("computerId"))));
+			ComputerDTO computerDto = mapper.computerDtoFromOptionalComputer(cpuService.find((long) Integer.parseInt(request.getParameter("computerId"))));
 			request.setAttribute("computerId", computerDto.id);
 			request.setAttribute("computerName", computerDto.name);
 			request.setAttribute("introduced", computerDto.introduced);
@@ -49,13 +47,9 @@ public class EditComputerServlet extends HttpServlet{
 			List<Company> companies = cpaService.findAll();
 			request.setAttribute("companies", companies);
 			
-		} catch (DataBaseException dbe) {
-			logger.error(dbe.getMessage());
+		} catch (Exception e) {
+			logger.error(e.getMessage());
 			this.getServletContext().getRequestDispatcher("/WEB-INF/views/500.jsp").forward(request, response);
-		} catch (NumberFormatException e) {
-			logger.error(e.getMessage());
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
 		}
 
 		this.getServletContext().getRequestDispatcher("/WEB-INF/views/editComputer.jsp").forward(request, response);
@@ -79,10 +73,8 @@ public class EditComputerServlet extends HttpServlet{
 		} catch (DataException de) {
 			request.setAttribute("internError", de.getMessage());
 			this.getServletContext().getRequestDispatcher("/WEB-INF/views/editComputer.jsp").forward(request, response);
-		} catch (DataBaseException dbe) {
+		} catch (Exception e) {
 			this.getServletContext().getRequestDispatcher("/WEB-INF/views/500.jsp").forward(request, response);
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
 		}
 	}
 }

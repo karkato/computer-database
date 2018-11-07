@@ -114,10 +114,10 @@ public class ComputerService {
 		return list;
 	}
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public int count() throws  IOException, DataBaseException, SQLException{
+	public int count(String name) throws  IOException, DataBaseException, SQLException{
 		int result = 0;
 		try {
-			result = computerDao.count();
+			result = computerDao.count(name);
 		} catch (DataBaseException dbe) {
 			context.setRollbackOnly();
 			throw dbe;

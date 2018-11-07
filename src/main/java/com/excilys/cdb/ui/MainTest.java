@@ -28,8 +28,6 @@ public class MainTest {
 
 	public static void main(String[] args) throws IOException, DataBaseException, SQLException, PageNumberException {
 
-		//ComputerDAO computerDAO = new ComputerDAO();
-		//CompanyDAO companyDAO = new CompanyDAO();
 		
 		ComputerService cpuService;
 		CompanyService cpaService;
@@ -175,6 +173,19 @@ public class MainTest {
 				break;
 			case 7:
 				System.out.println("Suppression d'une compagnie");
+				int idSuppC= sc.nextInt();
+				try {
+					if(cpaService.delete((long) idSuppC)) {
+						System.out.println("Compagnie supprimé");
+					}else {
+						System.out.println("Erreur lors de la suppression");
+					}
+				} catch (DataBaseException e) {
+					e.printStackTrace();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				break;
 			case 8: 
 				System.out.println("Bye bye !");
 				sc.close();

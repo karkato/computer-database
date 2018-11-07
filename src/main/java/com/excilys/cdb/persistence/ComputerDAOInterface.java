@@ -29,7 +29,7 @@ public interface ComputerDAOInterface<T> {
 	
 	public abstract List<T> findAll(int page, int size) throws IOException, DataBaseException, SQLException;
 	
-	int count() throws IOException, DataBaseException, SQLException;
+	int count(String name) throws IOException, DataBaseException, SQLException;
 
 }
 
