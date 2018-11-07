@@ -22,6 +22,7 @@
 		<apache.maven.plugins.version>3.2.2</apache.maven.plugins.version>
 		<hikariCp.version>3.2.0</hikariCp.version>
 		<Junit.version>5.3.1</Junit.version>
+		<Ejb.version>3.0</Ejb.version>
 	</properties>
 
 	<build>
@@ -46,11 +47,16 @@
 	</build>
 	<dependencies>
 		<dependency>
+			<groupId>javax.ejb</groupId>
+			<artifactId>ejb-api</artifactId>
+			<version>${Ejb.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
 			<groupId>com.zaxxer</groupId>
 			<artifactId>HikariCP</artifactId>
 			<version>${hikariCp.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>javax.servlet.jsp</groupId>
 			<artifactId>jsp-api</artifactId>

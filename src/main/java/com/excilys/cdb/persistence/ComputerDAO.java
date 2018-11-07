@@ -34,13 +34,13 @@ public class ComputerDAO implements ComputerDAOInterface<Computer> {
 	}
 
 	private final static String findQuery = "SELECT cpu.id, cpu.name, cpu.introduced, cpu.discontinued, cpu.company_id,cpa.name FROM computer AS cpu LEFT JOIN company AS cpa ON cpu.company_id = cpa.id WHERE cpu.id = ?";
-	private final static String findAllQuery ="SELECT cpu.id, cpu.name, cpu.introduced, cpu.discontinued, cpu.company_id,cpa.name FROM computer AS cpu LEFT JOIN company AS cpa ON cpu.company_id = cpa.id LIMIT ? OFFSET ? " ;
-	private final static String createQuery ="INSERT INTO computer (name,introduced,discontinued,company_id) VALUES(?,?,?,?)";
+	private final static String findAllQuery = "SELECT cpu.id, cpu.name, cpu.introduced, cpu.discontinued, cpu.company_id,cpa.name FROM computer AS cpu LEFT JOIN company AS cpa ON cpu.company_id = cpa.id LIMIT ? OFFSET ? " ;
+	private final static String createQuery = "INSERT INTO computer (name,introduced,discontinued,company_id) VALUES(?,?,?,?)";
 	private final static String updateQuery = "UPDATE computer SET name = ?, introduced =? , discontinued =? , company_id =?, WHERE id =? ";	
 	private final static String deleteQuery = "DELETE FROM computer WHERE id = ?";
 	private final static String countQuery = "SELECT COUNT(computer.id) FROM computer";
-	private final static String findByName ="SELECT cpu.id, cpu.name, cpu.introduced, cpu.discontinued, cpu.company_id,cpa.name FROM computer AS cpu LEFT JOIN company AS cpa ON cpu.company_id = cpa.id WHERE UPPER(cpu.name) LIKE UPPER(?) LIMIT ? OFFSET ?";
-
+	private final static String findByName = "SELECT cpu.id, cpu.name, cpu.introduced, cpu.discontinued, cpu.company_id,cpa.name FROM computer AS cpu LEFT JOIN company AS cpa ON cpu.company_id = cpa.id WHERE UPPER(cpu.name) LIKE UPPER(?) LIMIT ? OFFSET ?";
+	private final static String deleteByCompanyQuery = "DELETE FROM computer WHERE company_id=?";
 	Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
 
 	@Override
@@ -242,7 +242,7 @@ public class ComputerDAO implements ComputerDAOInterface<Computer> {
 		ComputerDAO.connect = DBDemo.connectionDB();
 		int count = 0;
 		try (PreparedStatement preparedStatement = ComputerDAO.connect.prepareStatement(countQuery)) {
-			
+
 			ResultSet result = preparedStatement.executeQuery();
 			while (result.next()) {
 				count = result.getInt(1);
@@ -254,6 +254,25 @@ public class ComputerDAO implements ComputerDAOInterface<Computer> {
 
 		}
 		return count;
+	}
+
+
+	public void deleteByCompany(Long companyId) throws DataBaseException, IOException, SQLException {
+		ComputerDAO.connect = DBDemo.connectionDB();
+		try (PreparedStatement preparedStatement = ComputerDAO.connect.prepareStatement(deleteByCompanyQuery)) {
+			preparedStatement.setLong(1, companyId);
+			preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			logger.error(e.getMessage());
+			throw new DataBaseException();
+		} finally {
+			try {
+				ComputerDAO.connect.close();
+			} catch (SQLException e) {
+				logger.error(e.getMessage());
+				throw new DataBaseException();
+			}
+		}		
 	}
 
 

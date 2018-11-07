@@ -1,23 +1,48 @@
 package com.excilys.cdb.ui;
 
+import java.io.IOException;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Scanner;
+
+import com.excilys.cdb.exceptions.DataBaseException;
+import com.excilys.cdb.exceptions.DataException;
+import com.excilys.cdb.exceptions.NameException;
+import com.excilys.cdb.exceptions.PageNumberException;
+import com.excilys.cdb.model.Company;
+import com.excilys.cdb.model.Computer;
+import com.excilys.cdb.service.CompanyService;
+import com.excilys.cdb.service.ComputerService;
+
 public class MainTest {
 
-	
+
 	/**
 	 * Connect to the DB and do some stuff
 	 * @throws IOException 
+	 * @throws SQLException 
+	 * @throws DataBaseException 
+	 * @throws PageNumberException 
 	 */
-	/*
-	public static void main(String[] args) throws IOException {
 
-		ComputerDAO computerDAO = new ComputerDAO();
-		CompanyDAO companyDAO = new CompanyDAO();
+	public static void main(String[] args) throws IOException, DataBaseException, SQLException, PageNumberException {
+
+		//ComputerDAO computerDAO = new ComputerDAO();
+		//CompanyDAO companyDAO = new CompanyDAO();
+		
+		ComputerService cpuService;
+		CompanyService cpaService;
+		cpuService = ComputerService.getInstance();
+		cpaService = CompanyService.getInstance();
+		List<Computer> computers;
+		List<Company> companies;
 
 		System.out.println("Bienvenue sur l'application CDB : \n");
 		System.out.println("");
 		Scanner sc = new Scanner(System.in);
 		int index = 0;
-		while (index != 7) {
+		while (index != 8) {
 			System.out.println("Bonjour, veuillez taper l'option souhaitée : \n");
 			System.out.println("\t 1 - Afficher liste des ordinateurs");
 			System.out.println("\t 2 - Afficher liste des entreprises");
@@ -25,118 +50,36 @@ public class MainTest {
 			System.out.println("\t 4 - Ajouter un nouvel ordinateur");
 			System.out.println("\t 5 - M-a-J un ordinateur");
 			System.out.println("\t 6 - Supprimer un ordinateur");
-			System.out.println("\t 7 - Quitter l'application");
+			System.out.println("\t 7 - Supprimer une companie");
+			System.out.println("\t 8 - Quitter l'application");
 			index = sc.nextInt();
-			
+
 			sc.nextLine();
 			switch(index) {
 			case 1:
-				System.out.println("Combien d'elements par page ? ");
-				int nbelt= sc.nextInt();
 				sc.nextLine();
-				int i=1;
-				int k=0;
-				List<Computer> computers = computerdao.findAll();
-				pages.setPage(i);
-				pages.setPageSize(nbelt);
-				List<Computer> computerPage = pages.getPage(computers);
-				while (k < computerPage.size()) {
-					System.out.println(computerPage.get(k));
-					System.out.println("-------------------------------------------");
-					k++;
-				}
+				computers = cpuService.findAll("");
+				System.out.println(computers);
 				System.out.println("\n\t****************************************");
 
 				System.out.println("Pour aller à la page suivante taper  '2' et pour la page précédente taper '1'. taper '0' pour arrêter ! ");
-				int pagex= sc.nextInt();
 				sc.nextLine();
-				while(pagex !=0) {
-					if(pagex == 2) {
-						pages.setPage(i+=1);
-						pages.setPageSize(nbelt);
-						List<Computer>computerPage1=pages.getPage(computers);
-						int x=0;
-						while (x < computerPage1.size()) {
-							System.out.println(computerPage1.get(x));
-							System.out.println("-------------------------------------------");
-							x++;
-						}
-						System.out.println("\n\t < previous(1)*******************> quit(0) <********************* next(2) >");
-						pagex= sc.nextInt();
-						sc.nextLine();
-					}else if ((pagex == 1) & (i > 0)) {
-						ages.setPage(i-=1);
-						pages.setPageSize(nbelt);
-						List<Computer>computerPage2 = pages.getPage(computers);
-						int y=0;
-						while (y < computerPage2.size()) {
-							System.out.println(computerPage2.get(y));
-							System.out.println("-------------------------------------------");
-							y++;
-						}
-						System.out.println("\n\t < previous(1)*******************> quit(0) <********************* next(2) >");
-						pagex= sc.nextInt();
-						sc.nextLine();
-					}
-				}
+		
 				break;
 			case 2:
-				System.out.println("Combien d'elements par page ? ");
-				int nbelts= sc.nextInt();
 				sc.nextLine();
-				int j=1;
-				List<Company> companies = companydao.findAll();
-				pages.setPage(1);
-				pages.setPageSize(nbelts);
-				List<Company> companyPage = pages.getPage(companies);
-				System.out.println(companyPage);
-				int e=0;
-				while (e< companyPage.size()) {
-					System.out.println(companyPage.get(e));
-					System.out.println("-------------------------------------------");
-					e++;
-				}
+				companies = cpaService.findAll();
+				System.out.println(companies);
 				System.out.println("\n\t****************************************");
 
 				System.out.println("Pour aller à la page suivante taper  '2' et pour la page précédente taper '1'. taper '0' pour arrêter ! ");
-				int pagey= sc.nextInt();
 				sc.nextLine();
-				while(pagey !=0) {
-					if(pagey == 2) {
-						int r=0;
-						pages.setPage(j+=1);
-						pages.setPageSize(nbelts);
-						List<Company> companypage1 = pages.getPage(companies);
-						while (r<companypage1.size()) {
-							System.out.println(companypage1.get(r));
-							System.out.println("-------------------------------------------");
-							r++;
-						}
-						System.out.println("\n\t < previous(1)*******************> quit(0) <********************* next(2) >");
-						pagey= sc.nextInt();
-						sc.nextLine();
-					} else if ( pagey == 1 & j > 0){
-
-						int t=0;
-						pages.setPage(j-=1);
-						pages.setPageSize(nbelts);
-						List<Company> companypage2 = pages.getPage(companies);
-						while (t<companypage2.size()) {
-							System.out.println(companypage2.get(t));
-							System.out.println("-------------------------------------------");
-							t++;
-						}
-						System.out.println("\n\t < previous(1)*******************> quit(0) <********************* next(2) >");
-						pagey= sc.nextInt();
-						sc.nextLine();
-					}
-				}
 				break;
 			case 3:
 				System.out.println("Veuillez introduire l'identifiant du pc souhaité : ");
 				Long id = sc.nextLong();
 				sc.nextLine();
-				System.out.println(computerdao.find(id).toString());
+				System.out.println(cpuService.find(id).toString());
 				System.out.println("\n\t****************************************");
 				System.out.println();
 				break;
@@ -165,7 +108,17 @@ public class MainTest {
 				Company comp = new Company();
 				comp.setName(manuf);
 				objCreated.setCompany(comp);
-				computerdao.create(objCreated);
+				try {
+					cpuService.create(objCreated);
+				} catch (NameException e1) {
+					e1.printStackTrace();
+				} catch (DataException e1) {
+					e1.printStackTrace();
+				} catch (DataBaseException e1) {
+					e1.printStackTrace();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
 				System.out.println("Votre pc est crée !");
 				break;
 
@@ -178,7 +131,6 @@ public class MainTest {
 				String introDateUpdated = sc.nextLine();
 				System.out.println("Date of discontinuation :");
 				String discDateUpdated = sc.nextLine();
-				//Date d'introduction
 				if(!introDateUpdated.equals("")) {
 					Date date = Date.valueOf(introDateUpdated);
 					objUpdated.setIntroDate(date.toLocalDate());
@@ -193,25 +145,43 @@ public class MainTest {
 				Company cpmUpd = new Company();
 				cpmUpd.setName(manufUpds);
 				objUpdated.setCompany(cpmUpd);
-				computerdao.update(objUpdated);
+				try {
+					cpuService.update(objUpdated);
+				} catch (NameException e) {
+					e.printStackTrace();
+				} catch (DataException e) {
+					e.printStackTrace();
+				} catch (DataBaseException e) {
+					e.printStackTrace();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 				System.out.println("Votre pc est mise à jour");
 				break;
 			case 6:
 				System.out.println("Veuillez donner l'identifiant du pc a supprimer");
 				int idSupp= sc.nextInt();
-				if(computerdao.delete((long) idSupp)) {
-					System.out.println("Pc supprimé");
-				}else {
-					System.out.println("Erreur lors de la suppression");
+				try {
+					if(cpuService.delete((long) idSupp)) {
+						System.out.println("Pc supprimé");
+					}else {
+						System.out.println("Erreur lors de la suppression");
+					}
+				} catch (DataBaseException e) {
+					e.printStackTrace();
+				} catch (SQLException e) {
+					e.printStackTrace();
 				}
 				break;
-	ComputerDAO		case 7: 
+			case 7:
+				System.out.println("Suppression d'une compagnie");
+			case 8: 
 				System.out.println("Bye bye !");
 				sc.close();
 			default: break;
 			}
 		}
 	}
-*/
+
 
 }
