@@ -19,7 +19,10 @@
 
 	<section id="main">
 		<div class="container">
-			<h1 id="homeTitle"><c:out value="${ counter }">0</c:out> Computers found</h1>
+			<h1 id="homeTitle">
+				<c:out value="${ counter }">0</c:out>
+				Computers found
+			</h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
 					<form id="searchForm" action="dashboard" method="GET"
@@ -33,8 +36,7 @@
 				</div>
 				<div class="pull-right">
 					<a class="btn btn-success" id="addComputer" href="addComputer">Add
-						Computer</a> 
-					<a class="btn btn-default" id="editComputer" href="#"
+						Computer</a> <a class="btn btn-default" id="editComputer" href="#"
 						onclick="$.fn.toggleEditMode();">Delete</a>
 				</div>
 			</div>
@@ -69,14 +71,15 @@
 				</thead>
 				<!-- Browse attribute computers -->
 				<tbody id="results">
-					<c:forEach items="${computers}"  var="computer">
+					<c:forEach items="${computers}" var="computer">
 						<tr>
 							<td class="editMode"><input type="checkbox" name="cb"
 								class="cb" value="${computer.getId()}"></td>
-							<td><a href="editComputer?computerId=${computer.getId()}" onclick=""><c:out value="${computer.getName()}"/></a></td>
-							<td><c:out value="${computer.getIntroDate()}"/></td>
-							<td><c:out value="${computer.getDiscDate()}"/></td>
-							<td><c:out value="${computer.getCompanyName()}"/></td>
+							<td><a href="editComputer?computerId=${computer.getId()}"
+								onclick=""><c:out value="${computer.getName()}" /></a></td>
+							<td><c:out value="${computer.getIntroDate()}" /></td>
+							<td><c:out value="${computer.getDiscDate()}" /></td>
+							<td><c:out value="${computer.getCompanyName()}" /></td>
 						</tr>
 					</c:forEach>
 				</tbody>

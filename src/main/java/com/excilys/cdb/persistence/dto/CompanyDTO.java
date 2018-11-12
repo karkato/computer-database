@@ -1,14 +1,12 @@
 package com.excilys.cdb.persistence.dto;
 
-import com.excilys.cdb.model.Company;
-
-public class CompanyDTO extends Company {
+public class CompanyDTO {
 	
-	private Long id;
-	private String name;
+	public String id;
+	public String name;
 	
 
-	public CompanyDTO(Long id, String name) {
+	public CompanyDTO(String id, String name) {
 
 		this.id = id;
 		this.name=name;
@@ -17,11 +15,11 @@ public class CompanyDTO extends Company {
 	public CompanyDTO() {}
 
 	
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long idComp) {
+	public void setId(String idComp) {
 		this.id = idComp;
 	}
 

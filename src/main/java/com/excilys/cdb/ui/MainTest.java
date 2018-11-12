@@ -1,20 +1,5 @@
 package com.excilys.cdb.ui;
 
-import java.io.IOException;
-import java.sql.Date;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.Scanner;
-
-import com.excilys.cdb.exceptions.DataBaseException;
-import com.excilys.cdb.exceptions.DataException;
-import com.excilys.cdb.exceptions.NameException;
-import com.excilys.cdb.exceptions.PageNumberException;
-import com.excilys.cdb.model.Company;
-import com.excilys.cdb.model.Computer;
-import com.excilys.cdb.service.CompanyService;
-import com.excilys.cdb.service.ComputerService;
-
 public class MainTest {
 
 
@@ -26,16 +11,15 @@ public class MainTest {
 	 * @throws PageNumberException 
 	 */
 
+/*
 	public static void main(String[] args) throws IOException, DataBaseException, SQLException, PageNumberException {
 
 		
 		ComputerService cpuService;
 		CompanyService cpaService;
-		cpuService = ComputerService.getInstance();
-		cpaService = CompanyService.getInstance();
+
 		List<Computer> computers;
 		List<Company> companies;
-
 		System.out.println("Bienvenue sur l'application CDB : \n");
 		System.out.println("");
 		Scanner sc = new Scanner(System.in);
@@ -149,42 +133,18 @@ public class MainTest {
 					e.printStackTrace();
 				} catch (DataException e) {
 					e.printStackTrace();
-				} catch (DataBaseException e) {
-					e.printStackTrace();
-				} catch (SQLException e) {
-					e.printStackTrace();
 				}
 				System.out.println("Votre pc est mise à jour");
 				break;
 			case 6:
 				System.out.println("Veuillez donner l'identifiant du pc a supprimer");
 				int idSupp= sc.nextInt();
-				try {
-					if(cpuService.delete((long) idSupp)) {
-						System.out.println("Pc supprimé");
-					}else {
-						System.out.println("Erreur lors de la suppression");
-					}
-				} catch (DataBaseException e) {
-					e.printStackTrace();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				cpuService.delete((long) idSupp);
 				break;
 			case 7:
 				System.out.println("Suppression d'une compagnie");
 				int idSuppC= sc.nextInt();
-				try {
-					if(cpaService.delete((long) idSuppC)) {
-						System.out.println("Compagnie supprimé");
-					}else {
-						System.out.println("Erreur lors de la suppression");
-					}
-				} catch (DataBaseException e) {
-					e.printStackTrace();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				cpaService.delete((long) idSuppC);
 				break;
 			case 8: 
 				System.out.println("Bye bye !");
@@ -193,6 +153,6 @@ public class MainTest {
 			}
 		}
 	}
-
+*/
 
 }

@@ -19,14 +19,14 @@ public class ComputerDTOMapper {
 		return mapperComputerDTO;
 	}
 
-	public Computer computerDtoToComputer(ComputerDTO computerDto) {
+	public Computer toComputer(ComputerDTO computerDto) {
 		Computer computer = new Computer();
 		Company company = new Company();
 
 		computer.setName(computerDto.name);
 
 		if (computerDto.id != null) {
-			computer.setCompanyId((long)Integer.parseInt(computerDto.id));
+			computer.setId((long) Integer.parseInt(computerDto.id));
 		}
 		if (!"".equals(computerDto.introduced)) {
 			computer.setIntroDate(Date.valueOf(computerDto.introduced).toLocalDate());
@@ -34,18 +34,18 @@ public class ComputerDTOMapper {
 		if (!"".equals(computerDto.discontinued)) {
 			computer.setDiscDate(Date.valueOf(computerDto.discontinued).toLocalDate());
 		}
-
-		company.setId((long)Integer.parseInt(computerDto.companyId));
+		
+		company.setId((long) Integer.parseInt(computerDto.companyId));
 		company.setName(computerDto.companyName);
 		computer.setCompany(company);
 		return computer;
 
 	}
 
-	public ComputerDTO computerDtoFromOptionalComputer(Optional<Computer> optional) {
+	public ComputerDTO fromOptionalComputer(Optional<Computer> optional) {
 
 		ComputerDTO computerDto = new ComputerDTO();
-
+		
 
 		computerDto.id=optional.get().getId()+"";
 		computerDto.name=optional.get().getName();
@@ -62,11 +62,11 @@ public class ComputerDTOMapper {
 		return computerDto;
 
 	}
-
-	public ComputerDTO computerDtoFromComputer(Computer computer) {
+	
+	public ComputerDTO fromComputer(Computer computer) {
 
 		ComputerDTO computerDto = new ComputerDTO();
-
+		
 
 		computerDto.id=computer.getId()+"";
 		computerDto.name=computer.getName();

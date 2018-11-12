@@ -1,7 +1,6 @@
 package com.excilys.cdb.servlets;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,9 +11,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import com.excilys.cdb.exceptions.DataBaseException;
-import com.excilys.cdb.exceptions.PageNumberException;
+import com.excilys.cdb.exceptions.NoNextPageException;
+import com.excilys.cdb.exceptions.NoPreviousPageException;
 import com.excilys.cdb.mapper.ComputerDTOMapper;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.model.Page;
@@ -23,13 +25,14 @@ import com.excilys.cdb.service.ComputerService;
 
 public class DashboardServlet extends HttpServlet {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
+
 	Logger logger = LoggerFactory.getLogger(DashboardServlet.class);
+
+	@Autowired
 	ComputerService cpuService;
-	ComputerDTOMapper mapper;
+
+	ComputerDTOMapper computerMapper = ComputerDTOMapper.getInstance();
 	List<Computer> computers;
 	List<Computer> subComputers = new ArrayList<Computer>();
 	List<ComputerDTO> subComputersDTO = new ArrayList<ComputerDTO>();
@@ -38,16 +41,16 @@ public class DashboardServlet extends HttpServlet {
 
 	protected void doGet( HttpServletRequest request, HttpServletResponse response )	throws ServletException, IOException {
 
-
+		ApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
+		ctx.getAutowireCapableBeanFactory().autowireBean(this);
 		try {
-			cpuService = ComputerService.getInstance();
-			mapper = ComputerDTOMapper.getInstance();
-			
+
+
 
 			Page.setPage(request.getParameter("page"), request.getParameter("size"));
 			if (request.getParameter("search") == null) {
-					computers = cpuService.findAll("");
-					counter = cpuService.count("");
+				computers = cpuService.findAll("");
+				counter = cpuService.count("");
 			} else {
 				request.setAttribute("search", request.getParameter("search"));
 				computers = cpuService.findAll(request.getParameter("search"));
@@ -55,14 +58,12 @@ public class DashboardServlet extends HttpServlet {
 			}
 			subComputersDTO.clear();
 			for (int i = 0; i < computers.size(); i++) {
-				subComputersDTO.add(mapper.computerDtoFromComputer(computers.get(i)));
+				subComputersDTO.add(computerMapper.fromComputer(computers.get(i)));
 			}
 
-		} catch (DataBaseException dbe) {
-			this.getServletContext().getRequestDispatcher("/WEB-INF/views/500.jsp").forward(request, response);
-		} catch (PageNumberException e) {
-			this.getServletContext().getRequestDispatcher("/WEB-INF/views/500.jsp").forward(request, response);
-		} catch (SQLException e) {
+		} catch (NoPreviousPageException e) {
+			logger.error(e.getMessage());
+		} catch (NoNextPageException e) {
 			logger.error(e.getMessage());
 		}
 
@@ -76,20 +77,12 @@ public class DashboardServlet extends HttpServlet {
 
 	protected void doPost ( HttpServletRequest request, HttpServletResponse response )	throws ServletException, IOException {
 
-		cpuService = ComputerService.getInstance();
 
 		String[] checkedIds = request.getParameterValues("selection");
 		String[] idTab = checkedIds[0].split(",");
 
-		try {
-			cpuService.deleteAll(idTab);
-		} catch (DataBaseException e) {
-			this.getServletContext().getRequestDispatcher("/WEB-INF/views/500.jsp").forward(request, response);
-		} catch (NumberFormatException e) {
-			logger.error(e.getMessage());
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-		}
+		cpuService.deleteAll(idTab);
+
 
 		response.sendRedirect("dashboard");
 	}

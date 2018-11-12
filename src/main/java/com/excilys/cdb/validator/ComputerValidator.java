@@ -23,7 +23,7 @@ public class ComputerValidator {
 		return true;
 	}
 	
-	public static boolean computerValidator(Computer computer) throws DataException, NameException  {
+	public static boolean computerValidator(Computer computer) throws DataException  {
 		
 		boolean nameFlag = false;
 		boolean dateFlag = false;

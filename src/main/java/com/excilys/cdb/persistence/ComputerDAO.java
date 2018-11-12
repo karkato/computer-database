@@ -1,184 +1,87 @@
 package com.excilys.cdb.persistence;
 
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.sql.Types;
+import java.util.List;
 import java.util.Optional;
+
+import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.SqlParameterValue;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
-import com.excilys.cdb.exceptions.DataBaseException;
-import com.excilys.cdb.exceptions.DataException;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 
 public class ComputerDAO implements ComputerDAOInterface<Computer> {
 
 	static ComputerDAO computerDAO = new ComputerDAO();
-	private static Connection connect;
-
-	protected ComputerDAO() {
-		DBDemo.getInstance();
-		connect=DBDemo.getConnection();
-
-	}
-
-
-	public static ComputerDAO getInstance() {
-		return computerDAO;
-	}
+	@Autowired
+	DataSource dataSource;
 
 	private final static String findQuery = "SELECT cpu.id, cpu.name, cpu.introduced, cpu.discontinued, cpu.company_id,cpa.name FROM computer AS cpu LEFT JOIN company AS cpa ON cpu.company_id = cpa.id WHERE cpu.id = ?";
-	private final static String findAllQuery = "SELECT cpu.id, cpu.name, cpu.introduced, cpu.discontinued, cpu.company_id,cpa.name FROM computer AS cpu LEFT JOIN company AS cpa ON cpu.company_id = cpa.id LIMIT ? OFFSET ? " ;
 	private final static String createQuery = "INSERT INTO computer (name,introduced,discontinued,company_id) VALUES(?,?,?,?)";
-	private final static String updateQuery = "UPDATE computer SET name = ?, introduced =? , discontinued =? , company_id =?, WHERE id =? ";	
-	private final static String deleteQuery = "DELETE FROM computer WHERE id = ?";
-	private final static String countQuery = "SELECT COUNT(cpu.id) FROM computer AS cpu LEFT JOIN company AS cpa ON cpu.company_id = cpa.id WHERE UPPER(cpu.name) LIKE UPPER(?) OR UPPER(cpa.name) LIKE UPPER(?) ";
-	private final static String findByName = "SELECT cpu.id, cpu.name, cpu.introduced, cpu.discontinued, cpu.company_id,cpa.name FROM computer AS cpu LEFT JOIN company AS cpa ON cpu.company_id = cpa.id WHERE UPPER(cpu.name) LIKE UPPER(?) LIMIT ? OFFSET ?";
-	private final static String deleteByCompanyQuery = "DELETE FROM computer WHERE company_id=?";
+	private final static String updateQuery = "UPDATE computer SET name = :name, introduced = :introduced, discontinued = :discontinued, company_id = :company_id WHERE id = :id";	
+	private final static String deleteQuery = "DELETE FROM computer WHERE id = :id";
+	private final static String countQuery = "SELECT COUNT(cpu.id) FROM computer AS cpu LEFT JOIN company AS cpa ON cpu.company_id = cpa.id WHERE UPPER(cpu.name) LIKE UPPER(:name) OR UPPER(cpa.name) LIKE UPPER(:name)";
+	private final static String findByName = "SELECT cpu.id, cpu.name, cpu.introduced, cpu.discontinued, cpu.company_id,cpa.name FROM computer AS cpu LEFT JOIN company AS cpa ON cpu.company_id = cpa.id WHERE UPPER(cpu.name) LIKE UPPER(:name) OR UPPER(cpa.name) LIKE UPPER(:name) ORDER BY cpu.name LIMIT :limit OFFSET :offset";
+	private final static String deleteByCompanyQuery = "DELETE FROM computer WHERE company_id= :company_id";
+
 	Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
 
 	@Override
-	public boolean create(Computer computer) throws DataException, IOException, DataBaseException, SQLException {
+	public void create(Computer computer) {
 
-		ComputerDAO.connect = DBDemo.connectionDB();
-		try (PreparedStatement preparedStatement = ComputerDAO.connect.prepareStatement(createQuery);) {
-			preparedStatement.setString(1, computer.getName());
-
-			if (computer.getIntroDate() == null) {
-				preparedStatement.setDate(2, null);
-			} else {
-				preparedStatement.setDate(2, Date.valueOf(computer.getIntroDate()));
-			}
-
-			if (computer.getDiscDate() == null) {
-				preparedStatement.setDate(3, null);
-			} else {
-				preparedStatement.setDate(3, Date.valueOf(computer.getDiscDate()));
-			}
-
-			if (computer.getCompany().getId() != 0) {
-				preparedStatement.setLong(4, computer.getCompany().getId());
-			} else {
-				preparedStatement.setBinaryStream(4, null);
-			}
-
-			int result = preparedStatement.executeUpdate();
-			if(result==1) {
-				ComputerDAO.connect.close();
-				return true;
-			}
-		} catch (SQLException e) {
-			throw new DataBaseException();
-		}
-
-		return false;
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		Object[] params = { new SqlParameterValue(Types.VARCHAR, computer.getName()),
+				new SqlParameterValue(Types.DATE, computer.getIntroDate() == null ? null : computer.getIntroDate()),
+				new SqlParameterValue(Types.DATE,
+						computer.getDiscDate() == null ? null : computer.getDiscDate()),
+				new SqlParameterValue(Types.LONGNVARCHAR,
+						computer.getCompany().getId() == 0 ? null : computer.getCompany().getId()) };
+		jdbcTemplate.update(createQuery, params);
 	}
 
 	@Override
-	public boolean update(Computer computer) throws DataException, IOException, DataBaseException, SQLException{
+	public void update(Computer computer){
 
-		ComputerDAO.connect = DBDemo.connectionDB();
-		try (PreparedStatement preparedStatement = ComputerDAO.connect.prepareStatement(updateQuery);) {
+		NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+		MapSqlParameterSource params = new MapSqlParameterSource();
+		params.addValue("name", computer.getName(), Types.VARCHAR);
+		params.addValue("introduced", computer.getIntroDate() == null ? null : computer.getIntroDate(), Types.DATE);
+		params.addValue("discontinued", computer.getDiscDate() == null ? null : computer.getDiscDate(),
+				Types.DATE);
+		params.addValue("company_id", computer.getCompany().getId() == 0 ? null : computer.getCompany().getId(),
+				Types.LONGNVARCHAR);
+		params.addValue("id", computer.getId(), Types.LONGNVARCHAR);
+		jdbcTemplate.update(updateQuery, params);
 
-			preparedStatement.setString(1, computer.getName());
-			if (computer.getIntroDate() == null) {
-				preparedStatement.setDate(2, null);
-			} else {
-				preparedStatement.setDate(2, Date.valueOf(computer.getIntroDate()));
-			}
-
-			if (computer.getDiscDate() == null) {
-				preparedStatement.setDate(3, null);
-			} else {
-				preparedStatement.setDate(3, Date.valueOf(computer.getDiscDate()));
-			}
-
-			if (computer.getCompany().getId() != 0) {
-				preparedStatement.setLong(4, computer.getCompany().getId());
-			} else {
-				preparedStatement.setBinaryStream(4, null);
-			}
-			preparedStatement.setLong(5, computer.getId());
-
-			int result = preparedStatement.executeUpdate();
-			if(result==1) {
-				ComputerDAO.connect.close();
-				return true;
-			}
-		} catch (SQLException e) {
-			throw new DataBaseException();
-		}
-
-		return false;
 	}
 
-	public boolean delete(Long id) throws IOException, DataBaseException, SQLException{
-		ComputerDAO.connect = DBDemo.connectionDB();
-		try (PreparedStatement preparedStatement = ComputerDAO.connect.prepareStatement(deleteQuery);) {
-
-			preparedStatement.setLong(1, id);
-			int result = preparedStatement.executeUpdate();
-			if(result==1) {
-				return true;
-			}
-			ComputerDAO.connect.close();
-		} catch (SQLException e) {
-			throw new DataBaseException();
-		}
-		return false;
+	public void delete(Long id){
+		NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+		MapSqlParameterSource params = new MapSqlParameterSource();
+		params.addValue("id", id);
+		jdbcTemplate.update(deleteQuery, params);
 	}
 
-	public Optional<Computer> find(Long id) throws  IOException, DataBaseException, SQLException{
-		ComputerDAO.connect = DBDemo.connectionDB();
-		Computer computer = null;
-		try (PreparedStatement preparedStatement = ComputerDAO.connect.prepareStatement(findQuery)) {
-			preparedStatement.setLong(1, id);
-			ResultSet result = preparedStatement.executeQuery();
-			while (result.next()) {
-				computer = new Computer();
-				computer.setId(result.getLong("id"));
-				computer.setName(result.getString("cpu.name"));
-				if (result.getDate("introduced") != null) {
-					computer.setIntroDate(result.getDate("introduced").toLocalDate());
-				}
-				if (result.getDate("discontinued") != null) {
-					computer.setDiscDate(result.getDate("discontinued").toLocalDate());
-				}
-				computer.setCompany(new Company());
-				if (result.getInt("company_id") != 0) {
-					computer.getCompany().setId(result.getLong("company_id"));
-					computer.getCompany().setName(result.getString("cpa.name"));
-				}
-			}
-			result.close();
-			ComputerDAO.connect.close();
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			throw new DataBaseException();
-		}
-		return Optional.ofNullable(computer);
-	}
+	public Optional<Computer> find(Long id){
+		NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+		MapSqlParameterSource params = new MapSqlParameterSource();
+		params.addValue("id", id);
 
-	@Override
-	public ArrayList<Computer> findAll(String name,int page, int size) throws IOException, DataBaseException, SQLException {
-		ComputerDAO.connect = DBDemo.connectionDB();
-		ArrayList<Computer> list = new ArrayList<>();
-		try (PreparedStatement preparedStatement = ComputerDAO.connect.prepareStatement(findByName)) {
-
-			preparedStatement.setNString(1,"%"+name+"%");
-			preparedStatement.setInt(2,size);
-			preparedStatement.setInt(3,(page-1)*size);
-			ResultSet result = preparedStatement.executeQuery();
-			while (result.next()) {
+		RowMapper<Computer> rowMapper = new RowMapper<Computer>() {
+			public Computer mapRow(ResultSet result, int pRowNum) throws SQLException {
 				Computer computer = new Computer();
 				computer.setId(result.getLong("id"));
-				computer.setName(result.getString("cpu.name"));
+				computer.setName(result.getString("name"));
 				if (result.getDate("introduced") != null) {
 					computer.setIntroDate(result.getDate("introduced").toLocalDate());
 				}
@@ -190,97 +93,58 @@ public class ComputerDAO implements ComputerDAOInterface<Computer> {
 					computer.getCompany().setId(result.getLong("company_id"));
 					computer.getCompany().setName(result.getString("cpa.name"));
 				}
-				list.add(computer);
+				return computer;
 			}
-			result.close();
-			ComputerDAO.connect.close();	
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			throw new DataBaseException();
-		}
+		};
+		return Optional.ofNullable(jdbcTemplate.queryForObject(findQuery, params, rowMapper));
+	}
+
+	@Override
+	public List<Computer> findAll(String name, int page, int size) {
+
+		NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+		MapSqlParameterSource params = new MapSqlParameterSource();
+		params.addValue("name", "%" + name + "%");
+		params.addValue("limit", size);
+		params.addValue("offset", (page - 1) * size);
+		RowMapper<Computer> rowMapper = new RowMapper<Computer>() {
+			public Computer mapRow(ResultSet result, int pRowNum) throws SQLException {
+				Computer computer = new Computer();
+				computer.setId(result.getLong("id"));
+				computer.setName(result.getString("name"));
+				if (result.getDate("introduced") != null) {
+					computer.setIntroDate(result.getDate("introduced").toLocalDate());
+				}
+				if (result.getDate("discontinued") != null) {
+					computer.setDiscDate(result.getDate("discontinued").toLocalDate());
+				}
+				computer.setCompany(new Company());
+				if (result.getInt("company_id") != 0) {
+					computer.getCompany().setId(result.getLong("company_id"));
+					computer.getCompany().setName(result.getString("cpa.name"));
+				}
+				return computer;
+			}
+		};
+		List<Computer> list = jdbcTemplate.query(findByName, params, rowMapper);
 		return list;
 	}
 
 	@Override
-	public ArrayList<Computer> findAll(int page, int size) throws IOException, DataBaseException, SQLException {
-		ComputerDAO.connect = DBDemo.connectionDB();
-		ArrayList<Computer> list = new ArrayList<>();
-		try (
-				PreparedStatement preparedStatement = ComputerDAO.connect.prepareStatement(findAllQuery)
-				) {
-			preparedStatement.setInt(1,size);
-			preparedStatement.setInt(2,(page-1)*size);
-			ResultSet result = preparedStatement.executeQuery();
-			while (result.next()) {
-				Computer computer = new Computer();
-				computer.setId(result.getLong("id"));
-				computer.setName(result.getString("cpu.name"));
-				if (result.getDate("introduced") != null) {
-					computer.setIntroDate(result.getDate("introduced").toLocalDate());
-				}
-				if (result.getDate("discontinued") != null) {
-					computer.setDiscDate(result.getDate("discontinued").toLocalDate());
-				}
-				computer.setCompany(new Company());
-				if (result.getInt("company_id") != 0) {
-					computer.getCompany().setId(result.getLong("company_id"));
-					computer.getCompany().setName(result.getString("cpa.name"));
-				}
-				list.add(computer);
-			}
-			result.close();
-			ComputerDAO.connect.close();
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			throw new DataBaseException();
-		}
-		return list;
-	}
-
-	public int count(String name) throws IOException, DataBaseException, SQLException{
-		ComputerDAO.connect = DBDemo.connectionDB();
-		int count = 0;
-		try (PreparedStatement preparedStatement = ComputerDAO.connect.prepareStatement(countQuery)) {
-			preparedStatement.setNString(1, "%" + name + "%");
-			preparedStatement.setNString(2, "%" + name + "%");
-			ResultSet result = preparedStatement.executeQuery();
-			while (result.next()) {
-				count = result.getInt(1);
-			}
-			result.close();
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			throw new DataBaseException();
-
-		} finally {
-			try {
-				ComputerDAO.connect.close();
-			} catch (SQLException e) {
-				logger.error(e.getMessage());
-				throw new DataBaseException();
-			}
-		}
+	public int count(String name) {
+		NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+		MapSqlParameterSource params = new MapSqlParameterSource();
+		params.addValue("name", "%" + name + "%");
+		int count = jdbcTemplate.queryForObject(countQuery, params, Integer.class);
 		return count;
 	}
 
+	@Override
+	public void deleteByCompany(Long companyId) {
 
-	public void deleteByCompany(Long companyId) throws DataBaseException, IOException, SQLException {
-		ComputerDAO.connect = DBDemo.connectionDB();
-		try (PreparedStatement preparedStatement = ComputerDAO.connect.prepareStatement(deleteByCompanyQuery)) {
-			preparedStatement.setLong(1, companyId);
-			preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			throw new DataBaseException();
-		} finally {
-			try {
-				ComputerDAO.connect.close();
-			} catch (SQLException e) {
-				logger.error(e.getMessage());
-				throw new DataBaseException();
-			}
-		}		
+		NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+		MapSqlParameterSource params = new MapSqlParameterSource();
+		params.addValue("company_id", companyId);
+		jdbcTemplate.update(deleteByCompanyQuery, params);
 	}
-
-
 }

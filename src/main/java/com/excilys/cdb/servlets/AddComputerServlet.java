@@ -1,7 +1,7 @@
 package com.excilys.cdb.servlets;
 
 import java.io.IOException;
-import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -11,11 +11,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import com.excilys.cdb.exceptions.DataBaseException;
 import com.excilys.cdb.exceptions.DataException;
+import com.excilys.cdb.mapper.CompanyDTOMapper;
 import com.excilys.cdb.mapper.ComputerDTOMapper;
 import com.excilys.cdb.model.Company;
+import com.excilys.cdb.persistence.dto.CompanyDTO;
 import com.excilys.cdb.persistence.dto.ComputerDTO;
 import com.excilys.cdb.service.CompanyService;
 import com.excilys.cdb.service.ComputerService;
@@ -27,23 +31,24 @@ public class AddComputerServlet extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 	Logger logger = LoggerFactory.getLogger(AddComputerServlet.class);
+	
+	@Autowired
 	CompanyService cpaService;
+	@Autowired
 	ComputerService cpuService;
-	ComputerDTOMapper mapper;
+	
+	ComputerDTOMapper computerMapper=ComputerDTOMapper.getInstance();
+	CompanyDTOMapper companyMapper=CompanyDTOMapper.getInstance();
+	
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		try {
-			cpaService = CompanyService.getInstance();
-			mapper=ComputerDTOMapper.getInstance();
-			List<Company> companies;
-			companies = cpaService.findAll();
-			request.setAttribute("companies",companies);
-		} catch (DataBaseException e) {
-			logger.error(e.getMessage());
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-		}
-
+		  ApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
+	      ctx.getAutowireCapableBeanFactory().autowireBean(this);
+			List<Company> companies = cpaService.findAll();
+			List<CompanyDTO> subCompaniesDTO = new ArrayList<CompanyDTO>();
+			for (int i = 0; i < companies.size(); i++) {
+				subCompaniesDTO.add(companyMapper.fromCompany(companies.get(i)));
+			}
+			request.setAttribute("companies", companies);
 		this.getServletContext().getRequestDispatcher("/WEB-INF/views/addComputer.jsp").forward(request, response);
 	}
 
@@ -53,19 +58,14 @@ public class AddComputerServlet extends HttpServlet {
 		computerDto.introduced = request.getParameter("introduced");
 		computerDto.discontinued = request.getParameter("discontinued");
 		computerDto.companyId = request.getParameter("companyId");
-		cpuService = ComputerService.getInstance();
+	
 		try {
-			cpuService.create(mapper.computerDtoToComputer(computerDto));
+			cpuService.create(computerMapper.toComputer(computerDto));
 			response.sendRedirect("dashboard");
 		} catch (DataException de) {
 			request.setAttribute("internError", de.getMessage());
 			this.getServletContext().getRequestDispatcher("/WEB-INF/views/addComputer.jsp").forward(request, response);
 		} 
-		catch (DataBaseException e) {
-			this.getServletContext().getRequestDispatcher("/WEB-INF/views/500.jsp").forward(request, response);
-		} catch (SQLException e) {
-			logger.error(e.getMessage());		
-		}
 	}
 
 }

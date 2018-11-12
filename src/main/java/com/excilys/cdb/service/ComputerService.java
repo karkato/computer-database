@@ -1,20 +1,23 @@
 package com.excilys.cdb.service;
 
-import java.io.IOException;
-import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javax.ejb.SessionContext;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 
-import com.excilys.cdb.exceptions.DataBaseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.TransactionCallbackWithoutResult;
+import org.springframework.transaction.support.TransactionTemplate;
+
 import com.excilys.cdb.exceptions.DataException;
-import com.excilys.cdb.exceptions.NameException;
-import com.excilys.cdb.exceptions.PageNumberException;
+import com.excilys.cdb.exceptions.NoNextPageException;
+import com.excilys.cdb.exceptions.NoPreviousPageException;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.model.Page;
 import com.excilys.cdb.persistence.ComputerDAO;
@@ -24,105 +27,62 @@ import com.excilys.cdb.validator.PageValidator;
 @TransactionManagement(TransactionManagementType.CONTAINER)
 public class ComputerService {
 
-	private static ComputerService computerService = null;
-	ComputerDAO computerDao;
-	private SessionContext context;
+	Logger logger = LoggerFactory.getLogger(ComputerService.class);
 
-	private ComputerService() {
-		computerDao = ComputerDAO.getInstance();
-	}
+	@Autowired
+	private ComputerDAO computerDao;
+	@Autowired
+	private PlatformTransactionManager transactionManager;
 
-	public static ComputerService getInstance() {
-		if (computerService == null) {
-			computerService = new ComputerService();
-		}
-		return computerService;
-	}
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public Optional<Computer> find(Long id) throws IOException, DataBaseException, SQLException{
+	public Optional<Computer> find(Long id) {
 		Optional<Computer> computer;
-		try {
-			computer = computerDao.find(id);	
-		} catch (DataBaseException dbe) {
-			context.setRollbackOnly();
-			throw dbe;
-		}
+		computer = computerDao.find(id);
 		return computer;
 	}
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public boolean create(Computer computer) throws IOException, NameException, DataException, DataBaseException, SQLException {
-		try {
-			ComputerValidator.computerValidator(computer);
-			return computerDao.create(computer);
-		} catch (DataBaseException dbe) {
-			context.setRollbackOnly();
-			throw dbe;
-		}
-	}
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public boolean update(Computer computer) throws IOException, NameException, DataException, DataBaseException, SQLException{
-		try {
-			ComputerValidator.computerValidator(computer);
-			return computerDao.update(computer);
-		} catch (DataBaseException dbe) {
-			context.setRollbackOnly();
-			throw dbe;
-		}
 
+	public void create(Computer computer) throws DataException {
+		ComputerValidator.computerValidator(computer);
+		computerDao.create(computer);
 	}
 
-	public boolean delete(Long i) throws IOException, DataBaseException, SQLException  {
-		return computerDao.delete(i);
+	public void update(Computer computer) throws DataException {
+		ComputerValidator.computerValidator(computer);
+		computerDao.update(computer);
 	}
 
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public void deleteAll(String[] idTab) throws IOException, DataBaseException, NumberFormatException, SQLException {
-		try {
-			for (int i = 0; i < idTab.length; i++) {
-				if (!("".equals(idTab[i])))
-					computerDao.delete(Long.parseLong(idTab[i]));
+	public void delete(Long id) {
+				computerDao.delete(id);
+	}
+	
+	public void deleteAll(String[] idTab) {
+		TransactionTemplate transactionTemplate = new TransactionTemplate(transactionManager);
+		transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+			@Override
+			protected void doInTransactionWithoutResult(TransactionStatus transactionStatus) {
+				try {
+					for (int i = 0; i < idTab.length; i++) {
+						if (!("".equals(idTab[i])))
+							delete(Long.parseLong(idTab[i]));
+					}
+				} catch (NumberFormatException e) {
+					logger.error(e.getMessage());
+				}
 			}
-		} catch (DataBaseException dbe) {
-			context.setRollbackOnly();
-			throw dbe;
-		}
+		});
 	}
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public <T> List<Computer> findAll() throws IOException, PageNumberException, DataBaseException, SQLException{
-		List<Computer> list;
-		try {
-			PageValidator.previousPageValidator();
-			list = computerDao.findAll(Page.getPage(), Page.getPageSize());
-			PageValidator.nextPageValidator(list);
-		} catch (DataBaseException dbe) {
-			context.setRollbackOnly();
-			throw dbe;
-		}
-		return list;
+
+	public <T> List<Computer> findAll(String name) throws NoPreviousPageException, NoNextPageException {
+		PageValidator.previousPageValidator();
+		List<Computer> computerList = new ArrayList<Computer>();
+		computerList = computerDao.findAll(name, Page.getPage(), Page.getPageSize());
+		PageValidator.nextPageValidator(computerList);
+		return computerList;
 	}
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public <T> List<Computer> findAll(String name) throws  IOException, PageNumberException, DataBaseException, SQLException{
-		List<Computer> list;
-		try {
-			PageValidator.previousPageValidator();
-			list = computerDao.findAll(name, Page.getPage(), Page.getPageSize());
-			PageValidator.nextPageValidator(list);
-		} catch (DataBaseException dbe) {
-			context.setRollbackOnly();
-			throw dbe;
-		}
-		return list;
-	}
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public int count(String name) throws  IOException, DataBaseException, SQLException{
-		int result = 0;
-		try {
-			result = computerDao.count(name);
-		} catch (DataBaseException dbe) {
-			context.setRollbackOnly();
-			throw dbe;
-		}
-		return result;
+
+	public int count(String name) {
+		int count = 0;
+		count = computerDao.count(name);
+		return count;
 	}
 
 }
