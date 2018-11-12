@@ -4,12 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javax.ejb.TransactionManagement;
-import javax.ejb.TransactionManagementType;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
@@ -24,7 +22,7 @@ import com.excilys.cdb.persistence.ComputerDAO;
 import com.excilys.cdb.validator.ComputerValidator;
 import com.excilys.cdb.validator.PageValidator;
 
-@TransactionManagement(TransactionManagementType.CONTAINER)
+@Service
 public class ComputerService {
 
 	Logger logger = LoggerFactory.getLogger(ComputerService.class);

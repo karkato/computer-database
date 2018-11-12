@@ -45,8 +45,6 @@ public class DashboardServlet extends HttpServlet {
 		ctx.getAutowireCapableBeanFactory().autowireBean(this);
 		try {
 
-
-
 			Page.setPage(request.getParameter("page"), request.getParameter("size"));
 			if (request.getParameter("search") == null) {
 				computers = cpuService.findAll("");

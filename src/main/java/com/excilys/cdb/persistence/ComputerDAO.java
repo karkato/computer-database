@@ -16,10 +16,12 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.SqlParameterValue;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 
+@Repository
 public class ComputerDAO implements ComputerDAOInterface<Computer> {
 
 	static ComputerDAO computerDAO = new ComputerDAO();

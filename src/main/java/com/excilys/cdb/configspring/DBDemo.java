@@ -16,7 +16,7 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
-@ComponentScan(basePackages ="com.excilys.cdb.dao")
+@ComponentScan(basePackages ="com.excilys.cdb.persistence")
 public class DBDemo {
 
 	static Logger logger = LoggerFactory.getLogger(DBDemo.class);
@@ -33,7 +33,7 @@ public class DBDemo {
 		}
 		HikariConfig config = new HikariConfig();
 		config.setDriverClassName(prop.getProperty("driverClassName"));
-		config.setJdbcUrl(prop.getProperty("jdbcUrl"));
+		config.setJdbcUrl(prop.getProperty("JdbcUrl"));
 		config.setUsername(prop.getProperty("user"));
 		config.setPassword(prop.getProperty("password"));
 		HikariDataSource dataSource = new HikariDataSource(config);

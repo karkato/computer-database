@@ -17,6 +17,7 @@
 		<param-name>contextClass</param-name>
 		<param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
 	</context-param>
+
 	<servlet>
 		<servlet-name>DashboardServlet</servlet-name>
 		<servlet-class>com.excilys.cdb.servlets.DashboardServlet</servlet-class>
