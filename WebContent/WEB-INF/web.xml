@@ -18,35 +18,6 @@
 		<param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
 	</context-param>
 
-	<servlet>
-		<servlet-name>DashboardServlet</servlet-name>
-		<servlet-class>com.excilys.cdb.servlets.DashboardServlet</servlet-class>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>DashboardServlet</servlet-name>
-		<url-pattern>/dashboard</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>AddComputerServlet</servlet-name>
-		<servlet-class>com.excilys.cdb.servlets.AddComputerServlet</servlet-class>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>AddComputerServlet</servlet-name>
-		<url-pattern>/addComputer</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>EditComputerServlet</servlet-name>
-		<servlet-class>com.excilys.cdb.servlets.EditComputerServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>EditComputerServlet</servlet-name>
-		<url-pattern>/editComputer</url-pattern>
-	</servlet-mapping>
-
 	<jsp-config>
 		<jsp-property-group>
 			<url-pattern>*.jsp</url-pattern>

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,6 +24,7 @@ import com.excilys.cdb.model.Page;
 import com.excilys.cdb.persistence.dto.ComputerDTO;
 import com.excilys.cdb.service.ComputerService;
 
+@WebServlet("/dashboard")
 public class DashboardServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -39,7 +41,7 @@ public class DashboardServlet extends HttpServlet {
 	int counter;
 
 
-	protected void doGet( HttpServletRequest request, HttpServletResponse response )	throws ServletException, IOException {
+	protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
 
 		ApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
 		ctx.getAutowireCapableBeanFactory().autowireBean(this);

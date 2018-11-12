@@ -28,7 +28,7 @@ public class ComputerDAO implements ComputerDAOInterface<Computer> {
 	@Autowired
 	DataSource dataSource;
 
-	private final static String findQuery = "SELECT cpu.id, cpu.name, cpu.introduced, cpu.discontinued, cpu.company_id,cpa.name FROM computer AS cpu LEFT JOIN company AS cpa ON cpu.company_id = cpa.id WHERE cpu.id = ?";
+	private final static String findQuery = "SELECT cpu.id, cpu.name, cpu.introduced, cpu.discontinued, cpu.company_id,cpa.name FROM computer AS cpu LEFT JOIN company AS cpa ON cpu.company_id = cpa.id WHERE cpu.id = :id";
 	private final static String createQuery = "INSERT INTO computer (name,introduced,discontinued,company_id) VALUES(?,?,?,?)";
 	private final static String updateQuery = "UPDATE computer SET name = :name, introduced = :introduced, discontinued = :discontinued, company_id = :company_id WHERE id = :id";	
 	private final static String deleteQuery = "DELETE FROM computer WHERE id = :id";

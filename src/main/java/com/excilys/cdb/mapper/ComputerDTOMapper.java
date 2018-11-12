@@ -28,11 +28,11 @@ public class ComputerDTOMapper {
 		if (computerDto.id != null) {
 			computer.setId((long) Integer.parseInt(computerDto.id));
 		}
-		if (!"".equals(computerDto.introduced)) {
-			computer.setIntroDate(Date.valueOf(computerDto.introduced).toLocalDate());
+		if (!("".equals(computerDto.introduced))) {
+			computer.setIntroDate((Date.valueOf(computerDto.introduced)).toLocalDate());
 		}
-		if (!"".equals(computerDto.discontinued)) {
-			computer.setDiscDate(Date.valueOf(computerDto.discontinued).toLocalDate());
+		if (!("".equals(computerDto.discontinued))) {
+			computer.setDiscDate((Date.valueOf(computerDto.discontinued)).toLocalDate());
 		}
 		
 		company.setId((long) Integer.parseInt(computerDto.companyId));

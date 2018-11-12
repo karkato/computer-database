@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,6 +24,8 @@ import com.excilys.cdb.persistence.dto.CompanyDTO;
 import com.excilys.cdb.persistence.dto.ComputerDTO;
 import com.excilys.cdb.service.CompanyService;
 import com.excilys.cdb.service.ComputerService;
+
+@WebServlet("/addComputer")
 
 public class AddComputerServlet extends HttpServlet {
 
@@ -55,8 +58,8 @@ public class AddComputerServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ComputerDTO computerDto = new ComputerDTO();
 		computerDto.name = request.getParameter("computerName");
-		computerDto.introduced = request.getParameter("introduced");
-		computerDto.discontinued = request.getParameter("discontinued");
+		computerDto.introduced = request.getParameter("introDate");
+		computerDto.discontinued = request.getParameter("discDate");
 		computerDto.companyId = request.getParameter("companyId");
 	
 		try {
