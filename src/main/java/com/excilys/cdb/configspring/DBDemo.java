@@ -19,7 +19,7 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
-@ComponentScan("com.excilys.cdb.persistence,"+"com.excilys.cdb.service,"+"com.excilys.cdb.ui,")
+@ComponentScan("com.excilys.cdb.persistence,"+"com.excilys.cdb.service,"+"com.excilys.cdb.ui")
 public class DBDemo {
 
 	static Logger logger = LoggerFactory.getLogger(DBDemo.class);

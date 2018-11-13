@@ -21,7 +21,7 @@ import com.excilys.cdb.model.Page;
 import com.excilys.cdb.service.ComputerService;
 
 @Controller("computerController")
-@RequestMapping("/Computer")
+@RequestMapping("/computer")
 public class ComputerController {
 
 	private final ComputerService computerService;

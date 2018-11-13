@@ -1,5 +1,4 @@
 com/excilys/cdb/exceptions/NoPreviousPageException.class
-com/excilys/cdb/configspring/SpringConfig.class
 com/excilys/cdb/exceptions/ComputerDBException.class
 com/excilys/cdb/exceptions/NameException.class
 com/excilys/cdb/validator/PageValidator.class
@@ -7,6 +6,7 @@ com/excilys/cdb/mapper/ComputerDTOMapper.class
 com/excilys/cdb/exceptions/NoNextPageException.class
 com/excilys/cdb/exceptions/IdException.class
 com/excilys/cdb/model/Company.class
+com/excilys/cdb/controllers/ComputerController.class
 com/excilys/cdb/validator/ComputerValidator.class
 com/excilys/cdb/persistence/ComputerDAOInterface.class
 com/excilys/cdb/persistence/ComputerDAO$2.class
@@ -15,11 +15,12 @@ com/excilys/cdb/persistence/dto/CompanyDTO.class
 com/excilys/cdb/model/Computer.class
 com/excilys/cdb/exceptions/PageNumberException.class
 com/excilys/cdb/servlets/EditComputerServlet.class
-com/excilys/cdb/configspring/ServiceConfig.class
 com/excilys/cdb/persistence/dto/ComputerDTO.class
+com/excilys/cdb/configspring/WebAppInit.class
 com/excilys/cdb/persistence/CompanyDAOInterface.class
 com/excilys/cdb/ui/MainTest.class
 com/excilys/cdb/model/Page.class
+com/excilys/cdb/configspring/WebConfig.class
 com/excilys/cdb/exceptions/DataBaseException.class
 com/excilys/cdb/exceptions/WrongDateException.class
 com/excilys/cdb/persistence/ComputerDAO$1.class
@@ -29,6 +30,7 @@ com/excilys/cdb/servlets/AddComputerServlet.class
 com/excilys/cdb/mapper/CompanyDTOMapper.class
 com/excilys/cdb/service/ComputerService$1.class
 com/excilys/cdb/service/ComputerService.class
+com/excilys/cdb/controllers/CompanyController.class
 com/excilys/cdb/configspring/DBDemo.class
 com/excilys/cdb/exceptions/DataException.class
 com/excilys/cdb/persistence/ComputerDAO.class

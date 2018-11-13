@@ -32,7 +32,7 @@ public class DashboardServlet extends HttpServlet {
 	Logger logger = LoggerFactory.getLogger(DashboardServlet.class);
 
 	@Autowired
-	ComputerService cpuService;
+	private ComputerService cpuService;
 
 	ComputerDTOMapper computerMapper = ComputerDTOMapper.getInstance();
 	List<Computer> computers;
