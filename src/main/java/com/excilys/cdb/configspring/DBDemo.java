@@ -11,12 +11,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
-@ComponentScan(basePackages ="com.excilys.cdb.persistence")
+@ComponentScan("com.excilys.cdb.persistence,"+"com.excilys.cdb.service,"+"com.excilys.cdb.ui,")
 public class DBDemo {
 
 	static Logger logger = LoggerFactory.getLogger(DBDemo.class);
@@ -38,6 +41,20 @@ public class DBDemo {
 		config.setPassword(prop.getProperty("password"));
 		HikariDataSource dataSource = new HikariDataSource(config);
 		return dataSource;
+	}
+	
+	@Bean
+	public DataSourceTransactionManager transactionManager(DataSource dataSource) {
+		DataSourceTransactionManager transactionManager =  new DataSourceTransactionManager(dataSource);
+		return transactionManager;
+	}
+	
+	@Bean
+	public ViewResolver viewResolver() {
+		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+		viewResolver.setPrefix("/WEB-INF/views/");
+		viewResolver.setSuffix(".jsp");
+		return viewResolver;
 	}
 
 
