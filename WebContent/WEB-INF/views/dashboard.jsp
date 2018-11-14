@@ -18,8 +18,9 @@
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
 			<a class="navbar-brand" href="dashboard"> <spring:message
-					code="label.title" />
-			</a> <a href="?lang=fr">
+					code="label.title" /></a>
+				<div class="btn-group btn-group-sm pull-right" role="group"> <a
+				href="?lang=fr">
 				<button type="button" class="btn btn-default">
 					<spring:message code="french" />
 				</button>
@@ -28,6 +29,7 @@
 					<spring:message code="english" />
 				</button>
 			</a>
+		</div>
 		</div>
 	</header>
 
@@ -44,8 +46,9 @@
 						class="form-inline">
 						<spring:message code="label.filter" var="filter" />
 						<spring:message code="label.search" var="searching" />
-						<input type="search" id="searchbox"	class="form-control" value='${search}' placeholder="${searching}" />
-						<input type="submit" id="searchsubmit" value="${filter}"
+						<input type="search" id="searchbox" class="form-control"
+							value='${search}' placeholder="${searching}" /> <input
+							type="submit" id="searchsubmit" value="${filter}"
 							class="btn btn-primary" />
 					</form>
 				</div>
