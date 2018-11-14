@@ -22,6 +22,7 @@
 		<hikariCp.version>3.2.0</hikariCp.version>
 		<junit.version>5.3.1</junit.version>
 		<Ejb.version>3.0</Ejb.version>
+		<hibernate.version>5.3.7.Final</hibernate.version>
 	</properties>
 
 	<build>
@@ -60,6 +61,17 @@
 			<groupId>javax.servlet.jsp</groupId>
 			<artifactId>javax.servlet.jsp-api</artifactId>
 			<version>${jsp.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>${hibernate.version}</version>
 		</dependency>
 
 		<dependency>

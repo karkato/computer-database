@@ -5,13 +5,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Computer Database</title>
+<title><spring:message code="label.header" /></title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Bootstrap -->
 <link href="./css/bootstrap.min.css" rel="stylesheet" media="screen">
 <link href="./css/font-awesome.css" rel="stylesheet" media="screen">
 <link href="./css/main.css" rel="stylesheet" media="screen">
-<script src="./js/jquery.min.js"> </script>
+<script src="./js/jquery.min.js">
+	
+</script>
 <script src="./js/jquery.validate.min.js"></script>
 <script src="./js/formValidator.js"></script>
 </head>
@@ -20,6 +22,14 @@
 		<div class="container">
 			<a class="navbar-brand" href="dashboard"> <spring:message
 					code="label.title" />
+			</a> <a href="?lang=fr">
+				<button type="button" class="btn btn-default">
+					<spring:message code="french" />
+				</button>
+			</a> <a href="?lang=en">
+				<button type="button" class="btn btn-default">
+					<spring:message code="english" />
+				</button>
 			</a>
 		</div>
 	</header>
@@ -38,24 +48,26 @@
 						<fieldset>
 							<div class="form-group">
 								<label for="computerName"><spring:message
-										code="label.cpuname" /></label> <input type="text" class="form-control"
-									id="computerName" name="computerName" value="${computerName}"
-									placeholder="Computer name">
+										code="label.cpuname" /></label> <input type="text"
+									class="form-control" id="computerName" name="computerName"
+									value="${computerName}" placeholder="Computer name">
 							</div>
 							<div class="form-group">
-								<label for="introduced"><spring:message code="label.intro"/></label> <input
-									type="date" value="${introduced}" class="form-control"
-									id="introduced" name="introduced" placeholder="Introduced date">
+								<label for="introduced"><spring:message
+										code="label.intro" /></label> <input type="date" value="${introduced}"
+									class="form-control" id="introduced" name="introduced"
+									placeholder="Introduced date">
 							</div>
 							<div class="form-group">
-								<label for="discontinued"><spring:message code="label.disco"/></label> <input
-									type="date" value="${discontinued}" class="form-control"
-									id="discontinued" name="discontinued"
-									placeholder="Discontinued date">
+								<label for="discontinued"><spring:message
+										code="label.disco" /></label> <input type="date"
+									value="${discontinued}" class="form-control" id="discontinued"
+									name="discontinued" placeholder="Discontinued date">
 							</div>
 							<div class="form-group">
-								<label for="companyId"><spring:message code="label.company"/></label> <select
-									class="form-control" name="companyId" id="companyId">
+								<label for="companyId"><spring:message
+										code="label.company" /></label> <select class="form-control"
+									name="companyId" id="companyId">
 									<option value="0">--</option>
 									<c:forEach var="company" items="${companies}">
 										<c:choose>
@@ -77,7 +89,8 @@
 						<div class="actions pull-right">
 							<spring:message code="edit.button" var="Edit" />
 							<input type="submit" value="${Edit}" class="btn btn-primary">
-							or <a href="dashboard" class="btn btn-default"><spring:message code="add.cancel"/></a>
+							or <a href="dashboard" class="btn btn-default"><spring:message
+									code="add.cancel" /></a>
 						</div>
 					</form>
 					<div>

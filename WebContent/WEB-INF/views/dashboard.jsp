@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <!DOCTYPE html>
 <html>
 <head>
-<title>Computer Database</title>
+<title><spring:message code="label.header" /></title>
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="utf-8">
 <!-- Bootstrap -->
@@ -16,7 +17,17 @@
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="dashboard"> <spring:message code="label.title"/> </a>
+			<a class="navbar-brand" href="dashboard"> <spring:message
+					code="label.title" />
+			</a> <a href="?lang=fr">
+				<button type="button" class="btn btn-default">
+					<spring:message code="french" />
+				</button>
+			</a> <a href="?lang=en">
+				<button type="button" class="btn btn-default">
+					<spring:message code="english" />
+				</button>
+			</a>
 		</div>
 	</header>
 
@@ -25,22 +36,24 @@
 			<h1 id="homeTitle">
 
 				<c:out value="${ counter }">0</c:out>
-				<spring:message code="label.count"/>
+				<spring:message code="label.count" />
 			</h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
-					<form id="searchForm" action="dashboard" method="GET" class="form-inline">
-						<spring:message code="label.filter" var="filter"/>
-						<spring:message code="label.search" var="search"/>
-						<input type="search" id="searchbox" name="${search}"
-							class="form-control" value='${search}' placeholder="Search name" /> <input
-							type="submit" id="searchsubmit" value="${filter}"
+					<form id="searchForm" action="dashboard" method="GET"
+						class="form-inline">
+						<spring:message code="label.filter" var="filter" />
+						<spring:message code="label.search" var="searching" />
+						<input type="search" id="searchbox"	class="form-control" value='${search}' placeholder="${searching}" />
+						<input type="submit" id="searchsubmit" value="${filter}"
 							class="btn btn-primary" />
 					</form>
 				</div>
 				<div class="pull-right">
-					<a class="btn btn-success" id="addComputer" href="add"><spring:message code="label.add"/></a> 
-						   <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();"><spring:message code="label.delete"/></a>
+					<a class="btn btn-success" id="addComputer" href="add"><spring:message
+							code="label.add" /></a> <a class="btn btn-default" id="editComputer"
+						href="#" onclick="$.fn.toggleEditMode();"><spring:message
+							code="label.delete" /></a>
 				</div>
 			</div>
 		</div>
@@ -63,25 +76,26 @@
 									class="fa fa-trash-o fa-lg"></i>
 							</a>
 						</span></th>
-						<th><spring:message code="label.cpuname"/></th>
-						<th><spring:message code="label.intro"/></th>
+						<th><spring:message code="label.cpuname" /></th>
+						<th><spring:message code="label.intro" /></th>
 						<!-- Table header for Discontinued Date -->
-						<th><spring:message code="label.disco"/></th>
+						<th><spring:message code="label.disco" /></th>
 						<!-- Table header for Company -->
-						<th><spring:message code="label.company"/></th>
+						<th><spring:message code="label.company" /></th>
 
 					</tr>
 				</thead>
 				<!-- Browse attribute computers -->
 				<tbody id="results">
-					<c:forEach items="${computers}"  var="computer">
+					<c:forEach items="${computers}" var="computer">
 						<tr>
 							<td class="editMode"><input type="checkbox" name="cb"
 								class="cb" value="${computer.getId()}"></td>
-							<td><a href="edit?computerId=${computer.getId()}" onclick=""><c:out value="${computer.getName()}"/></a></td>
-							<td><c:out value="${computer.getIntroDate()}"/></td>
-							<td><c:out value="${computer.getDiscDate()}"/></td>
-							<td><c:out value="${computer.getCompanyName()}"/></td>
+							<td><a href="edit?computerId=${computer.getId()}" onclick=""><c:out
+										value="${computer.getName()}" /></a></td>
+							<td><c:out value="${computer.getIntroDate()}" /></td>
+							<td><c:out value="${computer.getDiscDate()}" /></td>
+							<td><c:out value="${computer.getCompanyName()}" /></td>
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -91,23 +105,29 @@
 
 	<footer class="navbar-fixed-bottom">
 		<div class="container text-center"></div>
-			<ul class="pagination">
-				<li><a href="?page=${pageIndex-1}&size=${pageSize}&search=${search}" aria-label="Previous"> <span
-						aria-hidden="true">&laquo;</span>
-				</a></li>
-				<li><a href="?page=1&size=${pageSize}&search=${search}">1</a></li>
-				<li><a href="?page=2&size=${pageSize}&search=${search}">2</a></li>
-				<li><a href="?page=3&size=${pageSize}&search=${search}">3</a></li>
-				<li><a href="?page=4&size=${pageSize}&search=${search}">4</a></li>
-				<li><a href="?page=5&size=${pageSize}&search=${search}">5</a></li>
-				<li><a href="?page=${pageIndex+1}&size=${pageSize}&search=${search}" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-				</a></li>
-			</ul>
-		
+		<ul class="pagination">
+			<li><a
+				href="?page=${pageIndex-1}&size=${pageSize}&search=${search}"
+				aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+			</a></li>
+			<li><a href="?page=1&size=${pageSize}&search=${search}">1</a></li>
+			<li><a href="?page=2&size=${pageSize}&search=${search}">2</a></li>
+			<li><a href="?page=3&size=${pageSize}&search=${search}">3</a></li>
+			<li><a href="?page=4&size=${pageSize}&search=${search}">4</a></li>
+			<li><a href="?page=5&size=${pageSize}&search=${search}">5</a></li>
+			<li><a
+				href="?page=${pageIndex+1}&size=${pageSize}&search=${search}"
+				aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+			</a></li>
+		</ul>
+
 		<div class="btn-group btn-group-sm pull-right" role="group">
-			<a href="?page=1&size=10&search=${search}"><button type="button" class="btn btn-default">10</button></a>
-			<a href="?page=1&size=50&search=${search}"><button type="button" class="btn btn-default">50</button></a>
-			<a href="?page=1&size=100&search=${search}"><button type="button" class="btn btn-default">100</button></a>
+			<a href="?page=1&size=10&search=${search}"><button type="button"
+					class="btn btn-default">10</button></a> <a
+				href="?page=1&size=50&search=${search}"><button type="button"
+					class="btn btn-default">50</button></a> <a
+				href="?page=1&size=100&search=${search}"><button type="button"
+					class="btn btn-default">100</button></a>
 		</div>
 
 	</footer>
