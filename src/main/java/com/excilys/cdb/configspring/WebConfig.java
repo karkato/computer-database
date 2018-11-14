@@ -16,7 +16,6 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
 @Configuration
 @EnableWebMvc
-
 @ComponentScan({"com.excilys.cdb.service","com.excilys.cdb.mapper","com.excilys.cdb.persistence","com.excilys.cdb.controller","com.excilys.cdb.configspring"})
 public class WebConfig implements WebMvcConfigurer {
 
@@ -36,32 +35,31 @@ public class WebConfig implements WebMvcConfigurer {
 	@Bean(name="messageSource")
 	public MessageSource messageSource() {
 		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-		messageSource.setBasenames("messages");
+		messageSource.setBasenames("classpath:messages");
 		messageSource.setDefaultEncoding("UTF-8");
-		//messageSource.setUseCodeAsDefaultMessage(true);
 		return messageSource;
 	}
 
 
-	 @Bean
-	    public LocaleChangeInterceptor localeInterceptor(){
-	        LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
-	        interceptor.setParamName("lang");
-	        return interceptor;
-	    }
-	    
-	    @Bean
-	    public CookieLocaleResolver localeResolver(){
-	    	CookieLocaleResolver localeResolver = new CookieLocaleResolver();
-	        localeResolver.setDefaultLocale(Locale.ENGLISH);
-	        localeResolver.setCookieName("language-preference");
-	        localeResolver.setCookieMaxAge(3600);
-	        return localeResolver;
-	    } 
-	    
-	    @Override
-	    public void addInterceptors(InterceptorRegistry registry) {
-	    	registry.addInterceptor(localeInterceptor());
-	    }
+	@Bean
+	public LocaleChangeInterceptor localeInterceptor(){
+		LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
+		interceptor.setParamName("lang");
+		return interceptor;
+	}
+
+	@Bean
+	public CookieLocaleResolver localeResolver(){
+		CookieLocaleResolver localeResolver = new CookieLocaleResolver();
+		localeResolver.setDefaultLocale(Locale.UK);
+		localeResolver.setCookieName("language-preference");
+		localeResolver.setCookieMaxAge(3600);
+		return localeResolver;
+	} 
+
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(localeInterceptor());
+	}
 
 }
