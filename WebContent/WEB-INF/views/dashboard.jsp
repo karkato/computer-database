@@ -53,7 +53,7 @@
 					</form>
 				</div>
 				<div class="pull-right">
-					<a class="btn btn-success" id="addComputer" href="add"><spring:message
+					<a class="btn btn-success" id="addComputer" href="addComputer"><spring:message
 							code="label.add" /></a> <a class="btn btn-default" id="editComputer"
 						href="#" onclick="$.fn.toggleEditMode();"><spring:message
 							code="label.delete" /></a>
@@ -94,10 +94,10 @@
 						<tr>
 							<td class="editMode"><input type="checkbox" name="cb"
 								class="cb" value="${computer.getId()}"></td>
-							<td><a href="edit?computerId=${computer.getId()}" onclick=""><c:out
+							<td><a href="editComputer?computerId=${computer.getId()}" onclick=""><c:out
 										value="${computer.getName()}" /></a></td>
-							<td><c:out value="${computer.getIntroDate()}" /></td>
-							<td><c:out value="${computer.getDiscDate()}" /></td>
+							<td><c:out value="${computer.getIntroduced()}" /></td>
+							<td><c:out value="${computer.getDiscontinued()}" /></td>
 							<td><c:out value="${computer.getCompanyName()}" /></td>
 						</tr>
 					</c:forEach>

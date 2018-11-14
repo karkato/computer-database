@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,8 +18,9 @@
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
 			<a class="navbar-brand" href="dashboard"> <spring:message
-					code="label.title" />
-			</a> <a href="?lang=fr">
+					code="label.title" /></a>
+				<div class="btn-group btn-group-sm pull-right" role="group"> <a
+				href="?lang=fr">
 				<button type="button" class="btn btn-default">
 					<spring:message code="french" />
 				</button>
@@ -27,6 +29,7 @@
 					<spring:message code="english" />
 				</button>
 			</a>
+		</div>
 		</div>
 	</header>
 
@@ -37,37 +40,46 @@
 					<h1>
 						<spring:message code="add.name" />
 					</h1>
-					<form id="addForm" action="addComputer" method="POST">
+					<form:form id="addForm" action="addComputer"
+						modelAttribute="computerDTO" method="POST">
 						<fieldset>
 							<div class="form-group">
-								<label for="computerName"><spring:message
-										code="label.cpuname" /></label> <input type="text"
-									class="form-control" id="computerName" name="computerName"
-									placeholder="Computer name">
+								<form:label path="name" for="computerName">
+									<spring:message code="label.cpuname" />
+								</form:label>
+								<form:input path="name" type="text" class="form-control"
+									id="computerName" name="computerName"
+									placeholder="Computer name" />
 							</div>
 							<div class="form-group">
-								<label for="introduced"><spring:message
-										code="label.intro" /></label> <input type="date" class="form-control"
-									id="introduced" name="introDate" placeholder="Introduced date">
+								<form:label path="introduced" for="introduced">
+									<spring:message code="label.intro" />
+								</form:label>
+								<form:input path="introduced" type="date" class="form-control"
+									id="introduced" name="introDate" placeholder="Introduced date" />
 							</div>
 							<div class="form-group">
-								<label for="discontinued"><spring:message
-										code="label.disco" /></label> <input type="date" class="form-control"
+								<form:label path="discontinued" for="discontinued">
+									<spring:message code="label.disco" />
+								</form:label>
+								<form:input path="discontinued" type="date" class="form-control"
 									id="discontinued" name="discDate"
-									placeholder="Discontinued date">
+									placeholder="Discontinued date" />
 							</div>
 							<div class="form-group">
-								<label for="companyId"><spring:message
-										code="label.company" /></label> <select class="form-control"
-									id="companyId" name="companyId">
+								<form:label path="companyId" for="companyId">
+									<spring:message code="label.company" />
+								</form:label>
+								<form:select path="companyId" class="form-control"
+									id="companyId" name="companyId" >
 
-									<option value="0">--</option>
-									<c:forEach items="${companies}" var="company">
-										<option value="${company.getId()}">
-											<c:out value="${company.getName()}" />
-										</option>
-									</c:forEach>
-								</select>
+								<option value="0">--</option>
+								<c:forEach items="${companies}" var="company">
+									<option value="${company.getId()}">
+										<c:out value="${company.getName()}" />
+									</option>
+								</c:forEach>
+								</form:select>
 							</div>
 						</fieldset>
 						<div class="actions pull-right">
@@ -76,7 +88,7 @@
 							or <a href="dashboard" class="btn btn-default"><spring:message
 									code="add.cancel" /></a>
 						</div>
-					</form>
+					</form:form>
 				</div>
 			</div>
 		</div>

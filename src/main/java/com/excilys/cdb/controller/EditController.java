@@ -8,8 +8,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.excilys.cdb.exceptions.DataException;
@@ -21,7 +25,8 @@ import com.excilys.cdb.persistence.dto.ComputerDTO;
 import com.excilys.cdb.service.CompanyService;
 import com.excilys.cdb.service.ComputerService;
 
-@Controller("editController")
+@Controller
+@RequestMapping("editComputer")
 public class EditController {
 	Logger logger = LoggerFactory.getLogger(EditController.class);
 	@Autowired
@@ -32,7 +37,7 @@ public class EditController {
 	private ComputerDTOMapper computerMapper=ComputerDTOMapper.getInstance();
 	private CompanyDTOMapper companyMapper=CompanyDTOMapper.getInstance();
 
-	@GetMapping("edit")
+	@GetMapping
 	public String getDashboard(ModelMap model,@RequestParam String computerId) {
 		ComputerDTO computerDto = computerMapper.fromOptionalComputer(computerService.find(Long.parseLong(computerId)));
 
@@ -48,24 +53,25 @@ public class EditController {
 			subCompaniesDTO.add(companyMapper.fromCompany(companies.get(i)));
 		}
 		model.addAttribute("companies", companies);
+		model.addAttribute("computerDTO", new ComputerDTO());
 
 		return "editComputer";
 	}
 
-	@PostMapping("edit")
+	@PostMapping
 	public String postDeleteComputer(ModelMap model, 
-			@RequestParam String id,
-			@RequestParam String computerName,
-			@RequestParam String introduced,
-			@RequestParam String discontinued,
-			@RequestParam String companyId) {
+			@Validated @ModelAttribute("computerDTO") ComputerDTO computerDto,BindingResult result) {
 
-		ComputerDTO computerDto = new ComputerDTO();
-		computerDto.id = id;
-		computerDto.name = computerName;
-		computerDto.introduced = introduced;
-		computerDto.discontinued = discontinued;
-		computerDto.companyId = companyId;
+
+		if(result.hasErrors()) {
+
+			return "addComputer";
+		}
+		model.addAttribute("id", computerDto.getId());
+		model.addAttribute("name", computerDto.getName());
+		model.addAttribute("introduced", computerDto.getIntroduced());
+		model.addAttribute("discontinued", computerDto.getDiscontinued());
+		model.addAttribute("companyId", computerDto.getCompanyId());
 
 		try {
 

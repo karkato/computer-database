@@ -9,9 +9,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.excilys.cdb.exceptions.DataException;
 import com.excilys.cdb.mapper.CompanyDTOMapper;
@@ -21,18 +24,19 @@ import com.excilys.cdb.persistence.dto.CompanyDTO;
 import com.excilys.cdb.persistence.dto.ComputerDTO;
 import com.excilys.cdb.service.CompanyService;
 import com.excilys.cdb.service.ComputerService;
-@Controller("addController")
+
+@Controller
+@RequestMapping("addComputer")
 public class AddController {
 	Logger logger = LoggerFactory.getLogger(AddController.class);
 	@Autowired
 	private CompanyService companyService;
 	@Autowired
 	private  ComputerService computerService;
-	
 	private ComputerDTOMapper computerMapper=ComputerDTOMapper.getInstance();
 	private CompanyDTOMapper companyMapper=CompanyDTOMapper.getInstance();
-	
-	@GetMapping("add")
+
+	@GetMapping
 	public String getDashboard(ModelMap model) {
 		List<Company> companies = companyService.findAll();
 		List<CompanyDTO> subCompaniesDTO = new ArrayList<CompanyDTO>();
@@ -40,29 +44,34 @@ public class AddController {
 			subCompaniesDTO.add(companyMapper.fromCompany(companies.get(i)));
 		}
 		model.addAttribute("companies", companies);
-	return "addComputer";
+		model.addAttribute("computerDTO", new ComputerDTO());
+		return "addComputer";
 	}
-	
-	@PostMapping("addComputer")
+
+	@PostMapping
 	public String postDeleteComputer(ModelMap model, 
-			@RequestParam String computerName,
-			@RequestParam String introduced,
-			@RequestParam String discontinued,
-			@RequestParam String companyId) {
-		
-		ComputerDTO computerDto = new ComputerDTO();
-		computerDto.name = computerName;
-		computerDto.introduced = introduced;
-		computerDto.discontinued =discontinued;
-		computerDto.companyId = companyId;
-	
+			@Validated @ModelAttribute("computerDTO") ComputerDTO computerDto,BindingResult result) {
+
+
+		if(result.hasErrors()) {
+
+			return "addComputer";
+		}
+		model.addAttribute("id", computerDto.getId());
+		model.addAttribute("name", computerDto.getName());
+		model.addAttribute("introduced", computerDto.getIntroduced());
+		model.addAttribute("discontinued", computerDto.getDiscontinued());
+		model.addAttribute("companyId", computerDto.getCompanyId());
+
 		try {
-			computerService.create(computerMapper.toComputer(computerDto));
+
+			computerService.update(computerMapper.toComputer(computerDto));
+
 			return "redirect:dashboard";
 		} catch (DataException de) {
 			model.addAttribute("internError", de.getMessage());
 			return "addComputer";
-		} 
+		}
 	}
 
 }
