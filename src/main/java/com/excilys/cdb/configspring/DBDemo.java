@@ -12,6 +12,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.orm.hibernate5.HibernateTransactionManager;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
@@ -19,10 +23,12 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
+@EnableTransactionManagement
 @ComponentScan({"com.excilys.cdb.service","com.excilys.cdb.mapper","com.excilys.cdb.persistence","com.excilys.cdb.controller","com.excilys.cdb.configspring"})
 public class DBDemo {
 
 	static Logger logger = LoggerFactory.getLogger(DBDemo.class);
+
 	@Bean
 	public DataSource dataSource() {
 
@@ -42,13 +48,13 @@ public class DBDemo {
 		HikariDataSource dataSource = new HikariDataSource(config);
 		return dataSource;
 	}
-	
+
 	@Bean
 	public DataSourceTransactionManager transactionManager(DataSource dataSource) {
 		DataSourceTransactionManager transactionManager =  new DataSourceTransactionManager(dataSource);
 		return transactionManager;
 	}
-	
+
 	@Bean
 	public ViewResolver viewResolver() {
 		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
@@ -56,6 +62,30 @@ public class DBDemo {
 		viewResolver.setSuffix(".jsp");
 		return viewResolver;
 	}
+	/*@Bean
+	public LocalSessionFactoryBean sessionFactory() {
+		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
+		sessionFactory.setDataSource(dataSource());
+		sessionFactory.setPackagesToScan("com.excilys.cdb.model");
+		sessionFactory.setHibernateProperties(hibernateProperties());
+
+		return sessionFactory;
+	}*/
+
+
+	/*@Bean
+	public PlatformTransactionManager hibernateTransactionManager() {
+		HibernateTransactionManager transactionManager= new HibernateTransactionManager();
+		transactionManager.setSessionFactory(sessionFactory().getObject());
+		return transactionManager;
+	}*/
+
+	/*private final Properties hibernateProperties() {
+		Properties hibernateProperties = new Properties();
+		hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
+		hibernateProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
+		return hibernateProperties;
+	}*/
 
 
 }

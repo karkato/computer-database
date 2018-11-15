@@ -3,11 +3,8 @@ package com.excilys.cdb.persistence;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.stereotype.Repository;
-
 import com.excilys.cdb.model.Computer;
 
-@Repository
 public interface ComputerDAOInterface<T> {
 
 
