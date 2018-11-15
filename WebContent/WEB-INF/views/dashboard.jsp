@@ -20,11 +20,11 @@
 			<a class="navbar-brand" href="dashboard"> <spring:message
 					code="label.title" /></a>
 				<div class="btn-group btn-group-sm pull-right" role="group"> <a
-				href="?lang=fr">
+				href="?page=${pageIndex}&size=${pageSize}&search=${search}&lang=fr">
 				<button type="button" class="btn btn-default">
 					<spring:message code="french" />
 				</button>
-			</a> <a href="?lang=en">
+			</a> <a href="?page=${pageIndex}&size=${pageSize}&search=${search}&lang=en">
 				<button type="button" class="btn btn-default">
 					<spring:message code="english" />
 				</button>
@@ -46,7 +46,7 @@
 						class="form-inline">
 						<spring:message code="label.filter" var="filter" />
 						<spring:message code="label.search" var="searching" />
-						<input type="search" id="searchbox" class="form-control"
+						<input type="search" id="searchbox" name="search" class="form-control"
 							value='${search}' placeholder="${searching}" /> <input
 							type="submit" id="searchsubmit" value="${filter}"
 							class="btn btn-primary" />

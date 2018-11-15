@@ -4,26 +4,30 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.orm.hibernate5.HibernateTransactionManager;
-import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
-@EnableTransactionManagement
+@EnableTransactionManagement(proxyTargetClass = true)
+@PropertySource("classpath:login.properties")
 @ComponentScan({"com.excilys.cdb.service","com.excilys.cdb.mapper","com.excilys.cdb.persistence","com.excilys.cdb.controller","com.excilys.cdb.configspring"})
 public class DBDemo {
 
@@ -40,12 +44,12 @@ public class DBDemo {
 		} catch (IOException e) {
 			logger.error(e.getMessage());
 		}
-		HikariConfig config = new HikariConfig();
-		config.setDriverClassName(prop.getProperty("driverClassName"));
-		config.setJdbcUrl(prop.getProperty("JdbcUrl"));
-		config.setUsername(prop.getProperty("user"));
-		config.setPassword(prop.getProperty("password"));
-		HikariDataSource dataSource = new HikariDataSource(config);
+	
+		DriverManagerDataSource dataSource = new DriverManagerDataSource();
+		dataSource.setDriverClassName(prop.getProperty("driverClassName"));
+        dataSource.setUrl(prop.getProperty("JdbcUrl"));
+        dataSource.setUsername(prop.getProperty("user"));
+        dataSource.setPassword(prop.getProperty("password"));
 		return dataSource;
 	}
 
@@ -55,37 +59,35 @@ public class DBDemo {
 		return transactionManager;
 	}
 
-	@Bean
-	public ViewResolver viewResolver() {
-		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-		viewResolver.setPrefix("/WEB-INF/views/");
-		viewResolver.setSuffix(".jsp");
-		return viewResolver;
-	}
-	/*@Bean
-	public LocalSessionFactoryBean sessionFactory() {
-		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-		sessionFactory.setDataSource(dataSource());
-		sessionFactory.setPackagesToScan("com.excilys.cdb.model");
-		sessionFactory.setHibernateProperties(hibernateProperties());
+	
 
-		return sessionFactory;
+	/* @Autowired
+	    private Properties prop;
+
+	    @Bean
+	    public DriverManagerDataSource dataSource() {
+	        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+
+	        dataSource.setDriverClassName(prop.getProperty("driverClassName"));
+	        dataSource.setUrl(prop.getProperty("JdbcUrl"));
+	        dataSource.setUsername(prop.getProperty("user"));
+	        dataSource.setPassword(prop.getProperty("password"));
+
+	        return dataSource;
+	    }
+
+	    @Bean
+	    public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
+	        return new JpaTransactionManager(emf);
+	    }
+
+	    @Bean
+	    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DriverManagerDataSource dataSource) {
+	        LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
+	        emf.setDataSource(dataSource);
+	        emf.setPackagesToScan("com.excilys.cdb.model");
+	        emf.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+	        return emf;
 	}*/
-
-
-	/*@Bean
-	public PlatformTransactionManager hibernateTransactionManager() {
-		HibernateTransactionManager transactionManager= new HibernateTransactionManager();
-		transactionManager.setSessionFactory(sessionFactory().getObject());
-		return transactionManager;
-	}*/
-
-	/*private final Properties hibernateProperties() {
-		Properties hibernateProperties = new Properties();
-		hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
-		hibernateProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
-		return hibernateProperties;
-	}*/
-
 
 }

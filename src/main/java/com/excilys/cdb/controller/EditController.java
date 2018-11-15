@@ -59,7 +59,7 @@ public class EditController {
 	}
 
 	@PostMapping
-	public String postDeleteComputer(ModelMap model, 
+	public String postUpdateComputer(ModelMap model, 
 			@Validated @ModelAttribute("computerDTO") ComputerDTO computerDto,BindingResult result) {
 
 

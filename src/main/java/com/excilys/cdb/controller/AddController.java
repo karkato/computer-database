@@ -49,7 +49,7 @@ public class AddController {
 	}
 
 	@PostMapping
-	public String postDeleteComputer(ModelMap model, 
+	public String postCreateComputer(ModelMap model, 
 			@Validated @ModelAttribute("computerDTO") ComputerDTO computerDto,BindingResult result) {
 
 
@@ -65,7 +65,7 @@ public class AddController {
 
 		try {
 
-			computerService.update(computerMapper.toComputer(computerDto));
+			computerService.create(computerMapper.toComputer(computerDto));
 
 			return "redirect:dashboard";
 		} catch (DataException de) {

@@ -2,6 +2,7 @@ package com.excilys.cdb.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,8 +29,7 @@ public class DashboardController {
 	private ComputerDTOMapper computerMapper = ComputerDTOMapper.getInstance();
 
 	@GetMapping
-	public String getDashboard(ModelMap model,
-			@RequestParam(required = false, defaultValue = "") String search,
+	public String getDashboard(ModelMap model, @RequestParam(required = false, defaultValue = "") String search,
 			@RequestParam(required = false, defaultValue = "1") String page,
 			@RequestParam(required = false, defaultValue = "10") String size) {
 		List<Computer> computers;
@@ -46,13 +46,15 @@ public class DashboardController {
 				computers = computerService.findAll(search);
 				counter = computerService.count(search);
 			}
-			subComputersDTO.clear();
-			for (int i = 0; i < computers.size(); i++) {
-				subComputersDTO.add(computerMapper.fromComputer(computers.get(i)));
-			}
-		} catch (NoPreviousPageException ne) {
+			subComputersDTO.clear();	
+			subComputersDTO = computers.stream().map(temp -> {
+				ComputerDTO obj = computerMapper.fromComputer(temp);
+				return obj;
+			}).collect(Collectors.toList());
+
+		} catch (NoPreviousPageException nppe) {
 			Page.increasePage();
-		} catch (NoNextPageException ne) {
+		} catch (NoNextPageException nnpe) {
 			Page.decreasePage();
 		}
 		model.addAttribute("counter", counter);
