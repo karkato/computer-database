@@ -18,7 +18,7 @@ import org.springframework.stereotype.Repository;
 import com.excilys.cdb.model.Company;
 
 
-@Repository
+
 public class CompanyDAO implements CompanyDAOInterface<Company>{
 	Logger logger = LoggerFactory.getLogger(CompanyDAO.class);
 

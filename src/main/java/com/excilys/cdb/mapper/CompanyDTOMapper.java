@@ -1,8 +1,11 @@
 package com.excilys.cdb.mapper;
 
+import org.springframework.stereotype.Component;
+
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.persistence.dto.CompanyDTO;
 
+@Component
 public class CompanyDTOMapper {
 
 	private static CompanyDTOMapper mapperCompanyDTO = new CompanyDTOMapper();

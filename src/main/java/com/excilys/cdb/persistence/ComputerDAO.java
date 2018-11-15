@@ -21,7 +21,6 @@ import org.springframework.stereotype.Repository;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 
-@Repository
 public class ComputerDAO implements ComputerDAOInterface<Computer> {
 
 	static ComputerDAO computerDAO = new ComputerDAO();

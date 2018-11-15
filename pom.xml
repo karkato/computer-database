@@ -23,6 +23,7 @@
 		<junit.version>5.3.1</junit.version>
 		<Ejb.version>3.0</Ejb.version>
 		<hibernate.version>5.3.7.Final</hibernate.version>
+		<spring_orm.version>5.1.2.RELEASE</spring_orm.version>
 	</properties>
 
 	<build>
@@ -67,11 +68,11 @@
 			<artifactId>hibernate-core</artifactId>
 			<version>${hibernate.version}</version>
 		</dependency>
-		
+
 		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-entitymanager</artifactId>
-			<version>${hibernate.version}</version>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${spring_orm.version}</version>
 		</dependency>
 
 		<dependency>

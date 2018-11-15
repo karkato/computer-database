@@ -65,7 +65,7 @@ public class EditController {
 
 		if(result.hasErrors()) {
 
-			return "addComputer";
+			return "500";
 		}
 		model.addAttribute("id", computerDto.getId());
 		model.addAttribute("name", computerDto.getName());

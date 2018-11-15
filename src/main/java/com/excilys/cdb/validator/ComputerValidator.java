@@ -2,11 +2,14 @@ package com.excilys.cdb.validator;
 
 import java.time.LocalDate;
 
+import org.springframework.stereotype.Component;
+
 import com.excilys.cdb.exceptions.DataException;
 import com.excilys.cdb.exceptions.DateException;
 import com.excilys.cdb.exceptions.NameException;
 import com.excilys.cdb.model.Computer;
 
+@Component
 public class ComputerValidator {
 	
 	private static boolean dateValidator(LocalDate introduced, LocalDate discontinued) throws DateException {
