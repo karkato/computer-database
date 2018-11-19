@@ -45,10 +45,12 @@ public class WebConfig implements WebMvcConfigurer {
 	@Bean
 	public ViewResolver viewResolver() {
 		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-		viewResolver.setPrefix("/WEB-INF/views/");
+		viewResolver.setPrefix("/WEB-INF/jsp/");
 		viewResolver.setSuffix(".jsp");
 		return viewResolver;
 	}
+
+
 	@Bean
 	public LocaleChangeInterceptor localeInterceptor(){
 		LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
@@ -69,5 +71,7 @@ public class WebConfig implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(localeInterceptor());
 	}
+
+
 
 }

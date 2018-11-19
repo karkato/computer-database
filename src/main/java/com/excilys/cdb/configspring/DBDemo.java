@@ -22,34 +22,32 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
-
 @Configuration
-@EnableTransactionManagement(proxyTargetClass = true)
+@EnableTransactionManagement
 @PropertySource("classpath:login.properties")
 @ComponentScan({"com.excilys.cdb.service","com.excilys.cdb.mapper","com.excilys.cdb.persistence","com.excilys.cdb.controller","com.excilys.cdb.configspring"})
 public class DBDemo {
 
 	static Logger logger = LoggerFactory.getLogger(DBDemo.class);
-
+	@Autowired
+	private Properties prop;
 	@Bean
 	public DataSource dataSource() {
 
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		InputStream input = classLoader.getResourceAsStream("login.properties");
-		Properties prop = new Properties();
+		prop = new Properties();
 		try {
 			prop.load(input);
 		} catch (IOException e) {
 			logger.error(e.getMessage());
 		}
-	
+
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName(prop.getProperty("driverClassName"));
-        dataSource.setUrl(prop.getProperty("JdbcUrl"));
-        dataSource.setUsername(prop.getProperty("user"));
-        dataSource.setPassword(prop.getProperty("password"));
+		dataSource.setUrl(prop.getProperty("JdbcUrl"));
+		dataSource.setUsername(prop.getProperty("user"));
+		dataSource.setPassword(prop.getProperty("password"));
 		return dataSource;
 	}
 
@@ -59,23 +57,8 @@ public class DBDemo {
 		return transactionManager;
 	}
 
-	
 
-	/* @Autowired
-	    private Properties prop;
-
-	    @Bean
-	    public DriverManagerDataSource dataSource() {
-	        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-
-	        dataSource.setDriverClassName(prop.getProperty("driverClassName"));
-	        dataSource.setUrl(prop.getProperty("JdbcUrl"));
-	        dataSource.setUsername(prop.getProperty("user"));
-	        dataSource.setPassword(prop.getProperty("password"));
-
-	        return dataSource;
-	    }
-
+/*
 	    @Bean
 	    public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
 	        return new JpaTransactionManager(emf);
@@ -89,5 +72,4 @@ public class DBDemo {
 	        emf.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 	        return emf;
 	}*/
-
 }

@@ -23,7 +23,7 @@
 		<junit.version>5.3.1</junit.version>
 		<Ejb.version>3.0</Ejb.version>
 		<hibernate.version>5.3.7.Final</hibernate.version>
-		<spring_orm.version>5.1.2.RELEASE</spring_orm.version>
+		<spring-orm.version>5.1.2.RELEASE</spring-orm.version>
 	</properties>
 
 	<build>
@@ -72,7 +72,7 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-orm</artifactId>
-			<version>${spring_orm.version}</version>
+			<version>${spring-orm.version}</version>
 		</dependency>
 
 		<dependency>

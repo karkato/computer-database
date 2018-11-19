@@ -1,5 +1,11 @@
 package com.excilys.cdb.ui;
 
+import java.io.IOException;
+import java.sql.SQLException;
+
+import com.excilys.cdb.exceptions.DataBaseException;
+import com.excilys.cdb.exceptions.PageNumberException;
+
 public class MainTest {
 
 
@@ -10,11 +16,12 @@ public class MainTest {
 	 * @throws DataBaseException 
 	 * @throws PageNumberException 
 	 */
+	
 
-/*
 	public static void main(String[] args) throws IOException, DataBaseException, SQLException, PageNumberException {
 
 		
+		/*
 		ComputerService cpuService;
 		CompanyService cpaService;
 
@@ -151,8 +158,8 @@ public class MainTest {
 				sc.close();
 			default: break;
 			}
-		}
+		}*/
 	}
-*/
+
 
 }

@@ -67,11 +67,6 @@ public class EditController {
 
 			return "500";
 		}
-		model.addAttribute("id", computerDto.getId());
-		model.addAttribute("name", computerDto.getName());
-		model.addAttribute("introduced", computerDto.getIntroduced());
-		model.addAttribute("discontinued", computerDto.getDiscontinued());
-		model.addAttribute("companyId", computerDto.getCompanyId());
 
 		try {
 
