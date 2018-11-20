@@ -8,8 +8,6 @@ import java.util.Optional;
 
 import javax.sql.DataSource;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -37,7 +35,6 @@ public class ComputerDAO implements ComputerDAOInterface<Computer> {
 	private final static String findByName = "SELECT cpu.id, cpu.name, cpu.introduced, cpu.discontinued, cpu.company_id,cpa.name FROM computer AS cpu LEFT JOIN company AS cpa ON cpu.company_id = cpa.id WHERE UPPER(cpu.name) LIKE UPPER(:name) OR UPPER(cpa.name) LIKE UPPER(:name) ORDER BY cpu.name LIMIT :limit OFFSET :offset";
 	private final static String deleteByCompanyQuery = "DELETE FROM computer WHERE company_id= :company_id";
 
-	Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
 
 	@Override
 	public void create(Computer computer) {

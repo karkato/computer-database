@@ -21,7 +21,6 @@ import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.model.Page;
 import com.excilys.cdb.service.ComputerService;
 
-//@Controller("computerController")
 @RequestMapping("/computer")
 public class ComputerController implements WebMvcConfigurer {
 

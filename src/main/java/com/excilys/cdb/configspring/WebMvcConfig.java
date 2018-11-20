@@ -19,7 +19,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @Configuration
 @EnableWebMvc
 @ComponentScan({"com.excilys.cdb.service","com.excilys.cdb.mapper","com.excilys.cdb.persistence","com.excilys.cdb.controller","com.excilys.cdb.configspring"})
-public class WebConfig implements WebMvcConfigurer {
+public class WebMvcConfig implements WebMvcConfigurer {
 
 
 	@Override
@@ -63,7 +63,7 @@ public class WebConfig implements WebMvcConfigurer {
 		CookieLocaleResolver localeResolver = new CookieLocaleResolver();
 		localeResolver.setDefaultLocale(Locale.UK);
 		localeResolver.setCookieName("language-preference");
-		localeResolver.setCookieMaxAge(3600);
+		localeResolver.setCookieMaxAge(4800);
 		return localeResolver;
 	} 
 

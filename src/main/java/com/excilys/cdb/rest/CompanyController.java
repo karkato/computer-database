@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.service.CompanyService;
 
-//@Controller("companyController")
 @RequestMapping("/company")
 public class CompanyController {
 	

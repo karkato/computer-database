@@ -5,13 +5,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>Computer-database</groupId>
 	<artifactId>Computer-database</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<packaging>war</packaging>
 
 	<properties>
 		<mysql-connector.version>8.0.13</mysql-connector.version>
 		<mockito.version>2.23.0</mockito.version>
 		<slf4j.version>1.7.25</slf4j.version>
+		<log4j.version>2.11.1</log4j.version>
 		<jsp.version>2.3.1</jsp.version>
 		<maven-checkstyle.version>3.0.0</maven-checkstyle.version>
 		<maven-compiler.version>3.8.0</maven-compiler.version>
@@ -47,6 +48,22 @@
 		</plugins>
 	</build>
 	<dependencies>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-slf4j-impl</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>javax.ejb</groupId>
 			<artifactId>ejb-api</artifactId>
@@ -115,6 +132,13 @@
 			<artifactId>slf4j-api</artifactId>
 			<version>${slf4j.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>${slf4j.version}</version>
+			<scope>test</scope>
+		</dependency>
+
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>

@@ -20,7 +20,6 @@ com/excilys/cdb/configspring/WebAppInit.class
 com/excilys/cdb/persistence/CompanyDAOInterface.class
 com/excilys/cdb/ui/MainTest.class
 com/excilys/cdb/model/Page.class
-com/excilys/cdb/configspring/WebConfig.class
 com/excilys/cdb/controller/DashboardController.class
 com/excilys/cdb/exceptions/DataBaseException.class
 com/excilys/cdb/exceptions/WrongDateException.class
@@ -30,12 +29,13 @@ com/excilys/cdb/persistence/CompanyDAO.class
 com/excilys/cdb/mapper/CompanyDTOMapper.class
 com/excilys/cdb/service/ComputerService$1.class
 com/excilys/cdb/service/ComputerService.class
-com/excilys/cdb/configspring/DBDemo.class
+com/excilys/cdb/configspring/WebMvcConfig.class
 com/excilys/cdb/persistence/dto/ReqAttribute.class
 com/excilys/cdb/exceptions/DataException.class
 com/excilys/cdb/persistence/ComputerDAO.class
 com/excilys/cdb/rest/CompanyController.class
 com/excilys/cdb/exceptions/DateException.class
 com/excilys/cdb/service/CompanyService$1.class
+com/excilys/cdb/configspring/HibernateConfig.class
 com/excilys/cdb/rest/ComputerController.class
 com/excilys/cdb/persistence/CompanyDAO$1.class

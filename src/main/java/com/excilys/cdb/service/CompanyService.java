@@ -3,8 +3,8 @@ package com.excilys.cdb.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -17,9 +17,9 @@ import com.excilys.cdb.persistence.CompanyDAO;
 import com.excilys.cdb.persistence.ComputerDAO;
 
 @Service
+@Transactional
 public class CompanyService {
 	
-	Logger logger = LoggerFactory.getLogger(CompanyService.class);
 	@Autowired
 	private CompanyDAO companyDao;
 	@Autowired

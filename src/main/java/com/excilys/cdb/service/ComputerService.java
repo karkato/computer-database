@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -23,9 +23,9 @@ import com.excilys.cdb.validator.ComputerValidator;
 import com.excilys.cdb.validator.PageValidator;
 
 @Service
+@Transactional
 public class ComputerService {
 
-	Logger logger = LoggerFactory.getLogger(ComputerService.class);
 
 	@Autowired
 	private ComputerDAO computerDao;
@@ -63,7 +63,7 @@ public class ComputerService {
 							delete(Long.parseLong(idTab[i]));
 					}
 				} catch (NumberFormatException e) {
-					logger.error(e.getMessage());
+					e.printStackTrace();
 				}
 			}
 		});

@@ -6,8 +6,6 @@ import java.sql.SQLException;
 import java.util.List;
 import javax.sql.DataSource;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -21,7 +19,6 @@ import com.excilys.cdb.model.Company;
 @Repository
 
 public class CompanyDAO implements CompanyDAOInterface<Company>{
-	Logger logger = LoggerFactory.getLogger(CompanyDAO.class);
 
 
 	private static String findAllQuery = "SELECT id,name FROM company";
