@@ -17,7 +17,6 @@ import com.excilys.cdb.persistence.CompanyDAO;
 import com.excilys.cdb.persistence.ComputerDAO;
 
 @Service
-@Transactional
 public class CompanyService {
 	
 	@Autowired
@@ -33,6 +32,7 @@ public class CompanyService {
 		return list;
 	}
 
+	@Transactional
 	public void delete(Long id) {
 		TransactionTemplate transactionTemplate = new TransactionTemplate(transactionManager);
 		transactionTemplate.execute(new TransactionCallbackWithoutResult() {

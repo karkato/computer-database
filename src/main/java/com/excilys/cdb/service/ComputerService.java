@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 
@@ -23,7 +22,7 @@ import com.excilys.cdb.validator.ComputerValidator;
 import com.excilys.cdb.validator.PageValidator;
 
 @Service
-@Transactional
+
 public class ComputerService {
 
 
@@ -37,21 +36,22 @@ public class ComputerService {
 		computer = computerDao.find(id);
 		return computer;
 	}
-
+	@Transactional
 	public void create(Computer computer) throws DataException {
 		ComputerValidator.computerValidator(computer);
 		computerDao.create(computer);
 	}
-
+	@Transactional
 	public void update(Computer computer) throws DataException {
 		ComputerValidator.computerValidator(computer);
 		computerDao.update(computer);
 	}
-
+	@Transactional
 	public void delete(Long id) {
-				computerDao.delete(id);
+		computerDao.delete(id);
 	}
-	
+
+	@Transactional
 	public void deleteAll(String[] idTab) {
 		TransactionTemplate transactionTemplate = new TransactionTemplate(transactionManager);
 		transactionTemplate.execute(new TransactionCallbackWithoutResult() {
@@ -77,8 +77,8 @@ public class ComputerService {
 		return computerList;
 	}
 
-	public int count(String name) {
-		int count = 0;
+	public long count(String name) {
+		long count = 0;
 		count = computerDao.count(name);
 		return count;
 	}

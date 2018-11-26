@@ -18,7 +18,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan({"com.excilys.cdb.service","com.excilys.cdb.mapper","com.excilys.cdb.persistence","com.excilys.cdb.controller","com.excilys.cdb.configspring"})
+@ComponentScan(basePackages={"com.excilys.cdb.service","com.excilys.cdb.persistence","com.excilys.cdb.controller","com.excilys.cdb.model"})
 public class WebMvcConfig implements WebMvcConfigurer {
 
 

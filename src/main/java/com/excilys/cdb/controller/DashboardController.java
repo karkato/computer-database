@@ -27,6 +27,7 @@ public class DashboardController {
 	@Autowired
 	private ComputerService computerService;
 	private ComputerDTOMapper computerMapper = ComputerDTOMapper.getInstance();
+	
 
 	@GetMapping
 	public String getDashboard(ModelMap model, @RequestParam(required = false, defaultValue = "") String search,
@@ -34,7 +35,7 @@ public class DashboardController {
 			@RequestParam(required = false, defaultValue = "10") String size) {
 		List<Computer> computers;
 		List<ComputerDTO> subComputersDTO = new ArrayList<ComputerDTO>();
-		int counter = 0;
+		long counter = 0;
 		try {
 			Page.setPage(page, size);
 

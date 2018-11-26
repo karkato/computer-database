@@ -1,54 +1,55 @@
 package com.excilys.cdb.persistence;
 
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
-import javax.sql.DataSource;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import javax.annotation.PostConstruct;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaDelete;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+
 import org.springframework.stereotype.Repository;
-
 import com.excilys.cdb.model.Company;
 
-
 @Repository
-
 public class CompanyDAO implements CompanyDAOInterface<Company>{
 
+	@PersistenceContext
+	private EntityManager em;
 
-	private static String findAllQuery = "SELECT id,name FROM company";
-	private static String deleteQuery = "DELETE FROM company WHERE id = :id";
+	private CriteriaBuilder cb;
 
-	@Autowired
-	DataSource dataSource;
+
+	@PostConstruct
+	public void init() {
+		this.cb=em.getCriteriaBuilder();
+	}
+
+
 
 	@Override
 	public List<Company> findAll() {
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-        RowMapper<Company> rowMapper = new RowMapper<Company>() {
-            public Company mapRow(ResultSet result, int pRowNum) throws SQLException {
-            	Company company = new Company();
-            	company.setId(result.getLong("id"));
-            	company.setName(result.getString("name"));
-                return company;
-            }
-        };
-        List<Company> list = jdbcTemplate.query(findAllQuery, rowMapper);
-        return list;
-		
+
+		List<Company> companies = new ArrayList<Company>();
+		CriteriaQuery<Company> criteriaQuery = cb.createQuery(Company.class);
+		criteriaQuery.from(Company.class);
+		companies=em.createQuery(criteriaQuery).getResultList();		
+		return companies;
+
 	}
 
 	@Override
 	public void delete(Long id) {
-		
-		NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-		MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("id", id);
-        jdbcTemplate.update(deleteQuery,params);
+
+		CriteriaDelete<Company> criteriaQuery = cb.createCriteriaDelete(Company.class);
+		Root<Company> model = criteriaQuery.from(Company.class);
+		criteriaQuery.where(cb.equal(model.get("id"), id));
+		em.createQuery(criteriaQuery).executeUpdate();
+
+
 	}
 }

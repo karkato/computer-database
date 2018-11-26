@@ -3,44 +3,48 @@ package com.excilys.cdb.model;
 
 import java.time.LocalDate;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
+@Entity
+@Table(name="computer")
 public class Computer {
 
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	private String name;
 	private LocalDate introduced;
 	private LocalDate discontinued;
+	@ManyToOne
+	@JoinColumn(name ="company_id")
 	private Company company;
-	private long companyId;
+	
+	
 
-	public Computer(Long id, String name, LocalDate introduced, LocalDate discontinued, Company company, Long companyId) {
+	public Computer(Long id, String name, LocalDate introduced, LocalDate discontinued, Company company) {
 
 		this.id = id;
 		this.name=name;
 		this.introduced=introduced;
 		this.discontinued=discontinued;
 		this.company=company;
-		this.companyId = companyId;
 	}
-	public Computer(Long id, String name, LocalDate introduced, LocalDate discontinued,Long companyId) {
+	public Computer(Long id, String name, LocalDate introduced, LocalDate discontinued) {
 
 		this.id = id;
 		this.name=name;
 		this.introduced=introduced;
 		this.discontinued=discontinued;
-		this.companyId = companyId;
 	}
 
 	public Computer() {}
-
-	public long getCompanyId() {
-		return companyId;
-	}
-
-	public void setCompanyId(long companyId) {
-		this.companyId = companyId;
-	}
-
 
 
 	public long getId() {
@@ -93,7 +97,6 @@ public class Computer {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((company == null) ? 0 : company.hashCode());
-		result = prime * result + (int) (companyId ^ (companyId >>> 32));
 		result = prime * result + ((discontinued == null) ? 0 : discontinued.hashCode());
 		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + ((introduced == null) ? 0 : introduced.hashCode());
@@ -113,8 +116,6 @@ public class Computer {
 			if (other.company != null)
 				return false;
 		} else if (!company.equals(other.company))
-			return false;
-		if (companyId != other.companyId)
 			return false;
 		if (discontinued == null) {
 			if (other.discontinued != null)

@@ -3,6 +3,7 @@ package com.excilys.cdb.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,9 +38,11 @@ public class AddController {
 	public String getDashboard(ModelMap model) {
 		List<Company> companies = companyService.findAll();
 		List<CompanyDTO> subCompaniesDTO = new ArrayList<CompanyDTO>();
-		for (int i = 0; i < companies.size(); i++) {
-			subCompaniesDTO.add(companyMapper.fromCompany(companies.get(i)));
-		}
+		subCompaniesDTO.clear();	
+		subCompaniesDTO = companies.stream().map(temp -> {
+			CompanyDTO obj = companyMapper.fromCompany(temp);
+			return obj;
+		}).collect(Collectors.toList());
 		model.addAttribute("companies", companies);
 		model.addAttribute("computerDTO", new ComputerDTO());
 		return "addComputer";
@@ -49,16 +52,12 @@ public class AddController {
 	public String postCreateComputer(ModelMap model, 
 			@Validated @ModelAttribute("computerDTO") ComputerDTO computerDto,BindingResult result) {
 
-
 		if(result.hasErrors()) {
-
 			return "500";
 		}
 
 		try {
-
 			computerService.create(computerMapper.toComputer(computerDto));
-
 			return "redirect:dashboard";
 		} catch (DataException de) {
 			model.addAttribute("internError", de.getMessage());

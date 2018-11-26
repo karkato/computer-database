@@ -38,7 +38,7 @@ public class ComputerDTOMapper {
 			computer.setDiscDate((Date.valueOf(computerDto.discontinued)).toLocalDate());
 		}
 		
-		company.setId((long) Integer.parseInt(computerDto.companyId));
+		company.setId(Long.parseLong(computerDto.companyId));
 		company.setName(computerDto.companyName);
 		computer.setCompany(company);
 		return computer;
@@ -60,8 +60,10 @@ public class ComputerDTOMapper {
 			computerDto.discontinued=optional.get().getDiscDate().toString();
 		}
 
-		computerDto.companyId=optional.get().getCompany().getId()+"";
-		computerDto.companyName=optional.get().getCompany().getName();
+		if (optional.get().getCompany() != null) {
+			computerDto.companyId = optional.get().getCompany().getId() + "";
+			computerDto.companyName = optional.get().getCompany().getName();
+		}
 		return computerDto;
 
 	}
@@ -81,11 +83,12 @@ public class ComputerDTOMapper {
 			computerDto.discontinued=computer.getDiscDate().toString();
 		}
 
-		computerDto.companyId=computer.getCompany().getId()+"";
-		computerDto.companyName=computer.getCompany().getName();
+		if (computer.getCompany() != null) {
+			computerDto.companyId = computer.getCompany().getId() + "";
+			computerDto.companyName = computer.getCompany().getName();
+		}
 		return computerDto;
 
 	}
 }
-
 

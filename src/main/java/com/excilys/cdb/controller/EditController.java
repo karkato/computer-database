@@ -2,6 +2,7 @@ package com.excilys.cdb.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,7 +28,7 @@ import com.excilys.cdb.service.ComputerService;
 @RequestMapping("editComputer")
 public class EditController {
 
-	
+
 	@Autowired
 	private CompanyService companyService;
 	@Autowired
@@ -37,20 +38,21 @@ public class EditController {
 	private CompanyDTOMapper companyMapper=CompanyDTOMapper.getInstance();
 
 	@GetMapping
-	public String getDashboard(ModelMap model,@RequestParam String computerId) {
+	public String getDashboard(ModelMap model,@RequestParam (required = true, value = "computerId")String computerId) {
 		ComputerDTO computerDto = computerMapper.fromOptionalComputer(computerService.find(Long.parseLong(computerId)));
 
 		model.addAttribute("computerId", computerDto.id);
 		model.addAttribute("computerName", computerDto.name);
 		model.addAttribute("introduced", computerDto.introduced);
 		model.addAttribute("discontinued", computerDto.discontinued);
-		model.addAttribute("companyId", computerDto.companyId);
 
 		List<Company> companies = companyService.findAll();
 		List<CompanyDTO> subCompaniesDTO = new ArrayList<CompanyDTO>();
-		for (int i = 0; i < companies.size(); i++) {
-			subCompaniesDTO.add(companyMapper.fromCompany(companies.get(i)));
-		}
+		subCompaniesDTO.clear();	
+		subCompaniesDTO = companies.stream().map(temp -> {
+			CompanyDTO obj = companyMapper.fromCompany(temp);
+			return obj;
+		}).collect(Collectors.toList());
 		model.addAttribute("companies", companies);
 		model.addAttribute("computerDTO", new ComputerDTO());
 

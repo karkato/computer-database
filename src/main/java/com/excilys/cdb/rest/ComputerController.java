@@ -18,7 +18,6 @@ import com.excilys.cdb.exceptions.DataException;
 import com.excilys.cdb.exceptions.NoNextPageException;
 import com.excilys.cdb.exceptions.NoPreviousPageException;
 import com.excilys.cdb.model.Computer;
-import com.excilys.cdb.model.Page;
 import com.excilys.cdb.service.ComputerService;
 
 @RequestMapping("/computer")
@@ -42,21 +41,19 @@ public class ComputerController implements WebMvcConfigurer {
 	}
 
 	@GetMapping(value = "/count")
-	public ResponseEntity <Integer> count(String name){
-		int count = computerService.count(name);
-		return new ResponseEntity <Integer> (count,HttpStatus.OK);
+	public ResponseEntity <Long> count(String name){
+		long count = computerService.count(name);
+		return new ResponseEntity <Long> (count,HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/all")
 	public ResponseEntity<List<Computer>> findAll(String name) {
 		List<Computer> computerList = new ArrayList<Computer>();
-		try {
-			computerList = computerService.findAll(name);
-		} catch (NoPreviousPageException e) {
-			Page.increasePage();
-		} catch (NoNextPageException e) {
-			Page.decreasePage();
-		}
+			try {
+				computerList = computerService.findAll(name);
+			} catch (NoPreviousPageException | NoNextPageException e) {
+				e.printStackTrace();
+			}
 		if (computerList.isEmpty()) {
 			return new ResponseEntity<List<Computer>>(HttpStatus.NOT_FOUND);
 		}
