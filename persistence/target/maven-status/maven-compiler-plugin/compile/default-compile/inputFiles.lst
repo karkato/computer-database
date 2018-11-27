@@ -4,4 +4,6 @@
 /home/excilys/eclipse-workspace/Computer-database/persistence/src/main/java/dao/CompanyDAOInterface.java
 /home/excilys/eclipse-workspace/Computer-database/persistence/src/main/java/configspring/WebAppInit.java
 /home/excilys/eclipse-workspace/Computer-database/persistence/src/main/java/dao/ComputerDAOInterface.java
+/home/excilys/eclipse-workspace/Computer-database/persistence/src/main/java/configspring/SecurityConfig.java
+/home/excilys/eclipse-workspace/Computer-database/persistence/src/main/java/configspring/SecurityWebAppInit.java
 /home/excilys/eclipse-workspace/Computer-database/persistence/src/main/java/configspring/WebMvcConfig.java

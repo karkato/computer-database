@@ -49,7 +49,6 @@ public class AddController {
 	public String postCreateComputer(ModelMap model, 
 			@Validated @ModelAttribute("computerDTO") ComputerDTO computerDto,BindingResult result) {
 
-
 		if(result.hasErrors()) {
 
 			return "500";

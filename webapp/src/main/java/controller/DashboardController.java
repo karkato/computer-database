@@ -1,15 +1,16 @@
 package controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import exceptions.NoNextPageException;
@@ -21,14 +22,13 @@ import dto.ComputerDTO;
 import service.ComputerService;
 
 @Controller
-@RequestMapping("dashboard")
 public class DashboardController {
 
 	@Autowired
 	private ComputerService computerService;
 	private ComputerDTOMapper computerMapper = ComputerDTOMapper.getInstance();
 
-	@GetMapping
+	@GetMapping("dashboard")
 	public String getDashboard(ModelMap model, @RequestParam(required = false, defaultValue = "") String search,
 			@RequestParam(required = false, defaultValue = "1") String page,
 			@RequestParam(required = false, defaultValue = "10") String size) {
@@ -64,7 +64,7 @@ public class DashboardController {
 		return "dashboard";
 	}
 
-	@PostMapping
+	@PostMapping("dashboard")
 	public String postDeleteComputer(ModelMap model, 
 			@RequestParam String[] selection) {
 
@@ -72,6 +72,25 @@ public class DashboardController {
 		computerService.deleteAll(idTab);	
 
 		return "redirect:dashboard";
+	}
+	
+	@GetMapping("/")
+    public String index(Model model, Principal principal) {
+        return "redirect:dashboard";
+    }
+	
+	@GetMapping("login")
+	public String login(ModelMap model, @RequestParam(value = "error", required = false) String error,
+			@RequestParam(value = "logout", required = false) String logout) {
+		if (error != null) {
+			model.addAttribute("msg", "Invalid username and password!");
+		}
+
+		else if (logout != null) {
+			model.addAttribute("msg", "You've been logged out successfully.");
+		}
+		return "login";
+
 	}
 
 }

@@ -14,22 +14,33 @@
 <link href="./css/font-awesome.css" rel="stylesheet" media="screen">
 <link href="./css/main.css" rel="stylesheet" media="screen">
 </head>
+<form action="logout" method="POST" id="logoutForm">
+	<input hidden="true" value="${_csrf.token}"
+		name="${_csrf.parameterName}">
+</form>
+<script>
+	function formSubmit() {
+		document.getElementById("logoutForm").submit();
+	}
+</script>
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
 			<a class="navbar-brand" href="dashboard"> <spring:message
 					code="label.title" /></a>
-				<div class="btn-group btn-group-sm pull-right" role="group"> <a
-				href="?page=${pageIndex}&size=${pageSize}&search=${search}&lang=fr">
-				<button type="button" class="btn btn-default">
-					<spring:message code="french" />
-				</button>
-			</a> <a href="?page=${pageIndex}&size=${pageSize}&search=${search}&lang=en">
-				<button type="button" class="btn btn-default">
-					<spring:message code="english" />
-				</button>
-			</a>
-		</div>
+			<div class="btn-group btn-group-sm pull-right" role="group">
+				<a
+					href="?page=${pageIndex}&size=${pageSize}&search=${search}&lang=fr">
+					<button type="button" class="btn btn-default">
+						<spring:message code="french" />
+					</button>
+				</a> <a
+					href="?page=${pageIndex}&size=${pageSize}&search=${search}&lang=en">
+					<button type="button" class="btn btn-default">
+						<spring:message code="english" />
+					</button>
+				</a>
+			</div>
 		</div>
 	</header>
 
@@ -46,9 +57,9 @@
 						class="form-inline">
 						<spring:message code="label.filter" var="filter" />
 						<spring:message code="label.search" var="searching" />
-						<input type="search" id="searchbox" name="search" class="form-control"
-							value='${search}' placeholder="${searching}" /> <input
-							type="submit" id="searchsubmit" value="${filter}"
+						<input type="search" id="searchbox" name="search"
+							class="form-control" value='${search}' placeholder="${searching}" />
+						<input type="submit" id="searchsubmit" value="${filter}"
 							class="btn btn-primary" />
 					</form>
 				</div>
@@ -94,8 +105,8 @@
 						<tr>
 							<td class="editMode"><input type="checkbox" name="cb"
 								class="cb" value="${computer.getId()}"></td>
-							<td><a href="editComputer?computerId=${computer.getId()}" onclick=""><c:out
-										value="${computer.getName()}" /></a></td>
+							<td><a href="editComputer?computerId=${computer.getId()}"
+								onclick=""><c:out value="${computer.getName()}" /></a></td>
 							<td><c:out value="${computer.getIntroduced()}" /></td>
 							<td><c:out value="${computer.getDiscontinued()}" /></td>
 							<td><c:out value="${computer.getCompanyName()}" /></td>

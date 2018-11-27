@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
@@ -38,16 +39,21 @@ public class ComputerService {
 		return computer;
 	}
 
+	@Transactional
 	public void create(Computer computer) throws DataException {
 		ComputerValidator.computerValidator(computer);
 		computerDao.create(computer);
 	}
 
+	@Transactional
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public void update(Computer computer) throws DataException {
 		ComputerValidator.computerValidator(computer);
 		computerDao.update(computer);
 	}
 
+	@Transactional
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public void delete(Long id) {
 				computerDao.delete(id);
 	}
