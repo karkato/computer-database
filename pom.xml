@@ -6,7 +6,7 @@
 	<groupId>Computer-database</groupId>
 	<artifactId>Computer-database</artifactId>
 	<version>0.0.2-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>pom</packaging>
 
 	<properties>
 		<mysql-connector.version>8.0.13</mysql-connector.version>
@@ -18,14 +18,23 @@
 		<maven-compiler.version>3.8.0</maven-compiler.version>
 		<servlet.version>3.1.0</servlet.version>
 		<org.springframework.version>5.1.2.RELEASE</org.springframework.version>
-		<selenium.version>3.14.0</selenium.version>
 		<apache.maven.plugins.version>3.2.2</apache.maven.plugins.version>
 		<hikariCp.version>3.2.0</hikariCp.version>
 		<junit.version>5.3.1</junit.version>
 		<Ejb.version>3.0</Ejb.version>
 		<hibernate.version>5.3.7.Final</hibernate.version>
 		<spring-orm.version>5.1.2.RELEASE</spring-orm.version>
+		
 	</properties>
+
+	<modules>
+		<module>core</module>
+		<module>webapp</module>
+		<module>persistence</module>
+		<module>service</module>
+		<module>binding</module>
+		<module>console</module>
+	</modules>
 
 	<build>
 		<plugins>
@@ -37,14 +46,7 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<configuration>
-					<webXml>WebContent/WEB-INF/web.xml</webXml>
-				</configuration>
-				<version>${apache.maven.plugins.version}</version>
-			</plugin>
+			
 		</plugins>
 	</build>
 	<dependencies>
@@ -90,13 +92,6 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-orm</artifactId>
 			<version>${spring-orm.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-java</artifactId>
-			<version>${selenium.version}</version>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
@@ -145,17 +140,4 @@
 			<version>${servlet.version}</version>
 		</dependency>
 	</dependencies>
-
-	<reporting>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>${maven-checkstyle.version}</version>
-				<configuration>
-					<configLocation>checkstyle.xml</configLocation>
-				</configuration>
-			</plugin>
-		</plugins>
-	</reporting>
 </project>
