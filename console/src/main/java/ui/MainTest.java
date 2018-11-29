@@ -1,23 +1,15 @@
 package ui;
 
-import java.io.IOException;
-import java.sql.SQLException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class MainTest {
 
 
-	/**
-	 * Connect to the DB and do some stuff
-	 * @throws IOException 
-	 * @throws SQLException 
-	 * @throws DataBaseException 
-	 * @throws PageNumberException 
-	 */
-	
+
 
 	public static void main(String[] args)  {
+		System.out.println(new BCryptPasswordEncoder().encode("1234"));
 
-		
 		/*
 		ComputerService cpuService;
 		CompanyService cpaService;
@@ -50,7 +42,7 @@ public class MainTest {
 
 				System.out.println("Pour aller à la page suivante taper  '2' et pour la page précédente taper '1'. taper '0' pour arrêter ! ");
 				sc.nextLine();
-		
+
 				break;
 			case 2:
 				sc.nextLine();

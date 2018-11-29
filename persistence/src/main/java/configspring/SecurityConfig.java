@@ -1,46 +1,54 @@
 package configspring;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(securedEnabled = true,prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {	
 
-  @Autowired
-  private DataSource dataSource;
+	@Autowired
+	private UserDetailsService userDetailsService;
 
-  @Override
-  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.authenticationProvider(getProvider());
+	}
 
-    auth.jdbcAuthentication().dataSource(dataSource)
-        .usersByUsernameQuery("select username, password, enabled"
-                + " from users where username=?")
-        .authoritiesByUsernameQuery("select username, authority "
-                + "from authorities where username=?")
-    	.passwordEncoder(new BCryptPasswordEncoder());
-  }
-  
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http.authorizeRequests()
+		.antMatchers("/login").permitAll()
+		.antMatchers("/dashboard").hasAnyRole("USER", "ADMIN")
+		.antMatchers("/editComputer", "/addComputer").hasRole("ADMIN")
+		.and().formLogin().defaultSuccessUrl("/dashboard", true)
+		.and().logout().logoutSuccessUrl("/login").permitAll()
+		.and().csrf().disable();
+	}
 
-  @Override
-  protected void configure(HttpSecurity http) throws Exception {
+	@Bean
+	public DaoAuthenticationProvider getProvider() {
+		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+		provider.setUserDetailsService(userDetailsService);
+		provider.setPasswordEncoder(passwordEncoder());
+		return provider;
+	}
 
-    http.authorizeRequests().antMatchers("/editComputer").hasAnyRole("ADMIN","USER")
-    						.antMatchers("/dashboard","/addComputer").hasAnyRole("USER","ADMIN")
-    				        .anyRequest().authenticated()
-	    .and().formLogin().defaultSuccessUrl("/dashboard").permitAll()
-	    .and().logout()
-			  .logoutUrl("/logout")
-			  .logoutSuccessUrl("/login?logout").permitAll();
-  }  
+	@Bean
+	public BCryptPasswordEncoder passwordEncoder() {
+		System.out.println("password encoder");
+		return new BCryptPasswordEncoder();
+	}
+
   
 }
