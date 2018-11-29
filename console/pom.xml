@@ -9,9 +9,7 @@
 		<version>0.0.2-SNAPSHOT</version>
 	</parent>
 
-	<groupId>Computer-database</groupId>
 	<artifactId>console</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
 
 	<name>console</name>
 	<packaging>jar</packaging>

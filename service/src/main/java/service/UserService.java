@@ -1,7 +1,7 @@
 package service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+
 import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,7 +13,6 @@ import model.User;
 
 @Service
 public class UserService implements UserDetailsService {
-	Logger logger = LoggerFactory.getLogger(UserService.class);
 	private final UserDAO userDao;
 
 	public UserService(UserDAO userDao) {
