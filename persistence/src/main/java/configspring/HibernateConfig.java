@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableTransactionManagement
 @PropertySource("classpath:login.properties")
-@ComponentScan({"service","mapper","dao","controller","configspring"})
+@ComponentScan({"service","mapper","dao","controller","configspring","rest"})
 public class HibernateConfig {
 
 	@Autowired

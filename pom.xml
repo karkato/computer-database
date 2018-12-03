@@ -16,7 +16,7 @@
 		<jsp.version>2.3.1</jsp.version>
 		<maven-checkstyle.version>3.0.0</maven-checkstyle.version>
 		<maven-compiler.version>3.8.0</maven-compiler.version>
-		<servlet.version>3.1.0</servlet.version>
+		<servlet.version>4.0.1</servlet.version>
 		<org.springframework.version>5.1.2.RELEASE</org.springframework.version>
 		<apache.maven.plugins.version>3.2.2</apache.maven.plugins.version>
 		<hikariCp.version>3.2.0</hikariCp.version>
@@ -27,6 +27,9 @@
 		<spring-security.version>5.1.1.RELEASE</spring-security.version>
 		<jstl-version>1.2</jstl-version>
 		<taglibs-version>1.1.2</taglibs-version>
+		<jackson.version>2.9.7</jackson.version>
+		<resteasy.version>3.6.2.Final</resteasy.version>
+		<securitytags.version>3.1.4.RELEASE</securitytags.version>
 
 	</properties>
 
@@ -54,7 +57,29 @@
 	</build>
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-taglibs</artifactId>
+				<version>${securitytags.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
 
+
+			<dependency>
+				<groupId>org.jboss.resteasy</groupId>
+				<artifactId>resteasy-client</artifactId>
+				<version>${resteasy.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jboss.resteasy</groupId>
+				<artifactId>resteasy-jackson-provider</artifactId>
+				<version>${resteasy.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>javax.servlet</groupId>
 				<artifactId>jstl</artifactId>
