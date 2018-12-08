@@ -85,7 +85,7 @@ public class ComputerController implements WebMvcConfigurer {
 		return new ResponseEntity<>(subComputersDTO, HttpStatus.OK);
 
 	}
-	
+
 	@PostMapping
 	public ResponseEntity<ComputerDTO> create(@RequestBody ComputerDTO computerDto) {
 		try {
@@ -94,7 +94,7 @@ public class ComputerController implements WebMvcConfigurer {
 			e.printStackTrace();
 		}
 		return new ResponseEntity<ComputerDTO>(computerDto, HttpStatus.CREATED);
-		
+
 	}
 	@PutMapping
 	public ResponseEntity<ComputerDTO> update(@RequestBody ComputerDTO computerDto) {
@@ -104,7 +104,7 @@ public class ComputerController implements WebMvcConfigurer {
 			e.printStackTrace();
 		}
 		return new ResponseEntity<ComputerDTO>(computerDto, HttpStatus.OK);
-		
+
 	}
 	@DeleteMapping
 	public ResponseEntity<Void> delete(@RequestParam String[] idTab) {
@@ -112,3 +112,7 @@ public class ComputerController implements WebMvcConfigurer {
 		return new ResponseEntity<Void>(HttpStatus.GONE);
 	}
 }
+
+
+
+
