@@ -2,7 +2,11 @@ package service;
 
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.security.core.userdetails.User.UserBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,8 +17,11 @@ import model.User;
 
 @Service
 public class UserService implements UserDetailsService {
-	private final UserDAO userDao;
+	
+	@Autowired
+	private static UserDAO userDao;
 
+	@SuppressWarnings("static-access")
 	public UserService(UserDAO userDao) {
 		this.userDao = userDao;
 	}
@@ -31,5 +38,11 @@ public class UserService implements UserDetailsService {
 			builder.roles(user.getRole().getName());
 		}
 		return builder.build();
+	}
+
+	public static List<User> findAll() {
+		List<User> list = new ArrayList<User>();
+		list = userDao.findAll();	
+		return list;
 	}
 }

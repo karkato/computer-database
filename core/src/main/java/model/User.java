@@ -7,7 +7,7 @@ public class User {
 	private String password;
 	private Role role;
 
-	private User(UserBuilder builder) {
+	public User(UserBuilder builder) {
 		this.id = builder.id;
 		this.name = builder.name;
 		this.password = builder.password;

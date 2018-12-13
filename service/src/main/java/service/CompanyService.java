@@ -43,5 +43,9 @@ public class CompanyService {
 			}
 		});
 	}
+	
+	public void update(Company company) {
+		companyDao.update(company);
+	}
 
 }

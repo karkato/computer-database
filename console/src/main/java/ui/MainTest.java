@@ -1,12 +1,11 @@
 package ui;
 
-
 public class MainTest {
 
 
 
 
-	public static void main(String[] args)  {
+	//public static void main(String[] args)  {
 
 		/*
 		ComputerService cpuService;
@@ -146,7 +145,5 @@ public class MainTest {
 			default: break;
 			}
 		}*/
-	}
-
-
+		
 }

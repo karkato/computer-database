@@ -23,6 +23,7 @@ public class CompanyDAO implements CompanyDAOInterface<Company>{
 
 	private static String findAllQuery = "SELECT id,name FROM company";
 	private static String deleteQuery = "DELETE FROM company WHERE id = :id";
+	private static String updateQuery = "UPDATE company SET name = :name WHERE id = :id";
 
 	@Autowired
 	DataSource dataSource;
@@ -51,4 +52,13 @@ public class CompanyDAO implements CompanyDAOInterface<Company>{
         params.addValue("id", id);
         jdbcTemplate.update(deleteQuery,params);
 	}
+	
+	public void update(Company company) {
+		NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+		MapSqlParameterSource params = new MapSqlParameterSource();
+		params.addValue("name", company.getName());
+		params.addValue("id", company.getId());
+		jdbcTemplate.update(updateQuery, params);
+	}
+	
 }
