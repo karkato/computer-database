@@ -1,12 +1,14 @@
 configspring/WebMvcConfig.class
 dao/CompanyDAO.class
 configspring/WebAppInit.class
+dao/CompanyDAO$2.class
 dao/ComputerDAOInterface.class
 configspring/HibernateConfig.class
 dao/CompanyDAOInterface.class
 dao/CompanyDAO$1.class
 dao/UserDAO$1.class
 configspring/SecurityConfig.class
+dao/UserDAO$2.class
 dao/UserDAO.class
 dao/ComputerDAO$1.class
 dao/ComputerDAO.class

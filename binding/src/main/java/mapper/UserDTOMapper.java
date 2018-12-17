@@ -22,6 +22,7 @@ public class UserDTOMapper {
 	public User toUser(UserDTO userDto) {
 		Role role = new Role();
 		role.setId(Long.parseLong(userDto.role_id));
+		role.setName(userDto.role_name);
 		UserBuilder userBuilder = new UserBuilder(userDto.name).id(Long.parseLong(userDto.id)).password(userDto.password).role(role);
 		User User = new User(userBuilder);
 		return User;
@@ -31,6 +32,9 @@ public class UserDTOMapper {
 		UserDTO UserDto = new UserDTO();
 		UserDto.id = User.getId() + "";
 		UserDto.name = User.getName();
+		UserDto.password = User.getPassword();
+		UserDto.role_id = User.getRole().getId()+"" ;
+		UserDto.role_name = User.getRole().getName();
 		return UserDto;
 
 	}

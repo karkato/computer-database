@@ -1,3 +1,4 @@
+dto/UserDTO.class
 exceptions/DataException.class
 exceptions/NoNextPageException.class
 dto/CompanyDTO.class
@@ -9,6 +10,7 @@ exceptions/WrongDateException.class
 validator/PageValidator.class
 exceptions/DataBaseException.class
 exceptions/IdException.class
+mapper/UserDTOMapper.class
 mapper/CompanyDTOMapper.class
 validator/ComputerValidator.class
 exceptions/ComputerDBException.class

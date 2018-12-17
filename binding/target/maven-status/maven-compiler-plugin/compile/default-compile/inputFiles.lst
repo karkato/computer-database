@@ -1,10 +1,12 @@
 /home/excilys/eclipse-workspace/Computer-database/binding/src/main/java/validator/PageValidator.java
 /home/excilys/eclipse-workspace/Computer-database/binding/src/main/java/dto/CompanyDTO.java
+/home/excilys/eclipse-workspace/Computer-database/binding/src/main/java/mapper/UserDTOMapper.java
 /home/excilys/eclipse-workspace/Computer-database/binding/src/main/java/validator/ComputerValidator.java
 /home/excilys/eclipse-workspace/Computer-database/binding/src/main/java/dto/ComputerDTO.java
 /home/excilys/eclipse-workspace/Computer-database/binding/src/main/java/exceptions/NameException.java
 /home/excilys/eclipse-workspace/Computer-database/binding/src/main/java/exceptions/DataBaseException.java
 /home/excilys/eclipse-workspace/Computer-database/binding/src/main/java/exceptions/PageNumberException.java
+/home/excilys/eclipse-workspace/Computer-database/binding/src/main/java/dto/UserDTO.java
 /home/excilys/eclipse-workspace/Computer-database/binding/src/main/java/exceptions/IdException.java
 /home/excilys/eclipse-workspace/Computer-database/binding/src/main/java/exceptions/NoNextPageException.java
 /home/excilys/eclipse-workspace/Computer-database/binding/src/main/java/mapper/ComputerDTOMapper.java

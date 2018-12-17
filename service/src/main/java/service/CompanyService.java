@@ -2,6 +2,7 @@ package service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -15,6 +16,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 import model.Company;
 import dao.CompanyDAO;
 import dao.ComputerDAO;
+import exceptions.DataException;
 
 @Service
 @Transactional
@@ -32,6 +34,12 @@ public class CompanyService {
 		list = companyDao.findAll();	
 		return list;
 	}
+	
+	public Optional<Company> find(Long id) {
+		Optional<Company> company;
+		company = companyDao.find(id);
+		return company;
+	}
 
 	public void delete(Long id) {
 		TransactionTemplate transactionTemplate = new TransactionTemplate(transactionManager);
@@ -46,6 +54,11 @@ public class CompanyService {
 	
 	public void update(Company company) {
 		companyDao.update(company);
+	}
+	@Transactional
+	public void create(Company company) throws DataException {
+		//CompanyValidator.computerValidator(company);
+		companyDao.create(company);
 	}
 
 }

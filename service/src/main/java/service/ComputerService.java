@@ -46,14 +46,14 @@ public class ComputerService {
 	}
 
 	@Transactional
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	//@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public void update(Computer computer) throws DataException {
 		ComputerValidator.computerValidator(computer);
 		computerDao.update(computer);
 	}
 
 	@Transactional
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	//@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public void delete(Long id) {
 				computerDao.delete(id);
 	}

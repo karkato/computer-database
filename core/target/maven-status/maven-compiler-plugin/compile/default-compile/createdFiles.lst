@@ -1,7 +1,6 @@
-model/User$UserBuilder.class
-model/User$1.class
-model/Company.class
-model/Computer.class
 model/User.class
+model/User$UserBuilder.class
 model/Page.class
 model/Role.class
+model/Company.class
+model/Computer.class

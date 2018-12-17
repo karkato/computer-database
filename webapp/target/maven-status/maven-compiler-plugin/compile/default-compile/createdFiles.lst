@@ -1,5 +1,6 @@
 rest/ComputerController.class
 controller/DashboardController.class
 controller/AddController.class
+rest/UserController.class
 controller/EditController.class
 rest/CompanyController.class

@@ -28,9 +28,7 @@ public class ComputerDTOMapper {
 
 		computer.setName(computerDto.name);
 
-		if (computerDto.id != null) {
-			computer.setId((long) Integer.parseInt(computerDto.id));
-		}
+
 		if (!("".equals(computerDto.introduced))) {
 			computer.setIntroDate((Date.valueOf(computerDto.introduced)).toLocalDate());
 		}
@@ -38,7 +36,6 @@ public class ComputerDTOMapper {
 			computer.setDiscDate((Date.valueOf(computerDto.discontinued)).toLocalDate());
 		}
 		
-		company.setId((long) Integer.parseInt(computerDto.companyId));
 		company.setName(computerDto.companyName);
 		computer.setCompany(company);
 		return computer;

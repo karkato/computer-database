@@ -6,18 +6,28 @@ public class UserDTO {
 	public String name;
 	public String password;
 	public String role_id;
+	public String role_name;
 	
 	
 	public UserDTO() {}
 
-	public UserDTO(String id, String name, String password, String role_id) {
+	public UserDTO(String id, String name, String password, String role_id, String role_name) {
 
 		this.id = id;
 		this.name=name;
 		this.password=password;
 		this.role_id=role_id;
+		this.role_name=role_name;
 	}
 
+
+	public String getRole_name() {
+		return role_name;
+	}
+
+	public void setRole_name(String role_name) {
+		this.role_name = role_name;
+	}
 
 	public String getId() {
 		return id;

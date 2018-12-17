@@ -11,9 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import dto.CompanyDTO;
 import dto.UserDTO;
-import model.Company;
+import mapper.UserDTOMapper;
 import model.User;
 import service.UserService;
 
@@ -22,6 +21,13 @@ import service.UserService;
 @RequestMapping("/user")
 public class UserController {
 	
+	private final UserDTOMapper userMapper;
+	
+	public  UserController(UserDTOMapper userMapper) {
+		this.userMapper = userMapper;
+
+	}
+	
 	 @GetMapping("/login")
 	  public ResponseEntity<Principal> user(Principal user) {
 	    return new ResponseEntity<>(user, HttpStatus.OK);
@@ -29,11 +35,12 @@ public class UserController {
 	 
 	 @GetMapping("/users")
 		public ResponseEntity<List<UserDTO>> findAll() {
-			List<User> companyList;	
-			companyList = UserService.findAll();
-			List<UserDTO> subCompaniesDTO = companyList.stream().map(
-					userMapper:fromCompany
-				).collect(Collectors.toList());	
-			return new ResponseEntity<>(subCompaniesDTO, HttpStatus.OK);
+			List<User> userList;	
+			userList = UserService.findAll();
+			List<UserDTO> subUsersDTO = userList.stream().map(
+					userMapper::fromUser
+				).collect(Collectors.toList());
+			return new ResponseEntity<>(subUsersDTO
+					, HttpStatus.OK);
 		}
 }

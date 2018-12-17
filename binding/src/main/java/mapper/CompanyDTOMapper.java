@@ -1,9 +1,11 @@
 package mapper;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Component;
 
 import model.Company;
-import dto.CompanyDTO;;
+import dto.CompanyDTO;
 
 @Component
 public class CompanyDTOMapper {
@@ -19,7 +21,6 @@ public class CompanyDTOMapper {
 
 	public Company toCompany(CompanyDTO companyDto) {
 		Company company = new Company();
-		company.setId((long) Integer.parseInt(companyDto.id));
 		company.setName(companyDto.name);
 		return company;
 	}
@@ -28,6 +29,18 @@ public class CompanyDTOMapper {
 		CompanyDTO companyDto = new CompanyDTO();
 		companyDto.id = company.getId() + "";
 		companyDto.name = company.getName();
+		return companyDto;
+
+	}
+	
+	public CompanyDTO fromOptionalCompany(Optional<Company> optional) {
+
+		CompanyDTO companyDto = new CompanyDTO();
+		
+
+		companyDto.id=optional.get().getId()+"";
+		companyDto.name=optional.get().getName();
+
 		return companyDto;
 
 	}

@@ -8,13 +8,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import dto.CompanyDTO;
+import exceptions.DataException;
 import mapper.CompanyDTOMapper;
 import model.Company;
 import service.CompanyService;
@@ -42,15 +44,28 @@ public class CompanyController {
 			).collect(Collectors.toList());	
 		return new ResponseEntity<>(subCompaniesDTO, HttpStatus.OK);
 	}
+	@GetMapping("/{id}")
+	public ResponseEntity <CompanyDTO>  find(@PathVariable("id") String id){
+		CompanyDTO companyDto = companyMapper.fromOptionalCompany(companyService.find(Long.parseLong(id)));
+		return new ResponseEntity<>(companyDto, HttpStatus.OK);
+	}
+	@PostMapping()
+	public ResponseEntity<CompanyDTO> create(@RequestBody CompanyDTO companyDto) {
+		try {
+			companyService.create(companyMapper.toCompany(companyDto));
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<CompanyDTO>(companyDto, HttpStatus.CREATED);
 
-
+	}
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
 		companyService.delete(id);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
-	@PutMapping()
+	@PatchMapping()
 	public ResponseEntity<CompanyDTO> update(@RequestBody CompanyDTO companyDto) {
 		companyService.update(companyMapper.toCompany(companyDto));
 		return new ResponseEntity<CompanyDTO>(companyDto, HttpStatus.OK);
