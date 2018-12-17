@@ -1,24 +1,20 @@
 package rest;
 
 import java.security.Principal;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Base64;
+import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import dto.UserDTO;
 import mapper.UserDTOMapper;
 import model.User;
-import service.UserService;
 
 @CrossOrigin()
 @RestController("userController")
-@RequestMapping("/user")
+
 public class UserController {
 	
 	private final UserDTOMapper userMapper;
@@ -28,19 +24,17 @@ public class UserController {
 
 	}
 	
-	 @GetMapping("/login")
-	  public ResponseEntity<Principal> user(Principal user) {
-	    return new ResponseEntity<>(user, HttpStatus.OK);
+	 @RequestMapping("/login")
+	  public boolean login(@RequestBody User user) {
+	    return user.getName().equals("user") && user.getPassword().equals("password");
 	  }
 	 
-	 @GetMapping("/users")
-		public ResponseEntity<List<UserDTO>> findAll() {
-			List<User> userList;	
-			userList = UserService.findAll();
-			List<UserDTO> subUsersDTO = userList.stream().map(
-					userMapper::fromUser
-				).collect(Collectors.toList());
-			return new ResponseEntity<>(subUsersDTO
-					, HttpStatus.OK);
-		}
+	 @RequestMapping("/user")
+		public Principal user (HttpServletRequest request) {
+		 	String authToken = request.getHeader("Authorization").substring("Basic".length()).trim();
+		 	
+		 	return () -> new String(Base64.getDecoder().decode(authToken)).split(":")[0];
+		 	
+	 }
+	 
 }

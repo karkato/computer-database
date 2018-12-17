@@ -5,14 +5,12 @@ import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -28,7 +26,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.authenticationProvider(getProvider());
+		auth
+			.inMemoryAuthentication()
+			.withUser("user")
+			.password("password")
+			.roles("USER");
 	}
 
 	@Override
@@ -36,14 +38,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.cors().configurationSource(corsConfigurationSource())
 		.and().authorizeRequests()
 		.antMatchers("/login").permitAll()
-		.antMatchers("/dashboard").hasAnyRole("USER", "ADMIN")
-		.antMatchers("/editComputer", "/addComputer").hasRole("ADMIN")
-		.and().formLogin().defaultSuccessUrl("/dashboard", true)
-		.and().logout().logoutSuccessUrl("/login").permitAll()
-		.and().csrf().disable();
+		.anyRequest()
+		.authenticated()
+		.and()
+		.csrf().disable()
+		.httpBasic();
 	}
 
-	@Bean
+	/*@Bean
 	public DaoAuthenticationProvider getProvider() {
 		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
 		provider.setUserDetailsService(userDetailsService);
@@ -54,7 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
-	}
+	}*/
 
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
