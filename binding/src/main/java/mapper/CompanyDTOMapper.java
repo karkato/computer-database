@@ -21,7 +21,10 @@ public class CompanyDTOMapper {
 
 	public Company toCompany(CompanyDTO companyDto) {
 		Company company = new Company();
-		company.setName(companyDto.name);
+		company.setName(companyDto.getName());
+		if (!(companyDto.getId()== null)) {
+		company.setId(Long.parseLong(companyDto.getId()));
+		}
 		return company;
 	}
 

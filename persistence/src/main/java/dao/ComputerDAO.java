@@ -34,7 +34,7 @@ public class ComputerDAO implements ComputerDAOInterface<Computer> {
 	private final static String countQuery = "SELECT COUNT(cpu.id) FROM computer AS cpu LEFT JOIN company AS cpa ON cpu.company_id = cpa.id WHERE UPPER(cpu.name) LIKE UPPER(:name) OR UPPER(cpa.name) LIKE UPPER(:name)";
 	private final static String findByName = "SELECT cpu.id, cpu.name, cpu.introduced, cpu.discontinued, cpu.company_id,cpa.name FROM computer AS cpu LEFT JOIN company AS cpa ON cpu.company_id = cpa.id WHERE UPPER(cpu.name) LIKE UPPER(:name) OR UPPER(cpa.name) LIKE UPPER(:name) ORDER BY cpu.name LIMIT :limit OFFSET :offset";
 	private final static String deleteByCompanyQuery = "DELETE FROM computer WHERE company_id= :company_id";
-
+	private final static String findAllByName = "SELECT cpu.id, cpu.name, cpu.introduced, cpu.discontinued, cpu.company_id,cpa.name FROM computer AS cpu LEFT JOIN company AS cpa ON cpu.company_id = cpa.id WHERE UPPER(cpu.name) LIKE UPPER(:name) OR UPPER(cpa.name) LIKE UPPER(:name) ORDER BY cpu.name";
 
 	@Override
 	public void create(Computer computer) {
@@ -99,14 +99,43 @@ public class ComputerDAO implements ComputerDAOInterface<Computer> {
 		return Optional.ofNullable(jdbcTemplate.queryForObject(findQuery, params, rowMapper));
 	}
 
+//	@Override
+//	public List<Computer> findAll(String name, int page, int size) {
+//
+//		NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+//		MapSqlParameterSource params = new MapSqlParameterSource();
+//		params.addValue("name", "%" + name + "%");
+//		params.addValue("limit", size);
+//		params.addValue("offset", (page - 1) * size);
+//		RowMapper<Computer> rowMapper = new RowMapper<Computer>() {
+//			public Computer mapRow(ResultSet result, int pRowNum) throws SQLException {
+//				Computer computer = new Computer();
+//				computer.setId(result.getLong("id"));
+//				computer.setName(result.getString("name"));
+//				if (result.getDate("introduced") != null) {
+//					computer.setIntroDate(result.getDate("introduced").toLocalDate());
+//				}
+//				if (result.getDate("discontinued") != null) {
+//					computer.setDiscDate(result.getDate("discontinued").toLocalDate());
+//				}
+//				computer.setCompany(new Company());
+//				if (result.getInt("company_id") != 0) {
+//					computer.getCompany().setId(result.getLong("company_id"));
+//					computer.getCompany().setName(result.getString("cpa.name"));
+//				}
+//				return computer;
+//			}
+//		};
+//		List<Computer> list = jdbcTemplate.query(findByName, params, rowMapper);
+//		return list;
+//	}
+
 	@Override
-	public List<Computer> findAll(String name, int page, int size) {
+	public List<Computer> findAll(String name) {
 
 		NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 		MapSqlParameterSource params = new MapSqlParameterSource();
 		params.addValue("name", "%" + name + "%");
-		params.addValue("limit", size);
-		params.addValue("offset", (page - 1) * size);
 		RowMapper<Computer> rowMapper = new RowMapper<Computer>() {
 			public Computer mapRow(ResultSet result, int pRowNum) throws SQLException {
 				Computer computer = new Computer();
@@ -126,10 +155,10 @@ public class ComputerDAO implements ComputerDAOInterface<Computer> {
 				return computer;
 			}
 		};
-		List<Computer> list = jdbcTemplate.query(findByName, params, rowMapper);
+		List<Computer> list = jdbcTemplate.query(findAllByName, params, rowMapper);
 		return list;
 	}
-
+	
 	@Override
 	public int count(String name) {
 		NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);

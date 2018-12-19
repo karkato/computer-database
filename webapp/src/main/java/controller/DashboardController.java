@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import exceptions.NoNextPageException;
-import exceptions.NoPreviousPageException;
 import mapper.ComputerDTOMapper;
 import model.Computer;
 import model.Page;
@@ -35,28 +33,21 @@ public class DashboardController {
 		List<Computer> computers;
 		List<ComputerDTO> subComputersDTO = new ArrayList<ComputerDTO>();
 		int counter = 0;
-		try {
-			Page.setPage(page, size);
+		Page.setPage(page, size);
 
-			if (search == null) {
-				computers = computerService.findAll("");
-				counter = computerService.count("");
-			} else {
-				model.addAttribute("search", search);
-				computers = computerService.findAll(search);
-				counter = computerService.count(search);
-			}
-			subComputersDTO.clear();	
-			subComputersDTO = computers.stream().map(temp -> {
-				ComputerDTO obj = computerMapper.fromComputer(temp);
-				return obj;
-			}).collect(Collectors.toList());
-
-		} catch (NoPreviousPageException nppe) {
-			Page.increasePage();
-		} catch (NoNextPageException nnpe) {
-			Page.decreasePage();
+		if (search == null) {
+			computers = computerService.findAll("");
+			counter = computerService.count("");
+		} else {
+			model.addAttribute("search", search);
+			computers = computerService.findAll(search);
+			counter = computerService.count(search);
 		}
+		subComputersDTO.clear();	
+		subComputersDTO = computers.stream().map(temp -> {
+			ComputerDTO obj = computerMapper.fromComputer(temp);
+			return obj;
+		}).collect(Collectors.toList());
 		model.addAttribute("counter", counter);
 		model.addAttribute("pageIndex", Page.getPage());
 		model.addAttribute("pageSize", Page.getPageSize());

@@ -26,19 +26,23 @@ public class ComputerDTOMapper {
 		Computer computer = new Computer();
 		Company company = new Company();
 
-		computer.setName(computerDto.name);
+		computer.setName(computerDto.getName());
 
-
-		if (!("".equals(computerDto.introduced))) {
-			computer.setIntroDate((Date.valueOf(computerDto.introduced)).toLocalDate());
+		if (computerDto.getId() != null) {
+			computer.setId(Long.parseLong(computerDto.getId()));
 		}
-		if (!("".equals(computerDto.discontinued))) {
-			computer.setDiscDate((Date.valueOf(computerDto.discontinued)).toLocalDate());
+		if (computerDto.introduced != null && !("".equals(computerDto.introduced))) {
+			computer.setIntroDate(Date.valueOf(computerDto.introduced).toLocalDate());
 		}
-		
-		company.setName(computerDto.companyName);
+		if (computerDto.discontinued != null && !("".equals(computerDto.discontinued))) {
+			computer.setDiscDate(Date.valueOf(computerDto.discontinued).toLocalDate());
+		}
+		if(computerDto.getCompanyId() != null) {
+			company.setId(Long.parseLong(computerDto.getCompanyId()));
+		}	
 		computer.setCompany(company);
 		return computer;
+
 
 	}
 

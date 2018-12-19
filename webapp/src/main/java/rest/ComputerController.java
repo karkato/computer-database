@@ -15,17 +15,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import dto.ComputerDTO;
 import exceptions.DataException;
-import exceptions.NoNextPageException;
-import exceptions.NoPreviousPageException;
 import mapper.ComputerDTOMapper;
 import model.Computer;
-import model.Page;
 import service.ComputerService;
 
 @CrossOrigin()
@@ -62,26 +58,32 @@ public class ComputerController implements WebMvcConfigurer {
 		return new ResponseEntity<>(count, HttpStatus.OK);
 	}
 
-	@GetMapping({ "/all", "/all/{name}" })
-	public ResponseEntity<List<ComputerDTO>> findAll(@PathVariable("name") Optional<String> name,
-			@RequestParam(required = false, defaultValue = "1") String page,
-			@RequestParam(required = false, defaultValue = "10") String size) {
+	@GetMapping({ "/all" })
+	public ResponseEntity<List<ComputerDTO>> findAll() {
 		List<Computer> computerList = new ArrayList<>();
 		List<ComputerDTO> subComputersDTO = new ArrayList<>();
-		try {
-			Page.setPage(page, size);
-			if (name.isPresent()) {
-				computerList = computerService.findAll(name.get());
-			} else {
+
 				computerList = computerService.findAll("");
-			}
 
 			subComputersDTO = computerList.stream().map(computerMapper::fromComputer).collect(Collectors.toList());
-		} catch (NoPreviousPageException e) {
-			Page.increasePage();
-		} catch (NoNextPageException e) {
-			Page.decreasePage();
+
+		if (computerList.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
+		return new ResponseEntity<>(subComputersDTO, HttpStatus.OK);
+
+	}
+	@GetMapping({ "/all/{name}" })
+	public ResponseEntity<List<ComputerDTO>> findAll(@PathVariable("name") String name) {
+		List<Computer> computerList = new ArrayList<>();
+		List<ComputerDTO> subComputersDTO = new ArrayList<>();
+			if (name == "") {
+				computerList = computerService.findAll("");
+			} else {
+				computerList = computerService.findAll(name);
+			}
+			subComputersDTO = computerList.stream().map(computerMapper::fromComputer).collect(Collectors.toList());
+
 		if (computerList.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
@@ -109,10 +111,10 @@ public class ComputerController implements WebMvcConfigurer {
 		return new ResponseEntity<ComputerDTO>(computerDto, HttpStatus.OK);
 
 	}
-	@DeleteMapping()
-	public ResponseEntity<Void> delete(@RequestParam String[] idTab) {
-		computerService.deleteAll(idTab);
-		return new ResponseEntity<Void>(HttpStatus.GONE);
+	@DeleteMapping("/{idTab}")
+	public ResponseEntity<Void> delete(@PathVariable String idTab) {
+		computerService.delete(Long.parseLong(idTab));
+		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}
 }
 
